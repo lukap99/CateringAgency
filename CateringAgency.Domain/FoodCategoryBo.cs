@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CateringAgency.Domain
+{
+    class FoodCategoryBo
+    {
+        private int foodCategoryId;
+        private string name;
+
+        [ScaffoldColumn(false)]
+        public int FoodCategoryId { get => foodCategoryId; set => foodCategoryId = value; }
+        [DataType(DataType.Text)]
+        public FoodCategoryDiscountBo CategoryDiscount { get; set; }
+        public string Name { get => name; set => name = value; }
+    }
+}

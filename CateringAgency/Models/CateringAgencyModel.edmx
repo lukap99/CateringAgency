@@ -1,0 +1,1112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CateringAgencyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="combo_menu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="date_created" Type="datetime" Nullable="false" />
+          <Property Name="valid_from" Type="datetime" />
+          <Property Name="valid_until" Type="datetime" />
+          <Property Name="discount_percent" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="combo_menu_item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="food_id" Type="int" Nullable="false" />
+          <Property Name="combo_menu_id" Type="int" Nullable="false" />
+          <Property Name="amount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="delivery_method">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="price" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="food">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="unit_of_measurement" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="food_category_id" Type="int" Nullable="false" />
+          <Property Name="is_visible" Type="bit" Nullable="false" />
+          <Property Name="ingredients" Type="nvarchar(max)" />
+          <Property Name="price" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="food_category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="food_category_discount">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="food_category_id" Type="int" Nullable="false" />
+          <Property Name="discount_percent" Type="float" Nullable="false" />
+          <Property Name="date_created" Type="datetime" Nullable="false" />
+          <Property Name="valid_from" Type="datetime" Nullable="false" />
+          <Property Name="valid_until" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="food_discount">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="food_id" Type="int" Nullable="false" />
+          <Property Name="discount_percent" Type="float" Nullable="false" />
+          <Property Name="date_created" Type="datetime" Nullable="false" />
+          <Property Name="valid_from" Type="datetime" Nullable="false" />
+          <Property Name="valid_until" Type="datetime" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="date_created" Type="datetime" Nullable="false" />
+          <Property Name="date_completed" Type="datetime" />
+          <Property Name="delivery_location" Type="nvarchar" MaxLength="100" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="price_with_discount" Type="float" />
+          <Property Name="is_complete" Type="bit" />
+          <Property Name="payment_method_id" Type="int" Nullable="false" />
+          <Property Name="discount_id" Type="int" Nullable="false" />
+          <Property Name="delivery_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="order_combo_item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_id" Type="int" />
+          <Property Name="combo_menu_id" Type="int" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="amount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="order_discount">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="discount_percent" Type="float" Nullable="false" />
+          <Property Name="point_cost" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="order_food_item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_id" Type="int" />
+          <Property Name="food_id" Type="int" />
+          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="amount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="payment_method">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="role_name" Type="nvarchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="firstname" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="lastname" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="role_id" Type="int" Nullable="false" />
+          <Property Name="points" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__order_com__combo__7F2BE32F">
+          <End Role="combo_menu" Type="Self.combo_menu" Multiplicity="0..1" />
+          <End Role="order_combo_item" Type="Self.order_combo_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="combo_menu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_combo_item">
+              <PropertyRef Name="combo_menu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_foo__food___7B5B524B">
+          <End Role="food" Type="Self.food" Multiplicity="0..1" />
+          <End Role="order_food_item" Type="Self.order_food_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="food">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_food_item">
+              <PropertyRef Name="food_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_combo_menu_item_combo_menu">
+          <End Role="combo_menu" Type="Self.combo_menu" Multiplicity="1" />
+          <End Role="combo_menu_item" Type="Self.combo_menu_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="combo_menu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="combo_menu_item">
+              <PropertyRef Name="combo_menu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_combo_menu_item_food">
+          <End Role="food" Type="Self.food" Multiplicity="1" />
+          <End Role="combo_menu_item" Type="Self.combo_menu_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="food">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="combo_menu_item">
+              <PropertyRef Name="food_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_food_category_discount_food_category">
+          <End Role="food_category" Type="Self.food_category" Multiplicity="1" />
+          <End Role="food_category_discount" Type="Self.food_category_discount" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="food_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="food_category_discount">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_food_discount_food">
+          <End Role="food" Type="Self.food" Multiplicity="1" />
+          <End Role="food_discount" Type="Self.food_discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="food">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="food_discount">
+              <PropertyRef Name="food_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_food_food_category">
+          <End Role="food_category" Type="Self.food_category" Multiplicity="1" />
+          <End Role="food" Type="Self.food" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="food_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="food">
+              <PropertyRef Name="food_category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_delivery_method">
+          <End Role="delivery_method" Type="Self.delivery_method" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="delivery_method">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="discount_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_discount">
+          <End Role="order_discount" Type="Self.order_discount" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order_discount">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="discount_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_payment_method">
+          <End Role="payment_method" Type="Self.payment_method" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="payment_method">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="payment_method_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orderComboItem_order">
+          <End Role="order" Type="Self.order" Multiplicity="0..1" />
+          <End Role="order_combo_item" Type="Self.order_combo_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_combo_item">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orderFoodItem_order">
+          <End Role="order" Type="Self.order" Multiplicity="0..1" />
+          <End Role="order_food_item" Type="Self.order_food_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_food_item">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_role">
+          <End Role="role" Type="Self.role" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="CateringAgencyModelStoreContainer">
+          <EntitySet Name="combo_menu" EntityType="Self.combo_menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="combo_menu_item" EntityType="Self.combo_menu_item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="delivery_method" EntityType="Self.delivery_method" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="food" EntityType="Self.food" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="food_category" EntityType="Self.food_category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="food_category_discount" EntityType="Self.food_category_discount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="food_discount" EntityType="Self.food_discount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order_combo_item" EntityType="Self.order_combo_item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order_discount" EntityType="Self.order_discount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order_food_item" EntityType="Self.order_food_item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="payment_method" EntityType="Self.payment_method" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="role" EntityType="Self.role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__order_com__combo__7F2BE32F" Association="Self.FK__order_com__combo__7F2BE32F">
+            <End Role="combo_menu" EntitySet="combo_menu" />
+            <End Role="order_combo_item" EntitySet="order_combo_item" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_foo__food___7B5B524B" Association="Self.FK__order_foo__food___7B5B524B">
+            <End Role="food" EntitySet="food" />
+            <End Role="order_food_item" EntitySet="order_food_item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_combo_menu_item_combo_menu" Association="Self.FK_combo_menu_item_combo_menu">
+            <End Role="combo_menu" EntitySet="combo_menu" />
+            <End Role="combo_menu_item" EntitySet="combo_menu_item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_combo_menu_item_food" Association="Self.FK_combo_menu_item_food">
+            <End Role="food" EntitySet="food" />
+            <End Role="combo_menu_item" EntitySet="combo_menu_item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_food_category_discount_food_category" Association="Self.FK_food_category_discount_food_category">
+            <End Role="food_category" EntitySet="food_category" />
+            <End Role="food_category_discount" EntitySet="food_category_discount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_food_discount_food" Association="Self.FK_food_discount_food">
+            <End Role="food" EntitySet="food" />
+            <End Role="food_discount" EntitySet="food_discount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_food_food_category" Association="Self.FK_food_food_category">
+            <End Role="food_category" EntitySet="food_category" />
+            <End Role="food" EntitySet="food" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_delivery_method" Association="Self.FK_order_delivery_method">
+            <End Role="delivery_method" EntitySet="delivery_method" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_discount" Association="Self.FK_order_discount">
+            <End Role="order_discount" EntitySet="order_discount" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_payment_method" Association="Self.FK_order_payment_method">
+            <End Role="payment_method" EntitySet="payment_method" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_user" Association="Self.FK_order_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orderComboItem_order" Association="Self.FK_orderComboItem_order">
+            <End Role="order" EntitySet="order" />
+            <End Role="order_combo_item" EntitySet="order_combo_item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orderFoodItem_order" Association="Self.FK_orderFoodItem_order">
+            <End Role="order" EntitySet="order" />
+            <End Role="order_food_item" EntitySet="order_food_item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_role" Association="Self.FK_user_role">
+            <End Role="role" EntitySet="role" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CateringAgencyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CateringAgencyEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(CateringAgencyModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(CateringAgencyModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="combo_menu" EntityType="CateringAgencyModel.combo_menu" />
+          <EntitySet Name="combo_menu_item" EntityType="CateringAgencyModel.combo_menu_item" />
+          <EntitySet Name="delivery_method" EntityType="CateringAgencyModel.delivery_method" />
+          <EntitySet Name="foods" EntityType="CateringAgencyModel.food" />
+          <EntitySet Name="food_category" EntityType="CateringAgencyModel.food_category" />
+          <EntitySet Name="food_category_discount" EntityType="CateringAgencyModel.food_category_discount" />
+          <EntitySet Name="food_discount" EntityType="CateringAgencyModel.food_discount" />
+          <EntitySet Name="orders" EntityType="CateringAgencyModel.order" />
+          <EntitySet Name="order_combo_item" EntityType="CateringAgencyModel.order_combo_item" />
+          <EntitySet Name="order_discount" EntityType="CateringAgencyModel.order_discount" />
+          <EntitySet Name="order_food_item" EntityType="CateringAgencyModel.order_food_item" />
+          <EntitySet Name="payment_method" EntityType="CateringAgencyModel.payment_method" />
+          <EntitySet Name="roles" EntityType="CateringAgencyModel.role" />
+          <EntitySet Name="sysdiagrams" EntityType="CateringAgencyModel.sysdiagram" />
+          <EntitySet Name="users" EntityType="CateringAgencyModel.user" />
+          <AssociationSet Name="FK__order_com__combo__7F2BE32F" Association="CateringAgencyModel.FK__order_com__combo__7F2BE32F">
+            <End Role="combo_menu" EntitySet="combo_menu" />
+            <End Role="order_combo_item" EntitySet="order_combo_item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_combo_menu_item_combo_menu" Association="CateringAgencyModel.FK_combo_menu_item_combo_menu">
+            <End Role="combo_menu" EntitySet="combo_menu" />
+            <End Role="combo_menu_item" EntitySet="combo_menu_item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_combo_menu_item_food" Association="CateringAgencyModel.FK_combo_menu_item_food">
+            <End Role="food" EntitySet="foods" />
+            <End Role="combo_menu_item" EntitySet="combo_menu_item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_delivery_method" Association="CateringAgencyModel.FK_order_delivery_method">
+            <End Role="delivery_method" EntitySet="delivery_method" />
+            <End Role="order" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order_foo__food___7B5B524B" Association="CateringAgencyModel.FK__order_foo__food___7B5B524B">
+            <End Role="food" EntitySet="foods" />
+            <End Role="order_food_item" EntitySet="order_food_item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_food_discount_food" Association="CateringAgencyModel.FK_food_discount_food">
+            <End Role="food" EntitySet="foods" />
+            <End Role="food_discount" EntitySet="food_discount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_food_food_category" Association="CateringAgencyModel.FK_food_food_category">
+            <End Role="food_category" EntitySet="food_category" />
+            <End Role="food" EntitySet="foods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_food_category_discount_food_category" Association="CateringAgencyModel.FK_food_category_discount_food_category">
+            <End Role="food_category" EntitySet="food_category" />
+            <End Role="food_category_discount" EntitySet="food_category_discount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_discount" Association="CateringAgencyModel.FK_order_discount">
+            <End Role="order_discount" EntitySet="order_discount" />
+            <End Role="order" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_payment_method" Association="CateringAgencyModel.FK_order_payment_method">
+            <End Role="payment_method" EntitySet="payment_method" />
+            <End Role="order" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_user" Association="CateringAgencyModel.FK_order_user">
+            <End Role="user" EntitySet="users" />
+            <End Role="order" EntitySet="orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orderComboItem_order" Association="CateringAgencyModel.FK_orderComboItem_order">
+            <End Role="order" EntitySet="orders" />
+            <End Role="order_combo_item" EntitySet="order_combo_item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orderFoodItem_order" Association="CateringAgencyModel.FK_orderFoodItem_order">
+            <End Role="order" EntitySet="orders" />
+            <End Role="order_food_item" EntitySet="order_food_item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_role" Association="CateringAgencyModel.FK_user_role">
+            <End Role="role" EntitySet="roles" />
+            <End Role="user" EntitySet="users" />
+          </AssociationSet>
+          </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="combo_menu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="valid_from" Type="DateTime" Precision="3" />
+          <Property Name="valid_until" Type="DateTime" Precision="3" />
+          <Property Name="discount_percent" Type="Double" Nullable="false" />
+          <NavigationProperty Name="order_combo_item" Relationship="CateringAgencyModel.FK__order_com__combo__7F2BE32F" FromRole="combo_menu" ToRole="order_combo_item" />
+          <NavigationProperty Name="combo_menu_item" Relationship="CateringAgencyModel.FK_combo_menu_item_combo_menu" FromRole="combo_menu" ToRole="combo_menu_item" />
+        </EntityType>
+        <EntityType Name="combo_menu_item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="food_id" Type="Int32" Nullable="false" />
+          <Property Name="combo_menu_id" Type="Int32" Nullable="false" />
+          <Property Name="amount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="combo_menu" Relationship="CateringAgencyModel.FK_combo_menu_item_combo_menu" FromRole="combo_menu_item" ToRole="combo_menu" />
+          <NavigationProperty Name="food" Relationship="CateringAgencyModel.FK_combo_menu_item_food" FromRole="combo_menu_item" ToRole="food" />
+        </EntityType>
+        <EntityType Name="delivery_method">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <NavigationProperty Name="orders" Relationship="CateringAgencyModel.FK_order_delivery_method" FromRole="delivery_method" ToRole="order" />
+        </EntityType>
+        <EntityType Name="food">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="unit_of_measurement" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="food_category_id" Type="Int32" Nullable="false" />
+          <Property Name="is_visible" Type="Boolean" Nullable="false" />
+          <Property Name="ingredients" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <NavigationProperty Name="combo_menu_item" Relationship="CateringAgencyModel.FK_combo_menu_item_food" FromRole="food" ToRole="combo_menu_item" />
+          <NavigationProperty Name="order_food_item" Relationship="CateringAgencyModel.FK__order_foo__food___7B5B524B" FromRole="food" ToRole="order_food_item" />
+          <NavigationProperty Name="food_discount" Relationship="CateringAgencyModel.FK_food_discount_food" FromRole="food" ToRole="food_discount" />
+          <NavigationProperty Name="food_category" Relationship="CateringAgencyModel.FK_food_food_category" FromRole="food" ToRole="food_category" />
+        </EntityType>
+        <EntityType Name="food_category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="foods" Relationship="CateringAgencyModel.FK_food_food_category" FromRole="food_category" ToRole="food" />
+          <NavigationProperty Name="food_category_discount" Relationship="CateringAgencyModel.FK_food_category_discount_food_category" FromRole="food_category" ToRole="food_category_discount" />
+        </EntityType>
+        <EntityType Name="food_category_discount">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="food_category_id" Type="Int32" Nullable="false" />
+          <Property Name="discount_percent" Type="Double" Nullable="false" />
+          <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="valid_from" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="valid_until" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="food_category" Relationship="CateringAgencyModel.FK_food_category_discount_food_category" FromRole="food_category_discount" ToRole="food_category" />
+        </EntityType>
+        <EntityType Name="food_discount">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="food_id" Type="Int32" Nullable="false" />
+          <Property Name="discount_percent" Type="Double" Nullable="false" />
+          <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="valid_from" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="valid_until" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="food" Relationship="CateringAgencyModel.FK_food_discount_food" FromRole="food_discount" ToRole="food" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="date_completed" Type="DateTime" Precision="3" />
+          <Property Name="delivery_location" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="price_with_discount" Type="Double" />
+          <Property Name="is_complete" Type="Boolean" />
+          <Property Name="payment_method_id" Type="Int32" Nullable="false" />
+          <Property Name="discount_id" Type="Int32" Nullable="false" />
+          <Property Name="delivery_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="delivery_method" Relationship="CateringAgencyModel.FK_order_delivery_method" FromRole="order" ToRole="delivery_method" />
+          <NavigationProperty Name="order_discount" Relationship="CateringAgencyModel.FK_order_discount" FromRole="order" ToRole="order_discount" />
+          <NavigationProperty Name="payment_method" Relationship="CateringAgencyModel.FK_order_payment_method" FromRole="order" ToRole="payment_method" />
+          <NavigationProperty Name="user" Relationship="CateringAgencyModel.FK_order_user" FromRole="order" ToRole="user" />
+          <NavigationProperty Name="order_combo_item" Relationship="CateringAgencyModel.FK_orderComboItem_order" FromRole="order" ToRole="order_combo_item" />
+          <NavigationProperty Name="order_food_item" Relationship="CateringAgencyModel.FK_orderFoodItem_order" FromRole="order" ToRole="order_food_item" />
+        </EntityType>
+        <EntityType Name="order_combo_item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="order_id" Type="Int32" />
+          <Property Name="combo_menu_id" Type="Int32" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="amount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="combo_menu" Relationship="CateringAgencyModel.FK__order_com__combo__7F2BE32F" FromRole="order_combo_item" ToRole="combo_menu" />
+          <NavigationProperty Name="order" Relationship="CateringAgencyModel.FK_orderComboItem_order" FromRole="order_combo_item" ToRole="order" />
+        </EntityType>
+        <EntityType Name="order_discount">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="discount_percent" Type="Double" Nullable="false" />
+          <Property Name="point_cost" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="orders" Relationship="CateringAgencyModel.FK_order_discount" FromRole="order_discount" ToRole="order" />
+        </EntityType>
+        <EntityType Name="order_food_item">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="order_id" Type="Int32" />
+          <Property Name="food_id" Type="Int32" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="amount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="food" Relationship="CateringAgencyModel.FK__order_foo__food___7B5B524B" FromRole="order_food_item" ToRole="food" />
+          <NavigationProperty Name="order" Relationship="CateringAgencyModel.FK_orderFoodItem_order" FromRole="order_food_item" ToRole="order" />
+        </EntityType>
+        <EntityType Name="payment_method">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="orders" Relationship="CateringAgencyModel.FK_order_payment_method" FromRole="payment_method" ToRole="order" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="role_name" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="users" Relationship="CateringAgencyModel.FK_user_role" FromRole="role" ToRole="user" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="firstname" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="lastname" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="role_id" Type="Int32" Nullable="false" />
+          <Property Name="points" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="orders" Relationship="CateringAgencyModel.FK_order_user" FromRole="user" ToRole="order" />
+          <NavigationProperty Name="role" Relationship="CateringAgencyModel.FK_user_role" FromRole="user" ToRole="role" />
+        </EntityType>
+        <Association Name="FK__order_com__combo__7F2BE32F">
+          <End Type="CateringAgencyModel.combo_menu" Role="combo_menu" Multiplicity="0..1" />
+          <End Type="CateringAgencyModel.order_combo_item" Role="order_combo_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="combo_menu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_combo_item">
+              <PropertyRef Name="combo_menu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_combo_menu_item_combo_menu">
+          <End Type="CateringAgencyModel.combo_menu" Role="combo_menu" Multiplicity="1" />
+          <End Type="CateringAgencyModel.combo_menu_item" Role="combo_menu_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="combo_menu">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="combo_menu_item">
+              <PropertyRef Name="combo_menu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_combo_menu_item_food">
+          <End Type="CateringAgencyModel.food" Role="food" Multiplicity="1" />
+          <End Type="CateringAgencyModel.combo_menu_item" Role="combo_menu_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="food">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="combo_menu_item">
+              <PropertyRef Name="food_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_delivery_method">
+          <End Type="CateringAgencyModel.delivery_method" Role="delivery_method" Multiplicity="1" />
+          <End Type="CateringAgencyModel.order" Role="order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="delivery_method">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="discount_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order_foo__food___7B5B524B">
+          <End Type="CateringAgencyModel.food" Role="food" Multiplicity="0..1" />
+          <End Type="CateringAgencyModel.order_food_item" Role="order_food_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="food">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_food_item">
+              <PropertyRef Name="food_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_food_discount_food">
+          <End Type="CateringAgencyModel.food" Role="food" Multiplicity="1" />
+          <End Type="CateringAgencyModel.food_discount" Role="food_discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="food">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="food_discount">
+              <PropertyRef Name="food_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_food_food_category">
+          <End Type="CateringAgencyModel.food_category" Role="food_category" Multiplicity="1" />
+          <End Type="CateringAgencyModel.food" Role="food" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="food_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="food">
+              <PropertyRef Name="food_category_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_food_category_discount_food_category">
+          <End Type="CateringAgencyModel.food_category" Role="food_category" Multiplicity="1" />
+          <End Type="CateringAgencyModel.food_category_discount" Role="food_category_discount" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="food_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="food_category_discount">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_discount">
+          <End Type="CateringAgencyModel.order_discount" Role="order_discount" Multiplicity="1" />
+          <End Type="CateringAgencyModel.order" Role="order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order_discount">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="discount_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_payment_method">
+          <End Type="CateringAgencyModel.payment_method" Role="payment_method" Multiplicity="1" />
+          <End Type="CateringAgencyModel.order" Role="order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="payment_method">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="payment_method_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_user">
+          <End Type="CateringAgencyModel.user" Role="user" Multiplicity="1" />
+          <End Type="CateringAgencyModel.order" Role="order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orderComboItem_order">
+          <End Type="CateringAgencyModel.order" Role="order" Multiplicity="0..1" />
+          <End Type="CateringAgencyModel.order_combo_item" Role="order_combo_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_combo_item">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_orderFoodItem_order">
+          <End Type="CateringAgencyModel.order" Role="order" Multiplicity="0..1" />
+          <End Type="CateringAgencyModel.order_food_item" Role="order_food_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_food_item">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_role">
+          <End Type="CateringAgencyModel.role" Role="role" Multiplicity="1" />
+          <End Type="CateringAgencyModel.user" Role="user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CateringAgencyModelStoreContainer" CdmEntityContainer="CateringAgencyEntities">
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="CateringAgencyModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="CateringAgencyModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="CateringAgencyModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="CateringAgencyModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CateringAgencyModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="CateringAgencyModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CateringAgencyModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="CateringAgencyModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="CateringAgencyModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="combo_menu">
+            <EntityTypeMapping TypeName="CateringAgencyModel.combo_menu">
+              <MappingFragment StoreEntitySet="combo_menu">
+                <ScalarProperty Name="discount_percent" ColumnName="discount_percent" />
+                <ScalarProperty Name="valid_until" ColumnName="valid_until" />
+                <ScalarProperty Name="valid_from" ColumnName="valid_from" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="combo_menu_item">
+            <EntityTypeMapping TypeName="CateringAgencyModel.combo_menu_item">
+              <MappingFragment StoreEntitySet="combo_menu_item">
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="combo_menu_id" ColumnName="combo_menu_id" />
+                <ScalarProperty Name="food_id" ColumnName="food_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="delivery_method">
+            <EntityTypeMapping TypeName="CateringAgencyModel.delivery_method">
+              <MappingFragment StoreEntitySet="delivery_method">
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="foods">
+            <EntityTypeMapping TypeName="CateringAgencyModel.food">
+              <MappingFragment StoreEntitySet="food">
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="ingredients" ColumnName="ingredients" />
+                <ScalarProperty Name="is_visible" ColumnName="is_visible" />
+                <ScalarProperty Name="food_category_id" ColumnName="food_category_id" />
+                <ScalarProperty Name="unit_of_measurement" ColumnName="unit_of_measurement" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="food_category">
+            <EntityTypeMapping TypeName="CateringAgencyModel.food_category">
+              <MappingFragment StoreEntitySet="food_category">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="food_category_discount">
+            <EntityTypeMapping TypeName="CateringAgencyModel.food_category_discount">
+              <MappingFragment StoreEntitySet="food_category_discount">
+                <ScalarProperty Name="valid_until" ColumnName="valid_until" />
+                <ScalarProperty Name="valid_from" ColumnName="valid_from" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="discount_percent" ColumnName="discount_percent" />
+                <ScalarProperty Name="food_category_id" ColumnName="food_category_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="food_discount">
+            <EntityTypeMapping TypeName="CateringAgencyModel.food_discount">
+              <MappingFragment StoreEntitySet="food_discount">
+                <ScalarProperty Name="valid_until" ColumnName="valid_until" />
+                <ScalarProperty Name="valid_from" ColumnName="valid_from" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="discount_percent" ColumnName="discount_percent" />
+                <ScalarProperty Name="food_id" ColumnName="food_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="CateringAgencyModel.order">
+              <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="delivery_id" ColumnName="delivery_id" />
+                <ScalarProperty Name="discount_id" ColumnName="discount_id" />
+                <ScalarProperty Name="payment_method_id" ColumnName="payment_method_id" />
+                <ScalarProperty Name="is_complete" ColumnName="is_complete" />
+                <ScalarProperty Name="price_with_discount" ColumnName="price_with_discount" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="delivery_location" ColumnName="delivery_location" />
+                <ScalarProperty Name="date_completed" ColumnName="date_completed" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order_combo_item">
+            <EntityTypeMapping TypeName="CateringAgencyModel.order_combo_item">
+              <MappingFragment StoreEntitySet="order_combo_item">
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="combo_menu_id" ColumnName="combo_menu_id" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order_discount">
+            <EntityTypeMapping TypeName="CateringAgencyModel.order_discount">
+              <MappingFragment StoreEntitySet="order_discount">
+                <ScalarProperty Name="point_cost" ColumnName="point_cost" />
+                <ScalarProperty Name="discount_percent" ColumnName="discount_percent" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order_food_item">
+            <EntityTypeMapping TypeName="CateringAgencyModel.order_food_item">
+              <MappingFragment StoreEntitySet="order_food_item">
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="food_id" ColumnName="food_id" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="payment_method">
+            <EntityTypeMapping TypeName="CateringAgencyModel.payment_method">
+              <MappingFragment StoreEntitySet="payment_method">
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="CateringAgencyModel.role">
+              <MappingFragment StoreEntitySet="role">
+                <ScalarProperty Name="role_name" ColumnName="role_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CateringAgencyModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="CateringAgencyModel.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="points" ColumnName="points" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

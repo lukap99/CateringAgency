@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CateringAgency.Domain
 {
-    class PaymentMethodBo
+    public class PaymentMethodBo
     {
         private int paymentMethodId = 1;
         private string name = "Cash";

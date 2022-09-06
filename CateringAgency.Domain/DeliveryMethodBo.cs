@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CateringAgency.Domain
 {
-    class DeliveryMethodBo
+    public class DeliveryMethodBo
     {
         private int deliveryMethodId;
         private string name;

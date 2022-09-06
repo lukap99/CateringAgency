@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CateringAgency.Domain
 {
-    class FoodCategoryDiscountBo
+    public class FoodCategoryDiscountBo
     {
         float discountAmount = 0;
         private DateTime creationDate;

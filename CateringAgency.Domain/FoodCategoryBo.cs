@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CateringAgency.Domain
 {
-    class FoodCategoryBo
+    public class FoodCategoryBo
     {
         private int foodCategoryId;
         private string name;

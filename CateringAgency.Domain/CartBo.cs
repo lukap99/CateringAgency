@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CateringAgency.Domain
 {
     //Doesn't have "cartId" so I can make "orderBo" object with id
-    class CartBo
+    public class CartBo
     {
         #region Fields
         private UserBo user;

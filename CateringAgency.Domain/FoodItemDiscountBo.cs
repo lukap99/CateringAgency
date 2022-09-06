@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CateringAgency.Domain
 {
-    class FoodItemDiscountBo
+    public class FoodItemDiscountBo
     {
         private int foodItemDiscountId;
         float discountAmount = 0;

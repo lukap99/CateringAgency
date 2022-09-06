@@ -7,7 +7,7 @@
       <Diagram DiagramId="6035ff26d72d4758863d0dc1f7346710" Name="Diagram1" ZoomLevel="57">
         <EntityTypeShape EntityType="CateringAgencyModel.combo_menu" Width="1.5" PointX="5.25" PointY="7.5" />
         <EntityTypeShape EntityType="CateringAgencyModel.combo_menu_item" Width="1.5" PointX="10.5" PointY="9.875" />
-        <EntityTypeShape EntityType="CateringAgencyModel.delivery_method" Width="1.5" PointX="3" PointY="9.25" />
+        <EntityTypeShape EntityType="CateringAgencyModel.delivery_method" Width="1.5" PointX="3" PointY="11.625" />
         <EntityTypeShape EntityType="CateringAgencyModel.food" Width="1.5" PointX="8.25" PointY="11.25" />
         <EntityTypeShape EntityType="CateringAgencyModel.food_category" Width="1.5" PointX="6" PointY="12" />
         <EntityTypeShape EntityType="CateringAgencyModel.food_category_discount" Width="1.5" PointX="8.25" PointY="8.125" />
@@ -16,7 +16,7 @@
         <EntityTypeShape EntityType="CateringAgencyModel.order_combo_item" Width="1.5" PointX="7.5" PointY="2.625" />
         <EntityTypeShape EntityType="CateringAgencyModel.order_discount" Width="1.5" PointX="3" PointY="6.625" />
         <EntityTypeShape EntityType="CateringAgencyModel.order_food_item" Width="1.5" PointX="10.5" PointY="2.625" />
-        <EntityTypeShape EntityType="CateringAgencyModel.payment_method" Width="1.5" PointX="3" PointY="11.875" />
+        <EntityTypeShape EntityType="CateringAgencyModel.payment_method" Width="1.5" PointX="3" PointY="9.25" />
         <EntityTypeShape EntityType="CateringAgencyModel.role" Width="1.5" PointX="0.75" PointY="3" />
         <EntityTypeShape EntityType="CateringAgencyModel.sysdiagram" Width="1.5" PointX="10.75" PointY="6.75" />
         <EntityTypeShape EntityType="CateringAgencyModel.user" Width="1.5" PointX="3" PointY="2.5" />

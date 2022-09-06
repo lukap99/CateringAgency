@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CateringAgency.Domain
 {
-    class RoleBo
+    public class RoleBo
     {
         public int RoleId { get; set; }
         [DataType(DataType.Text)]

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CateringAgency.Domain
 {
-    class OrderBo
+    public class OrderBo
     {
         #region Fields
         private int orderId;
@@ -24,6 +24,7 @@ namespace CateringAgency.Domain
         private PaymentMethodBo paymentMethod;
         private OrderDiscountBo orderDiscount;
         private bool isComplete = false;
+
         #endregion
 
         #region Ctor

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CateringAgency.Domain
 {
-    class UserBo
+    public class UserBo
     {
         #region Fields
         private int userId;

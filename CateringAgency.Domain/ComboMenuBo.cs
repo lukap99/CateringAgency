@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace CateringAgency.Domain
 {
-    class ComboMenuBo
+    public class ComboMenuBo
     {
         #region Fields
         private int comboMenuId;
         private string name;
         private List<FoodBo> comboMenuItems;
+
         private float basePrice = 0;
         private float sellingPrice = 0;
+
         private DateTime validFrom;
         private DateTime validUntil;
         private float discountAmount = 0;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CateringAgency.Domain
 {
-    class FoodBo
+    public class FoodBo
     {
         #region Fields
         private int foodId;
@@ -15,9 +15,11 @@ namespace CateringAgency.Domain
         private FoodItemDiscountBo discount;
         private string unitOfMeasurement;
         private string ingredients;
+
         private float basePrice;
         private float sellingPrice;
-        private int amount = 1;
+
+        private int amount; // previous default = 1
         private bool isVisible = false;
         #endregion
 

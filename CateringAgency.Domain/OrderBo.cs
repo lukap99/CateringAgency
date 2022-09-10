@@ -12,7 +12,7 @@ namespace CateringAgency.Domain
         private int orderId;
         private UserBo user;
         private DateTime dateCreated;
-        private DateTime dateCompleted;
+        private DateTime? dateCompleted;
         private string deliveryLocation;
 
         private List<FoodBo> orderItems;
@@ -71,17 +71,17 @@ namespace CateringAgency.Domain
 
         #region Properties
         public int OrderId { get => orderId; set => orderId = value; }
-        private UserBo User { get => user; set => user = value; }
+        public UserBo User { get => user; set => user = value; }
         public DateTime DateCreated { get => dateCreated; set => dateCreated = value; }
-        public DateTime DateCompleted { get => dateCompleted; set => dateCompleted = value; }
+        public DateTime? DateCompleted { get => dateCompleted; set => dateCompleted = value; }
         public string DeliveryLocation { get => deliveryLocation; set => deliveryLocation = value; }
-        internal List<FoodBo> OrderItems { get => orderItems; set => orderItems = value; }
-        internal List<ComboMenuBo> OrderComboItems { get => orderComboItems; set => orderComboItems = value; }
+        public List<FoodBo> OrderItems { get => orderItems; set => orderItems = value; }
+        public List<ComboMenuBo> OrderComboItems { get => orderComboItems; set => orderComboItems = value; }
         public float BasePrice { get => basePrice; set => basePrice = value < 0 ? 0 : value; }
         public float BuyingPrice { get => buyingPrice; set => buyingPrice = value < 0 ? 0 : value; }
-        internal DeliveryMethodBo PaymentMethod { get => deliveryMethod; set => deliveryMethod = value; }
-        internal PaymentMethodBo PaymentMethodBo { get => paymentMethod; set => paymentMethod = value; }
-        internal OrderDiscountBo OrderDiscount { get => orderDiscount; set => orderDiscount = value; }
+        public DeliveryMethodBo DeliveryMethod { get => deliveryMethod; set => deliveryMethod = value; }
+        public PaymentMethodBo PaymentMethod { get => paymentMethod; set => paymentMethod = value; }
+        public OrderDiscountBo OrderDiscount { get => orderDiscount; set => orderDiscount = value; }
         public bool IsComplete { get => isComplete; set => isComplete = value; }
         #endregion
 

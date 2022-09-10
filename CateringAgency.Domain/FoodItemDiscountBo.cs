@@ -8,41 +8,18 @@ namespace CateringAgency.Domain
 {
     public class FoodItemDiscountBo
     {
-        private int foodItemDiscountId;
         float discountAmount = 0;
-        private DateTime dateCreated;
-        private DateTime validFrom;
-        private DateTime validUntil;
 
         public FoodItemDiscountBo()
         {
-            dateCreated = DateTime.Now;
         }
-        public FoodItemDiscountBo(int foodItemDiscountId, float discountAmount, DateTime validFrom, DateTime validUntil)
+        public FoodItemDiscountBo(float discountAmount)
         {
-            this.foodItemDiscountId = foodItemDiscountId;
             DiscountAmount = discountAmount;
-            this.dateCreated = DateTime.Now;
-            this.validFrom = validFrom;
-            this.validUntil = validUntil;
         }
-
-        public FoodItemDiscountBo(int foodItemDiscountId, float discountAmount, DateTime dateCreated, DateTime validFrom, DateTime validUntil)
-        {
-            this.foodItemDiscountId = foodItemDiscountId;
-            DiscountAmount = discountAmount;
-            this.dateCreated = dateCreated;
-            this.validFrom = validFrom;
-            this.validUntil = validUntil;
-        }
-
-        public int FoodItemDiscountId { get => foodItemDiscountId; set => foodItemDiscountId = value; }
         public float DiscountAmount
         {
-            get
-            {
-                return discountAmount;
-            }
+            get => discountAmount;
             set
             {
                 if (value < 0)
@@ -59,20 +36,15 @@ namespace CateringAgency.Domain
                 }
             }
         }
-        public DateTime DateCreated { get => dateCreated; set => dateCreated = value; }
-        public DateTime ValidFrom { get => validFrom; set => validFrom = value; }
-        public DateTime ValidUntil { get => validUntil; set => validUntil = value; }
         public bool IsValid
         {
             get
             {
-                if (DateTime.Now > ValidFrom && DateTime.Now < ValidUntil && DiscountAmount > 0)
-                {
+                if (DiscountAmount > 0)
                     return true;
-                }
-                else return false;
+                else
+                    return false;
             }
         }
-
     }
 }

@@ -16,9 +16,9 @@ namespace CateringAgency.Domain
         private float basePrice = 0;
         private float sellingPrice = 0;
 
-        private DateTime validFrom;
-        private DateTime validUntil;
+        private int amount = 1;
         private float discountAmount = 0;
+        private bool isVisible = false;
         #endregion
 
         #region Constructors
@@ -27,13 +27,13 @@ namespace CateringAgency.Domain
 
         }
 
-        public ComboMenuBo(int comboMenuId, string name, DateTime validFrom, DateTime validUntil, float discountAmount)
+        public ComboMenuBo(int comboMenuId, string name, float discountAmount, bool isVisible, int amount)
         {
             this.comboMenuId = comboMenuId;
             this.name = name;
-            this.validFrom = validFrom;
-            this.validUntil = validUntil;
             DiscountAmount = discountAmount;
+            this.isVisible = isVisible;
+            this.amount = amount;
         }
         #endregion
 
@@ -42,57 +42,38 @@ namespace CateringAgency.Domain
         public string Name { get => name; set => name = value; }
         internal List<FoodBo> ComboMenuItems { get => comboMenuItems; set => comboMenuItems = value; }
         public float BasePrice 
-        {
-            get
-            {
-                this.CalculatePrice();
-                return basePrice;
-            }
-            set => basePrice = value; 
-        }
+        { get => basePrice; set => basePrice = value; }
         public float SellingPrice 
-        {
-            get
-            {
-                this.CalculatePrice();
-                return sellingPrice;
-            }
-            set => sellingPrice = value;
-        }
-        public DateTime ValidFrom { get => validFrom; set => validFrom = value; }
-        public DateTime ValidUntil { get => validUntil; set => validUntil = value; }
+        { get => sellingPrice; set => sellingPrice = value; }
         public float DiscountAmount
         {
             get { return discountAmount; }
             set
             {
                 if (value < 0)
-                {
                     discountAmount = 0;
-                }
                 else if (value > 100)
-                {
                     discountAmount = 100;
-                }
                 else
-                {
                     discountAmount = value;
-                }
             }
         }
         public bool IsValid
         {
             get
             {
-                if (DateTime.Now > ValidFrom && DateTime.Now < ValidUntil && DiscountAmount > 0)
-                {
+                if (DiscountAmount > 0 && discountAmount < 100)
                     return true;
-                }
-                else return false;
+                else
+                    return false;
             }
         }
+
+        public bool IsVisible { get => isVisible; set => isVisible = value; }
+        public int Amount { get => amount; set => amount = value; }
         #endregion
 
+        // Methods
         #region Methods
         public void AddItemToMenu(FoodBo foodBo)
         {
@@ -123,10 +104,11 @@ namespace CateringAgency.Domain
                 float sum = 0;
                 foreach (FoodBo item in comboMenuItems)
                 {
+                    item.CalculatePrice();
                     sum += item.SellingPrice;
                 }
                 basePrice = sum;
-                SellingPrice = basePrice * (1 - this.discountAmount * (1 / 100));
+                SellingPrice = (basePrice * (1 - this.discountAmount * (1 / 100))) * amount;
             }
         }
         #endregion

@@ -9,7 +9,7 @@ namespace CateringAgency.Domain
     public class FoodBo
     {
         #region Fields
-        private int foodId;
+        private int foodId; // Can be ComboMenuItemId when used in ComboMenu
         private string name;
         private FoodCategoryBo foodCategory;
         private FoodItemDiscountBo discount;
@@ -19,9 +19,14 @@ namespace CateringAgency.Domain
         private float basePrice;
         private float sellingPrice;
 
-        private int amount; // previous default = 1
+        private int amount = 1; // previous default = 1
         private bool isVisible = false;
         #endregion
+
+        public FoodBo()
+        {
+
+        }
 
         #region Properties
         public int FoodId { get => foodId; set => foodId = value; }
@@ -32,27 +37,13 @@ namespace CateringAgency.Domain
         public string Ingredients { get => ingredients; set => ingredients = value; }
         public float BasePrice
         {
-            get { return basePrice; }
-            set
-            {
-                basePrice = value;
-                sellingPrice = value;
-            }
+            get => basePrice;
+            set => basePrice = value < 0 ? 0 : value;
         }
         public float SellingPrice
-        {
-            // multiple discounts formula:
-            // bp - base price, x, y - discounts
-            // sellingPrice = basePrice * (1 - x * 1/100)(1 - y * 1/100)
-            get
-            {
-                sellingPrice = basePrice * (1 - this.Discount.DiscountAmount * (1 / 100))
-                    * (1 - this.FoodCategory.CategoryDiscount.DiscountAmount * (1 / 100));
-                sellingPrice *= amount;
-                return sellingPrice;
-            }
-            set
-            { sellingPrice = value; }
+        { 
+            get => sellingPrice;
+            set => sellingPrice = value < 0 ? 0 : value;
         }
         // Refers to amount in cart, cannot be below 1
         public int Amount
@@ -68,5 +59,16 @@ namespace CateringAgency.Domain
         }
         public bool IsVisible { get => isVisible; set => isVisible = value; }
         #endregion
+
+
+        // multiple discounts formula:
+        // bp - base price, x, y - discounts
+        // sellingPrice = basePrice * (1 - x * 1/100)(1 - y * 1/100)
+        public void CalculatePrice()
+        {
+            sellingPrice = basePrice * (1 - this.Discount.DiscountAmount * (1 / 100))
+                * (1 - this.FoodCategory.CategoryDiscount.DiscountAmount * (1 / 100));
+            sellingPrice *= amount;
+        }
     }
 }

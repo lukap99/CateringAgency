@@ -156,16 +156,14 @@
     <Compile Include="Models\delivery_method.cs">
       <DependentUpon>CateringAgencyModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EntityFramework\ComboMenuRepository.cs" />
+    <Compile Include="Models\EntityFramework\FoodRepository.cs" />
+    <Compile Include="Models\EntityFramework\OrderRepository.cs" />
+    <Compile Include="Models\EntityFramework\UserRepository.cs" />
     <Compile Include="Models\food.cs">
       <DependentUpon>CateringAgencyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\food_category.cs">
-      <DependentUpon>CateringAgencyModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\food_category_discount.cs">
-      <DependentUpon>CateringAgencyModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\food_discount.cs">
       <DependentUpon>CateringAgencyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\order.cs">
@@ -222,20 +220,13 @@
     <Content Include="Content\Site.css" />
     <Content Include="Models\CateringAgencyModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CateringAgencyModel.Context.cs</LastGenOutput>
       <DependentUpon>CateringAgencyModel.edmx</DependentUpon>
+      <LastGenOutput>CateringAgencyModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\CateringAgencyModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CateringAgencyModel.edmx</DependentUpon>
       <LastGenOutput>CateringAgencyModel.cs</LastGenOutput>
-    </Content>
-    <EntityDeploy Include="Models\CateringAgencyModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>CateringAgencyModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\CateringAgencyModel.edmx.diagram">
-      <DependentUpon>CateringAgencyModel.edmx</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -265,6 +256,13 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <EntityDeploy Include="Models\CateringAgencyModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CateringAgencyModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\CateringAgencyModel.edmx.diagram">
+      <DependentUpon>CateringAgencyModel.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -295,7 +293,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\EntityFramework\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

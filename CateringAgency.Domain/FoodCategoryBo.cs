@@ -15,7 +15,7 @@ namespace CateringAgency.Domain
         [ScaffoldColumn(false)]
         public int FoodCategoryId { get => foodCategoryId; set => foodCategoryId = value; }
         [DataType(DataType.Text)]
-        public FoodCategoryDiscountBo CategoryDiscount { get; set; }
         public string Name { get => name; set => name = value; }
+        public FoodCategoryDiscountBo CategoryDiscount { get; set; }
     }
 }

@@ -23,10 +23,8 @@ namespace CateringAgency.Models
     
         public int id { get; set; }
         public string name { get; set; }
-        public System.DateTime date_created { get; set; }
-        public Nullable<System.DateTime> valid_from { get; set; }
-        public Nullable<System.DateTime> valid_until { get; set; }
         public double discount_percent { get; set; }
+        public bool is_visible { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<order_combo_item> order_combo_item { get; set; }

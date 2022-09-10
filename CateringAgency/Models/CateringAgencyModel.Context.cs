@@ -32,8 +32,6 @@ namespace CateringAgency.Models
         public virtual DbSet<delivery_method> delivery_method { get; set; }
         public virtual DbSet<food> foods { get; set; }
         public virtual DbSet<food_category> food_category { get; set; }
-        public virtual DbSet<food_category_discount> food_category_discount { get; set; }
-        public virtual DbSet<food_discount> food_discount { get; set; }
         public virtual DbSet<order> orders { get; set; }
         public virtual DbSet<order_combo_item> order_combo_item { get; set; }
         public virtual DbSet<order_discount> order_discount { get; set; }

@@ -10,7 +10,7 @@ namespace CateringAgency.Domain
     {
         private int deliveryMethodId;
         private string name;
-        private float price;
+        private float price = 0;
 
         public DeliveryMethodBo()
         {

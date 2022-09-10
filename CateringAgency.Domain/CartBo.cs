@@ -16,9 +16,11 @@ namespace CateringAgency.Domain
         private string deliveryLocation = "Takeout";
         private List<FoodBo> cartItems;
         private List<ComboMenuBo> cartComboItems;
+
         private float basePrice = 0;
         private float buyingPrice = 0;
-        private int pointsEarned = 0;
+
+        private int pointDifference = 0;
         private DeliveryMethodBo deliveryMethod;
         private PaymentMethodBo paymentMethod;
         private OrderDiscountBo orderDiscount; // 1 - no discount, add pointsEarned to user points score in DB
@@ -56,7 +58,7 @@ namespace CateringAgency.Domain
             this.cartItems = cartItems;
             this.basePrice = basePrice;
             this.buyingPrice = buyingPrice;
-            this.pointsEarned = pointsEarned;
+            this.pointDifference = pointsEarned;
             this.deliveryMethod = deliveryMethod;
             this.paymentMethod = paymentMethod;
             this.orderDiscount = orderDiscount;
@@ -65,51 +67,39 @@ namespace CateringAgency.Domain
 
 
         #region Properties
-        private UserBo User { get => user; set => user = value; }
+        public UserBo User { get => user; set => user = value; }
         public DateTime DateCreated { get => dateCreated; set => dateCreated = value; }
         public DateTime DateCompleted { get => dateCompleted; set => dateCompleted = value; }
         public string DeliveryLocation { get => deliveryLocation; set => deliveryLocation = value; }
-        internal List<FoodBo> CartItems { get => cartItems; set => cartItems = value; }
-        internal List<ComboMenuBo> CartComboItems { get => cartComboItems; set => cartComboItems = value; }
+        public List<FoodBo> CartItems { get => cartItems; set => cartItems = value; }
+        public List<ComboMenuBo> CartComboItems { get => cartComboItems; set => cartComboItems = value; }
         public float BasePrice
         {
-            get
-            {
-                this.CalculatePrice();
-                return basePrice;
-            }
-            set => basePrice = value;
+            get => basePrice;
+            set => basePrice = value < 0 ? 0 : value;
         }
         public float BuyingPrice
         {
-            get
-            {
-                this.CalculatePrice();
-                return buyingPrice;
-            }
-            set => buyingPrice = value;
+            get => buyingPrice;
+            set => buyingPrice = value < 0 ? 0 : value;
         }
-        public int PointsEarned
+        public int PointsDifference
         {
-            get
-            {
-                this.CalculatePoints();
-                return pointsEarned;
-            }
-            set => pointsEarned = value;
+            get => pointDifference;
+            set => pointDifference = value;
         }
-        internal DeliveryMethodBo PaymentMethod { get => deliveryMethod; set => deliveryMethod = value; }
-        internal PaymentMethodBo PaymentMethodBo { get => paymentMethod; set => paymentMethod = value; }
-        internal OrderDiscountBo OrderDiscount { get => orderDiscount; set => orderDiscount = value; }
+        public DeliveryMethodBo DeliveryMethod { get => deliveryMethod; set => deliveryMethod = value; }
+        public PaymentMethodBo PaymentMethod { get => paymentMethod; set => paymentMethod = value; }
+        public OrderDiscountBo OrderDiscount { get => orderDiscount; set => orderDiscount = value; }
         #endregion
 
         #region Methods
         public void CalculatePoints()
         {
-            this.pointsEarned = (int)Math.Round(basePrice / 500);
+            this.pointDifference = (int)Math.Round(basePrice / 500);
             if (this.orderDiscount.DiscountAmount > 0)
             {
-                pointsEarned = 0;
+                pointDifference = 0 - this.orderDiscount.PointCost;
             }
         }
         public void AddToCart(FoodBo foodBo)
@@ -141,14 +131,16 @@ namespace CateringAgency.Domain
                 float sum = 0;
                 foreach (FoodBo item in cartItems)
                 {
+                    item.CalculatePrice();
                     sum += item.SellingPrice;
                 }
                 foreach(ComboMenuBo menu in cartComboItems)
                 {
+                    menu.CalculatePrice();
                     sum += menu.SellingPrice;
                 }
                 basePrice = sum;
-                buyingPrice = basePrice * (1 - orderDiscount.DiscountAmount * (1 / 100));
+                buyingPrice = basePrice * (1 - orderDiscount.DiscountAmount * (1 / 100)) + deliveryMethod.Price;
             }
         }
         #endregion

@@ -11,10 +11,8 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="30" Nullable="false" />
-          <Property Name="date_created" Type="datetime" Nullable="false" />
-          <Property Name="valid_from" Type="datetime" />
-          <Property Name="valid_until" Type="datetime" />
           <Property Name="discount_percent" Type="float" Nullable="false" />
+          <Property Name="is_visible" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="combo_menu_item">
           <Key>
@@ -44,6 +42,7 @@
           <Property Name="is_visible" Type="bit" Nullable="false" />
           <Property Name="ingredients" Type="nvarchar(max)" />
           <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="discount_percent" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="food_category">
           <Key>
@@ -51,28 +50,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="30" Nullable="false" />
-        </EntityType>
-        <EntityType Name="food_category_discount">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="food_category_id" Type="int" Nullable="false" />
           <Property Name="discount_percent" Type="float" Nullable="false" />
-          <Property Name="date_created" Type="datetime" Nullable="false" />
-          <Property Name="valid_from" Type="datetime" Nullable="false" />
-          <Property Name="valid_until" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="food_discount">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="food_id" Type="int" Nullable="false" />
-          <Property Name="discount_percent" Type="float" Nullable="false" />
-          <Property Name="date_created" Type="datetime" Nullable="false" />
-          <Property Name="valid_from" Type="datetime" Nullable="false" />
-          <Property Name="valid_until" Type="datetime" />
         </EntityType>
         <EntityType Name="order">
           <Key>
@@ -85,7 +63,7 @@
           <Property Name="delivery_location" Type="nvarchar" MaxLength="100" />
           <Property Name="price" Type="float" Nullable="false" />
           <Property Name="price_with_discount" Type="float" />
-          <Property Name="is_complete" Type="bit" />
+          <Property Name="is_complete" Type="bit" Nullable="false" />
           <Property Name="payment_method_id" Type="int" Nullable="false" />
           <Property Name="discount_id" Type="int" Nullable="false" />
           <Property Name="delivery_id" Type="int" Nullable="false" />
@@ -180,7 +158,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_combo_menu_item_combo_menu">
-          <End Role="combo_menu" Type="Self.combo_menu" Multiplicity="1" />
+          <End Role="combo_menu" Type="Self.combo_menu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="combo_menu_item" Type="Self.combo_menu_item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="combo_menu">
@@ -199,30 +179,6 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="combo_menu_item">
-              <PropertyRef Name="food_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_food_category_discount_food_category">
-          <End Role="food_category" Type="Self.food_category" Multiplicity="1" />
-          <End Role="food_category_discount" Type="Self.food_category_discount" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="food_category">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="food_category_discount">
-              <PropertyRef Name="id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_food_discount_food">
-          <End Role="food" Type="Self.food" Multiplicity="1" />
-          <End Role="food_discount" Type="Self.food_discount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="food">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="food_discount">
               <PropertyRef Name="food_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -300,7 +256,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_orderFoodItem_order">
-          <End Role="order" Type="Self.order" Multiplicity="0..1" />
+          <End Role="order" Type="Self.order" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="order_food_item" Type="Self.order_food_item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="order">
@@ -360,8 +318,6 @@
           <EntitySet Name="delivery_method" EntityType="Self.delivery_method" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="food" EntityType="Self.food" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="food_category" EntityType="Self.food_category" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="food_category_discount" EntityType="Self.food_category_discount" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="food_discount" EntityType="Self.food_discount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="order_combo_item" EntityType="Self.order_combo_item" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="order_discount" EntityType="Self.order_discount" Schema="dbo" store:Type="Tables" />
@@ -385,14 +341,6 @@
           <AssociationSet Name="FK_combo_menu_item_food" Association="Self.FK_combo_menu_item_food">
             <End Role="food" EntitySet="food" />
             <End Role="combo_menu_item" EntitySet="combo_menu_item" />
-          </AssociationSet>
-          <AssociationSet Name="FK_food_category_discount_food_category" Association="Self.FK_food_category_discount_food_category">
-            <End Role="food_category" EntitySet="food_category" />
-            <End Role="food_category_discount" EntitySet="food_category_discount" />
-          </AssociationSet>
-          <AssociationSet Name="FK_food_discount_food" Association="Self.FK_food_discount_food">
-            <End Role="food" EntitySet="food" />
-            <End Role="food_discount" EntitySet="food_discount" />
           </AssociationSet>
           <AssociationSet Name="FK_food_food_category" Association="Self.FK_food_food_category">
             <End Role="food_category" EntitySet="food_category" />
@@ -467,8 +415,6 @@
           <EntitySet Name="delivery_method" EntityType="CateringAgencyModel.delivery_method" />
           <EntitySet Name="foods" EntityType="CateringAgencyModel.food" />
           <EntitySet Name="food_category" EntityType="CateringAgencyModel.food_category" />
-          <EntitySet Name="food_category_discount" EntityType="CateringAgencyModel.food_category_discount" />
-          <EntitySet Name="food_discount" EntityType="CateringAgencyModel.food_discount" />
           <EntitySet Name="orders" EntityType="CateringAgencyModel.order" />
           <EntitySet Name="order_combo_item" EntityType="CateringAgencyModel.order_combo_item" />
           <EntitySet Name="order_discount" EntityType="CateringAgencyModel.order_discount" />
@@ -497,17 +443,9 @@
             <End Role="food" EntitySet="foods" />
             <End Role="order_food_item" EntitySet="order_food_item" />
           </AssociationSet>
-          <AssociationSet Name="FK_food_discount_food" Association="CateringAgencyModel.FK_food_discount_food">
-            <End Role="food" EntitySet="foods" />
-            <End Role="food_discount" EntitySet="food_discount" />
-          </AssociationSet>
           <AssociationSet Name="FK_food_food_category" Association="CateringAgencyModel.FK_food_food_category">
             <End Role="food_category" EntitySet="food_category" />
             <End Role="food" EntitySet="foods" />
-          </AssociationSet>
-          <AssociationSet Name="FK_food_category_discount_food_category" Association="CateringAgencyModel.FK_food_category_discount_food_category">
-            <End Role="food_category" EntitySet="food_category" />
-            <End Role="food_category_discount" EntitySet="food_category_discount" />
           </AssociationSet>
           <AssociationSet Name="FK_order_discount" Association="CateringAgencyModel.FK_order_discount">
             <End Role="order_discount" EntitySet="order_discount" />
@@ -551,10 +489,8 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="valid_from" Type="DateTime" Precision="3" />
-          <Property Name="valid_until" Type="DateTime" Precision="3" />
           <Property Name="discount_percent" Type="Double" Nullable="false" />
+          <Property Name="is_visible" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="order_combo_item" Relationship="CateringAgencyModel.FK__order_com__combo__7F2BE32F" FromRole="combo_menu" ToRole="order_combo_item" />
           <NavigationProperty Name="combo_menu_item" Relationship="CateringAgencyModel.FK_combo_menu_item_combo_menu" FromRole="combo_menu" ToRole="combo_menu_item" />
         </EntityType>
@@ -589,9 +525,9 @@
           <Property Name="is_visible" Type="Boolean" Nullable="false" />
           <Property Name="ingredients" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="discount_percent" Type="Double" Nullable="false" />
           <NavigationProperty Name="combo_menu_item" Relationship="CateringAgencyModel.FK_combo_menu_item_food" FromRole="food" ToRole="combo_menu_item" />
           <NavigationProperty Name="order_food_item" Relationship="CateringAgencyModel.FK__order_foo__food___7B5B524B" FromRole="food" ToRole="order_food_item" />
-          <NavigationProperty Name="food_discount" Relationship="CateringAgencyModel.FK_food_discount_food" FromRole="food" ToRole="food_discount" />
           <NavigationProperty Name="food_category" Relationship="CateringAgencyModel.FK_food_food_category" FromRole="food" ToRole="food_category" />
         </EntityType>
         <EntityType Name="food_category">
@@ -600,32 +536,8 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="discount_percent" Type="Double" Nullable="false" />
           <NavigationProperty Name="foods" Relationship="CateringAgencyModel.FK_food_food_category" FromRole="food_category" ToRole="food" />
-          <NavigationProperty Name="food_category_discount" Relationship="CateringAgencyModel.FK_food_category_discount_food_category" FromRole="food_category" ToRole="food_category_discount" />
-        </EntityType>
-        <EntityType Name="food_category_discount">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="food_category_id" Type="Int32" Nullable="false" />
-          <Property Name="discount_percent" Type="Double" Nullable="false" />
-          <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="valid_from" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="valid_until" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="food_category" Relationship="CateringAgencyModel.FK_food_category_discount_food_category" FromRole="food_category_discount" ToRole="food_category" />
-        </EntityType>
-        <EntityType Name="food_discount">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="food_id" Type="Int32" Nullable="false" />
-          <Property Name="discount_percent" Type="Double" Nullable="false" />
-          <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="valid_from" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="valid_until" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="food" Relationship="CateringAgencyModel.FK_food_discount_food" FromRole="food_discount" ToRole="food" />
         </EntityType>
         <EntityType Name="order">
           <Key>
@@ -638,7 +550,7 @@
           <Property Name="delivery_location" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="price" Type="Double" Nullable="false" />
           <Property Name="price_with_discount" Type="Double" />
-          <Property Name="is_complete" Type="Boolean" />
+          <Property Name="is_complete" Type="Boolean" Nullable="false" />
           <Property Name="payment_method_id" Type="Int32" Nullable="false" />
           <Property Name="discount_id" Type="Int32" Nullable="false" />
           <Property Name="delivery_id" Type="Int32" Nullable="false" />
@@ -736,7 +648,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_combo_menu_item_combo_menu">
-          <End Type="CateringAgencyModel.combo_menu" Role="combo_menu" Multiplicity="1" />
+          <End Type="CateringAgencyModel.combo_menu" Role="combo_menu" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="CateringAgencyModel.combo_menu_item" Role="combo_menu_item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="combo_menu">
@@ -783,18 +697,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_food_discount_food">
-          <End Type="CateringAgencyModel.food" Role="food" Multiplicity="1" />
-          <End Type="CateringAgencyModel.food_discount" Role="food_discount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="food">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="food_discount">
-              <PropertyRef Name="food_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_food_food_category">
           <End Type="CateringAgencyModel.food_category" Role="food_category" Multiplicity="1" />
           <End Type="CateringAgencyModel.food" Role="food" Multiplicity="*" />
@@ -804,18 +706,6 @@
             </Principal>
             <Dependent Role="food">
               <PropertyRef Name="food_category_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_food_category_discount_food_category">
-          <End Type="CateringAgencyModel.food_category" Role="food_category" Multiplicity="1" />
-          <End Type="CateringAgencyModel.food_category_discount" Role="food_category_discount" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="food_category">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="food_category_discount">
-              <PropertyRef Name="id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -868,7 +758,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_orderFoodItem_order">
-          <End Type="CateringAgencyModel.order" Role="order" Multiplicity="0..1" />
+          <End Type="CateringAgencyModel.order" Role="order" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="CateringAgencyModel.order_food_item" Role="order_food_item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="order">
@@ -924,10 +816,8 @@
           <EntitySetMapping Name="combo_menu">
             <EntityTypeMapping TypeName="CateringAgencyModel.combo_menu">
               <MappingFragment StoreEntitySet="combo_menu">
+                <ScalarProperty Name="is_visible" ColumnName="is_visible" />
                 <ScalarProperty Name="discount_percent" ColumnName="discount_percent" />
-                <ScalarProperty Name="valid_until" ColumnName="valid_until" />
-                <ScalarProperty Name="valid_from" ColumnName="valid_from" />
-                <ScalarProperty Name="date_created" ColumnName="date_created" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
@@ -955,6 +845,7 @@
           <EntitySetMapping Name="foods">
             <EntityTypeMapping TypeName="CateringAgencyModel.food">
               <MappingFragment StoreEntitySet="food">
+                <ScalarProperty Name="discount_percent" ColumnName="discount_percent" />
                 <ScalarProperty Name="price" ColumnName="price" />
                 <ScalarProperty Name="ingredients" ColumnName="ingredients" />
                 <ScalarProperty Name="is_visible" ColumnName="is_visible" />
@@ -968,31 +859,8 @@
           <EntitySetMapping Name="food_category">
             <EntityTypeMapping TypeName="CateringAgencyModel.food_category">
               <MappingFragment StoreEntitySet="food_category">
+                <ScalarProperty Name="discount_percent" ColumnName="discount_percent" />
                 <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="food_category_discount">
-            <EntityTypeMapping TypeName="CateringAgencyModel.food_category_discount">
-              <MappingFragment StoreEntitySet="food_category_discount">
-                <ScalarProperty Name="valid_until" ColumnName="valid_until" />
-                <ScalarProperty Name="valid_from" ColumnName="valid_from" />
-                <ScalarProperty Name="date_created" ColumnName="date_created" />
-                <ScalarProperty Name="discount_percent" ColumnName="discount_percent" />
-                <ScalarProperty Name="food_category_id" ColumnName="food_category_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="food_discount">
-            <EntityTypeMapping TypeName="CateringAgencyModel.food_discount">
-              <MappingFragment StoreEntitySet="food_discount">
-                <ScalarProperty Name="valid_until" ColumnName="valid_until" />
-                <ScalarProperty Name="valid_from" ColumnName="valid_from" />
-                <ScalarProperty Name="date_created" ColumnName="date_created" />
-                <ScalarProperty Name="discount_percent" ColumnName="discount_percent" />
-                <ScalarProperty Name="food_id" ColumnName="food_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

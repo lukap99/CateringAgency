@@ -28,7 +28,7 @@ namespace CateringAgency.Models
         public string delivery_location { get; set; }
         public double price { get; set; }
         public Nullable<double> price_with_discount { get; set; }
-        public Nullable<bool> is_complete { get; set; }
+        public bool is_complete { get; set; }
         public int payment_method_id { get; set; }
         public int discount_id { get; set; }
         public int delivery_id { get; set; }

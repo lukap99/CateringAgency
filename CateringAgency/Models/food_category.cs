@@ -22,9 +22,9 @@ namespace CateringAgency.Models
     
         public int id { get; set; }
         public string name { get; set; }
+        public double discount_percent { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<food> foods { get; set; }
-        public virtual food_category_discount food_category_discount { get; set; }
     }
 }

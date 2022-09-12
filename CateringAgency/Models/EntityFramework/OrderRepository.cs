@@ -239,7 +239,7 @@ namespace CateringAgency.Models.EntityFramework
                 }
 
                 //Changing point balance
-                userRepo.UpdatePointBalance(cartBo.User.UserId, cartBo.PointsDifference)
+                userRepo.UpdatePointBalance(cartBo.User.UserId, cartBo.PointsDifference);
             }
             catch (Exception ex)
             {

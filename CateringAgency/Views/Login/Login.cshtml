@@ -1,0 +1,55 @@
+﻿@model CateringAgency.Domain.UserBo
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="container col-xxl-8 px-4 py-5">
+    <!-- Section: Design Block -->
+    <section class=" text-center text-lg-start">
+        <div class="card mb-3">
+            <div class="row g-0 d-flex align-items-center">
+                <div class="col-lg-4 d-none d-lg-flex">
+                    <img src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg"
+                         class="w-100 rounded-t-5 rounded-tr-lg-0 rounded-bl-lg-5" />
+                </div>
+                <div class="col-lg-8">
+                    <div class="card-body py-5 px-md-5">
+
+                        @using (Html.BeginForm("Login","Login",FormMethod.Post))
+                        {
+                            <!--<input type="hidden" name="action" value="login"/>-->
+                            <!-- Email input -->
+                            <div class="form-outline mb-4">
+                                <h3>Login</h3>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                @Html.ValidationSummary(false, "Error summary:", new {@class = "text-danger" })
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new {@class="form-control"} })
+                                @Html.LabelFor(model=>model.Email, new { @class ="form-label" })
+                                @Html.ValidationMessageFor(model=>model.Email, "Error: ", new { @class="text-danger"})
+                            </div>
+
+                            <!-- Password input -->
+                            <div class="form-outline mb-4">
+                                <input type="Password" name="Password" id="Password" class="form-control" />
+                                <label class="form-label" for="Password">Password</label>
+                            </div>
+
+                            <!-- Submit button -->
+                            <input type="submit" name="submit" class="btn btn-primary btn-block mb-4" value="Sign in" />
+
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Section: Design Block -->
+</div>
+

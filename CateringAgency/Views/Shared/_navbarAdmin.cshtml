@@ -1,0 +1,71 @@
+﻿<!-- Admin -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom py-4">
+    <div class="container px-5">
+
+        <!-- Brand name -->
+        <a class="navbar-brand" href="#" style="font-family:'Segoe UI Black'; font-size:2em;">
+            <img src="~/Images/ketering-logo-small.png" style="height:50px;">
+            Ketering
+        </a>
+
+        <!-- Navbar -->
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <!-- Navbar items -->
+            <ul class="navbar-nav ms-auto">
+                <!-- ms auto is to right align the navbar items -->
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="index.jsp">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="AdminMenu">
+                        <i class="bi bi-card-list"></i>
+                        Edit menu
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ManagerOrder">
+                        <i class="bi bi-cash-stack"></i>
+                        Orders
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="AdminUser">
+                        <i class="bi bi-file-person-fill"></i>
+                        Manage customers
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="AdminManager" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-workspace"></i>
+                        Manage managers
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li>
+                            <a class="dropdown-item" href="AdminManager">
+                                <i class="bi bi-person-lines-fill"></i>
+                                View managers
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="AdminManager?action=createManager">
+                                <i class="bi bi-person-plus-fill"></i>
+                                Add new manager
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-fill"></i>
+                        Admin Lastname
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="Logout">Log out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>

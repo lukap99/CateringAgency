@@ -129,6 +129,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -218,6 +219,11 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\create_header.jpg" />
+    <Content Include="Images\ketering-logo-horizontal.png" />
+    <Content Include="Images\ketering-logo-small.png" />
+    <Content Include="Images\ketering-logo.png" />
+    <Content Include="Images\ketering-main-page.jpg" />
     <Content Include="Models\CateringAgencyModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CateringAgencyModel.edmx</DependentUpon>
@@ -290,6 +296,11 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_navbarCustomer.cshtml" />
+    <Content Include="Views\Shared\_navbarNoUser.cshtml" />
+    <Content Include="Views\Shared\_navbarManager.cshtml" />
+    <Content Include="Views\Shared\_navbarAdmin.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

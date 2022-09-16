@@ -40,10 +40,18 @@ namespace CateringAgency.Domain
             get => basePrice;
             set => basePrice = value < 0 ? 0 : value;
         }
+        public string BasePriceString
+        {
+            get => String.Format("{0:0,0.00}", basePrice);
+        }
         public float SellingPrice
         { 
             get => sellingPrice;
             set => sellingPrice = value < 0 ? 0 : value;
+        }
+        public string SellingPriceString
+        {
+            get => String.Format("{0:0,0.00}", sellingPrice);
         }
         // Refers to amount in cart, cannot be below 1
         public int Amount

@@ -38,6 +38,16 @@ namespace CateringAgency.Domain
             orderDiscount = new OrderDiscountBo();
         }
 
+        public CartBo(UserBo userBo)
+        {
+            user = userBo;
+            dateCreated = DateTime.Now;
+            cartItems = new List<FoodBo>();
+            deliveryMethod = new DeliveryMethodBo();
+            paymentMethod = new PaymentMethodBo();
+            orderDiscount = new OrderDiscountBo();
+        }
+
         public CartBo(UserBo user, 
             DateTime dateCreated, 
             DateTime dateCompleted, 

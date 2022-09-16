@@ -58,10 +58,10 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-fill"></i>
-                        Admin Lastname
+                        @Session["Firstname"].ToString() @Session["Lastname"].ToString();   
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="Logout">Log out</a></li>
+                        <li>@Html.ActionLink("Log out", "Logout", "Account", null, new { @class = "dropdown-item" })</li>
                     </ul>
                 </li>
             </ul>

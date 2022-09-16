@@ -9,14 +9,15 @@
     <section class=" text-center text-lg-start">
         <div class="card mb-3">
             <div class="row g-0 d-flex align-items-center">
+
                 <div class="col-lg-4 d-none d-lg-flex">
-                    <img src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg"
-                         class="w-100 rounded-t-5 rounded-tr-lg-0 rounded-bl-lg-5" />
+                    <img src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg" class="w-100 rounded-t-5 rounded-tr-lg-0 rounded-bl-lg-5" />
                 </div>
+
                 <div class="col-lg-8">
                     <div class="card-body py-5 px-md-5">
 
-                        @using (Html.BeginForm("Login","Login",FormMethod.Post))
+                        @using (Html.BeginForm("Login", "Account", FormMethod.Post))
                         {
                             <!--<input type="hidden" name="action" value="login"/>-->
                             <!-- Email input -->
@@ -25,19 +26,20 @@
                             </div>
 
                             <div class="form-outline mb-4">
-                                @Html.ValidationSummary(false, "Error summary:", new {@class = "text-danger" })
+                                @Html.ValidationSummary(true, "Error summary:", new { @class = "text-danger" })
                             </div>
 
                             <div class="form-outline mb-4">
                                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new {@class="form-control"} })
                                 @Html.LabelFor(model=>model.Email, new { @class ="form-label" })
-                                @Html.ValidationMessageFor(model=>model.Email, "Error: ", new { @class="text-danger"})
+                                @Html.ValidationMessageFor(model=>model.Email, "", new { @class="text-danger"})
                             </div>
 
                             <!-- Password input -->
                             <div class="form-outline mb-4">
-                                <input type="Password" name="Password" id="Password" class="form-control" />
-                                <label class="form-label" for="Password">Password</label>
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new {@class="form-control"} })
+                                @Html.LabelFor(model=>model.Password, new { @class ="form-label" })
+                                @Html.ValidationMessageFor(model=>model.Password, "", new { @class="text-danger"})
                             </div>
 
                             <!-- Submit button -->

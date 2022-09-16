@@ -27,6 +27,7 @@ namespace CateringAgency.Models
         public string lastname { get; set; }
         public int role_id { get; set; }
         public int points { get; set; }
+        public string password { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<order> orders { get; set; }

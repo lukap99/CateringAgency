@@ -1,4 +1,5 @@
 ﻿using CateringAgency.Domain;
+using CateringAgency.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Web;
 
 namespace CateringAgency.Models.EntityFramework
 {
-    public class FoodRepository
+    public class FoodRepository : IFoodRepository
     {
         private readonly CateringAgencyEntities cateringEntities;
 
@@ -90,11 +91,50 @@ namespace CateringAgency.Models.EntityFramework
             return FoodBoList;
         }
 
+        public IEnumerable<FoodBo> GetFoodCategoryItems(int categoryId)
+        {
+            List<FoodBo> FoodBoList = new List<FoodBo>();
+            foreach (food foodItem in cateringEntities.foods.Where(t => t.food_category_id == categoryId))
+            {
+                FoodBoList.Add(FoodMap(foodItem));
+            }
+            return FoodBoList;
+        }
+
+        public IEnumerable<FoodBo> GetFoodCategoryItemsActive(int categoryId)
+        {
+            List<FoodBo> FoodBoList = new List<FoodBo>();
+            foreach (food foodItem in cateringEntities.foods.Where(t => t.is_visible == true && t.food_category_id == categoryId))
+            {
+                FoodBoList.Add(FoodMap(foodItem));
+            }
+            return FoodBoList;
+        }
+
         public FoodBo GetFoodItem(int foodId)
         {
             FoodBo foodBo = FoodMap(cateringEntities.foods.FirstOrDefault(t => t.id == foodId));
 
             return foodBo;
+        }
+
+        public IEnumerable<FoodCategoryBo> GetAllFoodCategories()
+        {
+            List<FoodCategoryBo> CategoryList = new List<FoodCategoryBo>();
+
+            foreach (food_category foo in cateringEntities.food_category)
+            {
+                CategoryList.Add
+                    (new FoodCategoryBo { 
+                        FoodCategoryId = foo.id, 
+                        Name = foo.name, 
+                        CategoryDiscount = new FoodCategoryDiscountBo
+                        {
+                            DiscountAmount = (float)foo.discount_percent
+                        }
+                    });
+            }
+            return CategoryList;
         }
 
         public void Create(FoodBo foodBo)

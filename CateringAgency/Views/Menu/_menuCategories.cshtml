@@ -1,0 +1,57 @@
+﻿@model IEnumerable<CateringAgency.Domain.FoodCategoryBo>
+
+@{
+    String listItemClass = "list-group-item list-group-item-action";
+    String listItemActiveClass = "list-group-item list-group-item-action active";
+    int selectedCategoryId = 0;
+    /*
+    if (this.Request.QueryString["id"] != null)
+    {
+        selectedCategoryId = Int32.Parse(this.Request.QueryString["id"]);
+    }
+    */
+    /*
+    if (ViewBag.selectedCategoryId != null)
+    {
+        selectedCategoryId = ViewBag.selectedCategoryId;
+    }*/
+    if (TempData.ContainsKey("selectedCategoryId"))
+    {
+        selectedCategoryId = (int)TempData["selectedCategoryId"];
+    }
+}
+
+
+<div class="col-12 d-flex flex-column flex-shrink-0 p-3 text-dark bg-light" style="width: 280px;">
+    <span class="fs-4 px-5">Meni</span>
+    <hr>
+    <div class="list-group">
+        @if (selectedCategoryId == 0)
+        {
+            @Html.ActionLink("Sva jela", "Index", "Menu", null, new { @class = listItemActiveClass })
+        }
+        else
+        {
+            @Html.ActionLink("Sva jela", "Index", "Menu", null, new { @class = listItemClass })
+        }
+        @foreach (var categoryItem in Model)
+        {
+            if (categoryItem.FoodCategoryId == selectedCategoryId)
+            {
+                @Html.ActionLink(categoryItem.Name, // Link name
+               "Index", // Action name
+               "Menu", // Controller name
+               new { id = categoryItem.FoodCategoryId }, // Route values
+               new { @class = listItemActiveClass }) // htmlArguments
+            }
+            else
+            {
+                @Html.ActionLink(categoryItem.Name,
+               "Index",
+               "Menu",
+               new { id = categoryItem.FoodCategoryId },
+               new { @class = listItemClass })
+            }
+        }
+    </div>
+</div>

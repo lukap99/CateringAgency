@@ -17,10 +17,11 @@
             <ul class="navbar-nav ms-auto">
                 <!-- ms auto is to right align the navbar items -->
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.jsp">Home</a>
+                    @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
+                    <!--<a class="nav-link active" aria-current="page" href="index.jsp">Home</a>-->
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="Menu">Menu</a>
+                    @Html.ActionLink("Menu","Index","Menu", null, new {@class = "nav-link"} )
                 </li>
 
                 <li class="nav-item">
@@ -40,8 +41,8 @@
                         Login/Register
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="login.jsp">Login</a></li>
-                        <li><a class="dropdown-item" href="Register">Register</a></li>
+                        <li>@Html.ActionLink("Login", "Login", "Account", null, new { @class = "dropdown-item" })</li>
+                        <li>@Html.ActionLink("Register", "Register", "Account", null, new { @class = "dropdown-item" })</li>
                     </ul>
                 </li>
             </ul>

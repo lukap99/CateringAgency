@@ -36,6 +36,8 @@ namespace CateringAgency.Models.EntityFramework
 
         public void Create(UserBo userBo)
         {
+            if (IsValid(userBo)) return;
+
             user userM = new user
             {
                 id = userBo.UserId,
@@ -43,6 +45,7 @@ namespace CateringAgency.Models.EntityFramework
                 email = userBo.Email,
                 firstname = userBo.FirstName,
                 lastname = userBo.LastName,
+                password = userBo.Password,
                 role_id = userBo.Role.RoleId,
                 points = userBo.Points
             };
@@ -51,10 +54,11 @@ namespace CateringAgency.Models.EntityFramework
             {
                 cateringEntities.users.Add(userM);
                 cateringEntities.SaveChanges();
+                Console.WriteLine("User succesfully added");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
+                Console.WriteLine("Error in UserRepository.Create(UserBo userbo): " + ex.Message);
             }
         }
 
@@ -148,6 +152,31 @@ namespace CateringAgency.Models.EntityFramework
                 userBoList.Add(UserMap(userItem));
             }
             return userBoList;
+        }
+
+        public UserBo GetUser(UserBo userBo)
+        {
+            UserBo user = UserMap(cateringEntities.users.First(t => t.email == userBo.Email));
+            return user;
+
+        }
+
+        public bool IsValid(UserBo userBo)
+        {
+            bool isValid = cateringEntities.users.Any(t => t.email == userBo.Email && t.password == userBo.Password);
+            return isValid;
+        }
+
+        public string GetUserRole(string username)
+        {
+            user userModel = cateringEntities.users.FirstOrDefault(t => t.username == username);
+            return userModel?.role.role_name;
+        }
+
+        public string GetUSerRole(string email)
+        {
+            user userModel = cateringEntities.users.FirstOrDefault(t => t.email == email);
+            return userModel?.role.role_name;
         }
     }
 }

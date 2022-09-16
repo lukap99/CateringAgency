@@ -6,30 +6,30 @@
     <edmx:Diagrams>
       <Diagram DiagramId="9d2e0928519545098cf8f250d4056f5f" Name="Diagram1" ZoomLevel="82">
         <EntityTypeShape EntityType="CateringAgencyModel.combo_menu" Width="1.5" PointX="5.25" PointY="7.75" />
-        <EntityTypeShape EntityType="CateringAgencyModel.combo_menu_item" Width="1.5" PointX="10.5" PointY="10" />
-        <EntityTypeShape EntityType="CateringAgencyModel.delivery_method" Width="1.5" PointX="3" PointY="11.625" />
-        <EntityTypeShape EntityType="CateringAgencyModel.food" Width="1.5" PointX="8.25" PointY="11.25" />
-        <EntityTypeShape EntityType="CateringAgencyModel.food_category" Width="1.5" PointX="6" PointY="12" />
+        <EntityTypeShape EntityType="CateringAgencyModel.combo_menu_item" Width="1.5" PointX="10.5" PointY="7.75" />
+        <EntityTypeShape EntityType="CateringAgencyModel.delivery_method" Width="1.5" PointX="3" PointY="8.5" />
+        <EntityTypeShape EntityType="CateringAgencyModel.food" Width="1.5" PointX="8.25" PointY="7.375" />
+        <EntityTypeShape EntityType="CateringAgencyModel.food_category" Width="1.5" PointX="10.75" PointY="10.75" />
         <EntityTypeShape EntityType="CateringAgencyModel.order" Width="1.5" PointX="5.25" PointY="1.75" />
         <EntityTypeShape EntityType="CateringAgencyModel.order_combo_item" Width="1.5" PointX="7.5" PointY="2.625" />
-        <EntityTypeShape EntityType="CateringAgencyModel.order_discount" Width="1.5" PointX="3" PointY="6.625" />
+        <EntityTypeShape EntityType="CateringAgencyModel.order_discount" Width="1.5" PointX="3" PointY="11.125" />
         <EntityTypeShape EntityType="CateringAgencyModel.order_food_item" Width="1.5" PointX="10.5" PointY="2.625" />
-        <EntityTypeShape EntityType="CateringAgencyModel.payment_method" Width="1.5" PointX="3" PointY="9.25" />
+        <EntityTypeShape EntityType="CateringAgencyModel.payment_method" Width="1.5" PointX="3" PointY="6.125" />
         <EntityTypeShape EntityType="CateringAgencyModel.role" Width="1.5" PointX="0.75" PointY="3" />
-        <EntityTypeShape EntityType="CateringAgencyModel.sysdiagram" Width="1.5" PointX="7.75" PointY="6.75" />
-        <EntityTypeShape EntityType="CateringAgencyModel.user" Width="1.5" PointX="3" PointY="2.5" />
-        <AssociationConnector Association="CateringAgencyModel.FK__order_com__combo__7F2BE32F" />
+        <EntityTypeShape EntityType="CateringAgencyModel.sysdiagram" Width="1.5" PointX="5.75" PointY="11.75" />
+        <EntityTypeShape EntityType="CateringAgencyModel.user" Width="1.5" PointX="3" PointY="2.375" />
+        <AssociationConnector Association="CateringAgencyModel.FK__order_com__combo__4AB81AF0" />
         <AssociationConnector Association="CateringAgencyModel.FK_combo_menu_item_combo_menu" />
         <AssociationConnector Association="CateringAgencyModel.FK_combo_menu_item_food" />
         <AssociationConnector Association="CateringAgencyModel.FK_order_delivery_method" />
-        <AssociationConnector Association="CateringAgencyModel.FK__order_foo__food___7B5B524B" />
-        <AssociationConnector Association="CateringAgencyModel.FK_food_food_category" />
+        <AssociationConnector Association="CateringAgencyModel.FK__order_foo__food___4CA06362" />
         <AssociationConnector Association="CateringAgencyModel.FK_order_discount" />
         <AssociationConnector Association="CateringAgencyModel.FK_order_payment_method" />
         <AssociationConnector Association="CateringAgencyModel.FK_order_user" />
         <AssociationConnector Association="CateringAgencyModel.FK_orderComboItem_order" />
         <AssociationConnector Association="CateringAgencyModel.FK_orderFoodItem_order" />
         <AssociationConnector Association="CateringAgencyModel.FK_user_role" />
+        <AssociationConnector Association="CateringAgencyModel.FK__food__food_categ__60A75C0F" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

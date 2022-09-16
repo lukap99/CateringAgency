@@ -128,8 +128,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -296,14 +301,23 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\_navbarCustomer.cshtml" />
+    <Content Include="Views\Shared\_navbarUser.cshtml" />
     <Content Include="Views\Shared\_navbarNoUser.cshtml" />
     <Content Include="Views\Shared\_navbarManager.cshtml" />
     <Content Include="Views\Shared\_navbarAdmin.cshtml" />
-    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Menu\_menuCategories.cshtml" />
+    <Content Include="Views\Menu\_menuItem.cshtml" />
+    <Content Include="Views\Menu\Index.cshtml" />
+    <Content Include="Views\Shared\_MenuLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Cart\" />
+    <Folder Include="Views\Checkout\" />
+    <Folder Include="Views\Order\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

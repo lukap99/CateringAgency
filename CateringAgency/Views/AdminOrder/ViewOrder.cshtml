@@ -1,0 +1,64 @@
+﻿@model CateringAgency.Domain.OrderBo
+
+@{
+    ViewBag.Title = "View user Oder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Checkout -->
+
+<div class="container col-xxl-4 px-4 py-3">
+    <div class="row px-0 py-0">
+
+        <!-- Card start -->
+        <div class="card mb-2 px-0 py-0">
+            <div class="row g-0 d-flex align-items-center">
+
+                <div class="col-lg">
+
+                    <div class="card-body py-4 px-md-5">
+                        <fieldset>
+                            <legend>
+                                <h4>Order - @Model.User.FirstName @Model.User.LastName</h4>
+                                <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                                <h5>Created: <span class="text-muted">@Model.DateCreated.ToLongDateString()</span></h5>
+                                @if (Model.IsComplete)
+                                {
+                                    <h5>Completed: <span class="text-muted">@Model.DateCompleted.Value.ToLongTimeString()</span></h5>
+                                }
+                                <h5>Shipping: <span class="text-muted">@Model.DeliveryMethod.Name</span></h5>
+                                <h5>Location: <span class="text-muted">@Model.DeliveryLocation</span></h5>
+                                <h5>Discount: <span class="text-muted">@Model.OrderDiscount.Name</span> </h5>
+
+                                <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+
+                                <!-- Cart items -->
+                                <ol>
+                                    @foreach (var item in Model.OrderItems)
+                                    {
+                                        <li style="font-size: 0.9em;"><i>@item.Name</i> × @item.Amount - <span class="text-success">@item.SellingPriceString RSD</span></li>
+                                    }
+                                </ol>
+
+                                <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+
+                                <h4><b>Total: </b><span class="text-success">@Model.BuyingPriceString RSD</span></h4>
+                            </legend>
+
+                            @if (Model.IsComplete != true)
+                            {
+                                @Html.ActionLink("Complete order", "CompleteOrder", "AdminOrder", new { id = Model.OrderId }, new { @class = "btn btn-success" })
+                                @Html.ActionLink("Cancel order", "CancelOrder", "AdminOrder", new { id = Model.OrderId }, new { @class = "btn btn-danger" })
+                            }
+                            @Html.ActionLink("Back", "Index", "AdminOrder", new { id = Model.User.UserId }, new { @class = "btn btn-outline-primary" })
+                        </fieldset>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+

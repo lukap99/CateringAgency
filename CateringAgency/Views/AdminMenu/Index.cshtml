@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CateringAgency.Domain.FoodBo>
+@{
+    ViewBag.Title = "Admin menu";
+    Layout = "~/Views/Shared/_MenuLayout.cshtml";
+
+    int selectedCategoryId = 0;
+
+    if (ViewBag.selectedCategoryId != null)
+    {
+        selectedCategoryId = (int)ViewBag.selectedCategoryId;
+    }
+}
+
+<div class="container bg-light px-5">
+    <div class="row">
+
+        <!-- Sidebar -->
+        @{ Html.RenderAction("AdminMenuCategories", "AdminMenu", new { selectedCategoryId = selectedCategoryId }); }
+
+        <div class="col py-3">
+
+            <!-- Menu items -->
+            @foreach (var foodItem in Model)
+            {
+                foodItem.CalculatePrice();
+                Html.RenderPartial("_adminMenuItem", foodItem);
+            }
+
+        </div>
+
+    </div>
+</div>
+

@@ -1,0 +1,56 @@
+﻿@model CateringAgency.Domain.FoodBo
+
+<div class="card mb-2">
+
+        <div class="row align-items-center">
+
+            <div class="col-2">
+                <img src="~/Images/ketering-main-page.jpg" alt="@Model.Name" style="max-width: 100%; height: auto; margin: 10px" />
+            </div>
+
+            <div class="col-3">
+                <div class="card-body" style="word-wrap: break-word;">
+                    <h5 class="card-title">
+                        @Model.Name
+                        @if (Model.Discount.IsValid)
+                        {
+                            <br><span class="text-warning">(@Model.Discount.DiscountAmount.ToString()% OFF!)</span>
+                        }
+                    </h5>
+                    @if (Model.Ingredients != null)
+                    {
+                        <p class="text-muted">
+                            @Model.Ingredients.ToString()
+                        </p>
+                    }
+                </div>
+            </div>
+
+            <div class="col text-center">
+                <h6>
+                    Category
+                    @if (Model.FoodCategory.CategoryDiscount.IsValid)
+                    {
+                        <br>
+                        <span class="text-warning">(@Model.FoodCategory.CategoryDiscount.DiscountAmount.ToString()% OFF!)</span>
+                    }
+                </h6>
+                <p class="text-muted">@Model.FoodCategory.Name.ToString()</p>
+                <p><b>Quantity: </b>@Model.UnitOfMeasurement.ToString()</p>
+            </div>
+
+            <div class="col text-center">
+
+                <h5>Base price</h5>
+                <h5 class="text-primary">@Model.BasePriceString RSD</h5>
+                <h5>Selling price</h5>
+                <h4 class="text-primary"><b>@Model.SellingPriceString RSD</b></h4>
+            </div>
+
+            <div class="col d-grid gap-2 p-5">
+                <a class="btn btn-success" href="@Url.Action("EditFood", "AdminMenu", new { foodId = Model.FoodId })"><i class="bi bi-pencil-square"> Edit item</i></a>
+                <a class="btn btn-danger" href="@Url.Action("DeleteFood", "AdminMenu", new { foodId = Model.FoodId })"><i class="bi bi-trash-fill"> Delete item</i></a>
+            </div>
+
+        </div>
+</div>

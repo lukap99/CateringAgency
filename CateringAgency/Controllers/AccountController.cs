@@ -24,17 +24,21 @@ namespace CateringAgency.Controllers
             return View();
         }
         
-        [HttpPost, ActionName("LoginUser")]
+        [HttpPost]
         public ActionResult Login(UserBo user)
         {
             if (userRepository.IsValid(user))
             {
                 UserBo userBo = userRepository.GetUser(user);
                 FormsAuthentication.SetAuthCookie(user.Username, false);
+                Session["UserId"] = userBo.UserId;
                 Session["Firstname"] = userBo.FirstName;
                 Session["Lastname"] = userBo.LastName;
                 Session["Role"] = userBo.Role.RoleName;
-                Session["Cart"] = new CartBo(userBo);
+
+                CartBo newCart = new CartBo(userBo);
+                Session["Cart"] = newCart;
+                Session["CartItemsCount"] = newCart.CartItems.Count;
                 return RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError("", "Netacan username ili password");
@@ -84,6 +88,7 @@ namespace CateringAgency.Controllers
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            Session.Contents.RemoveAll();
             return RedirectToAction("Index", "Home");
         }
     }

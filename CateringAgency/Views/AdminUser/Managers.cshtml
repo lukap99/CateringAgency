@@ -1,0 +1,48 @@
+﻿@model IEnumerable<CateringAgency.Domain.UserBo>
+
+@{
+    ViewBag.Title = "View registered users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 1;
+    int managersCount = Model.ToList().Count;
+}
+
+<main class="flex-fill">
+    <div class="container col-xxl-8 px-4 py-5">
+        @if (managersCount > 0)
+        {
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col" class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@i</th> @{ i++; }
+                            <td>@item.FirstName @item.LastName</td>
+                            <td>@item.Username</td>
+                            <td>@item.Email</td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    <a href="@Url.Action("EditManager", "AdminUser", new { id = item.UserId })" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"> Edit manager</i></a>
+                                    <a href="@Url.Action("DeleteManager", "AdminUser", new { id = item.UserId })" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"> Delete manager</i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h2>No registered managers</h2>
+        }
+    </div>
+</main>

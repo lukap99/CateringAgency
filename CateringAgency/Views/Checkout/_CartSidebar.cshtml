@@ -1,0 +1,103 @@
+﻿@model CateringAgency.Domain.CartBo
+
+@{
+    ViewBag.Title = "_CartSidebar";
+    Model.CalculatePrice();
+    Model.CalculatePoints();
+}
+
+<!-- Sidebar -->
+<div class="col-md-12 col-12 pt-3" style="width: 280px;">
+
+    <div class="card">
+
+        <div class="card-header py-3">
+            <h5 class="mb-0">Summary</h5>
+        </div>
+
+        <div class="card-body">
+
+            <!-- form -->
+                @using (Html.BeginForm("CheckoutReview", "Checkout", FormMethod.Post))
+                { 
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex flex-column align-items-left border-0 px-0 pb-0">
+                        <p>Nacin placanja</p>
+                        @Html.DropDownListFor(model => model.PaymentMethod.PaymentMethodId,
+                        new List<SelectListItem>
+                        {
+                           new SelectListItem{Text="Cash", Value="1", Selected=true },
+                           new SelectListItem{Text="Credit", Value="2" },
+                           new SelectListItem{Text="Check", Value="3" }
+                        }, htmlAttributes: new { @class = "form-select" })
+                    </li>
+
+                    <li class="list-group-item d-flex flex-column align-items-left border-0 px-0 pb-0">
+                        <p>Delivery address</p>
+                        @Html.EditorFor(model => model.DeliveryLocation, new { htmlAttributes = new { @class = "form-control" } })
+                    </li>
+
+                    <li class="list-group-item d-flex flex-column align-items-left border-0 px-0 pb-0">
+                        <p>Shipping</p>
+                        @Html.DropDownListFor(model => model.DeliveryMethod.DeliveryMethodId,
+                       new List<SelectListItem>
+                       {
+                           new SelectListItem{Text="Preuzimanje", Value="1", Selected=true },
+                           new SelectListItem{Text="Dostava", Value="2" }
+                       }, htmlAttributes: new { @class = "form-select" })
+                    </li>
+
+                    <li class="list-group-item d-flex flex-column align-items-left border-0 px-0 pb-0">
+                        <p>Popust</p>
+                        @{ Html.RenderAction("OrderDiscountOptions", "Checkout", new { UserPoints = Model.User.Points }); }
+
+                    </li>
+
+                    <hr style="height:2px;border-width:0;color:gray;background-color:gray" />
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                        <div>
+                            <strong>Total</strong>
+                        </div>
+                        <span class="text-muted"><strong>@Model.BuyingPrice RSD</strong></span>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                        <div>
+                            <strong>Points earned</strong>
+                        </div>
+                        <span class="text-muted"><strong>@Model.PointsDifference points</strong></span>
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                        <div>
+                            <strong>Your points</strong>
+                        </div>
+                        <span class="text-muted"><strong>@(Model?.User?.Points ?? 0) points</strong></span>
+                    </li>
+                 </ul>
+
+
+                if (User.Identity.IsAuthenticated != true || Model.CartItems.Count() == 0)
+                {
+                    <input type="submit" value="Checkout" class="btn btn-primary btn-lg btn-block mb-3" style="width: 100%;" disabled>
+                }
+                else
+                {
+                    <input type="submit" value="Checkout" class="btn btn-primary btn-lg btn-block mb-3" style="width: 100%;">
+                }
+                }
+
+            @if (Model.CartItems.Count > 0)
+            {
+            @Html.ActionLink("Empty cart",
+                "EmptyCart",
+                "Checkout",
+                null, // Route values NONE
+                new { @class = "btn btn-outline-danger btn-lg btn-block", @style = "width: 100%" });
+            }
+
+        </div>
+    </div>
+</div>
+

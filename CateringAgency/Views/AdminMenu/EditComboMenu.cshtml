@@ -1,0 +1,203 @@
+﻿@model CateringAgency.Domain.ComboMenuBo
+
+@{
+    ViewBag.Title = "Edit combo menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    float suggestedPrice = Model.SuggestedPrice();
+    Model.CalculatePrice();
+
+    // All food items
+    List<SelectListItem> foodItemsList = new List<SelectListItem>();
+    if (ViewBag.foodItems != null)
+    {
+        var foodItems = ViewBag.foodItems;
+
+        foreach (CateringAgency.Domain.FoodBo item in foodItems)
+        {
+            foodItemsList.Add(new SelectListItem { Text = item.Name, Value = item.FoodId.ToString() });
+        }
+    }
+
+    // Combo menu items
+    List<SelectListItem> comboMenuFoodItemsList = new List<SelectListItem>();
+    if (ViewBag.comboFoodItems != null)
+    {
+        var foodItems = ViewBag.comboFoodItems;
+
+        foreach (CateringAgency.Domain.FoodBo item in foodItems)
+        {
+            comboMenuFoodItemsList.Add(new SelectListItem { Text = item.Name, Value = item.FoodId.ToString() });
+        }
+    }
+}
+
+<!-- Create combo item -->
+<div class="container col-xxl-4 px-4 py-3">
+    <div class="row px-0 py-0">
+
+        <!-- Card start -->
+        <div class="card mb-2 px-0">
+
+            <div class="row">
+                <img src="~/Images/combo_menu_create_header.png">
+            </div>
+
+            <div class="row g-0 d-flex align-items-center">
+                <div class="col-lg">
+
+                    <div class="card-body py-4 px-md-5">
+
+                        @using (Html.BeginForm("EditComboMenuDetails", "AdminMenu", FormMethod.Post))
+                        {
+                            @Html.HiddenFor(t => t.ComboMenuId)
+
+                            <h4>Edit combo item</h4>
+
+                            <hr style="height:2px;border-width:0;color:gray;background-color:gray" />
+
+                            <h5>Name: <span class="text-primary">@Model.Name</span></h5>
+                            <h5>Base price: <span class="text-primary">@Model.BasePriceString RSD</span></h5>
+                            <h5>Selling price: <span class="text-primary">@Model.SellingPriceString RSD</span> <span class="text-warning">(@Model.DiscountAmount% Discount)</span></h5>
+                            <h5>Suggested price: <span class="text-primary">@String.Format("{0:0,0.00}", suggestedPrice) RSD</span></h5>
+
+                            <div class="mb-3">
+                                @Html.ValidationSummary(true, "Error summary:", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="mb-3">
+                                <!-- Combo Item name -->
+                                <div class="col">
+                                    @Html.LabelFor(model => model.Name, new { @class = "form-label" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control w-75" } })
+                                </div>
+                            </div>
+
+                            <!-- Price -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.BasePrice, new { @class = "form-label" })
+                                @Html.ValidationMessageFor(model => model.BasePrice, "", new { @class = "text-danger" })
+                                <div class="input-group" style="max-width: 40%;">
+                                    @Html.EditorFor(model => model.BasePrice, new { htmlAttributes = new { @type = "number", @min = "1", @Value = Model.BasePrice, @class = "form-control" } })
+                                    <span class="input-group-text">RSD</span>
+                                </div>
+                            </div>
+
+                            <!-- Discount -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.DiscountAmount, new { @class = "form-label" })
+                                @Html.ValidationMessageFor(model => model.DiscountAmount, "", new { @class = "text-danger" })
+                                <div class="input-group" style="max-width: 40%;">
+                                    @Html.EditorFor(model => model.DiscountAmount, new { htmlAttributes = new { @min = "0", @max = "100", @Value = Model.DiscountAmount, @type = "number", @class = "form-control" } })
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+
+                            <!-- Is visible -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.IsVisible, new { @class = "form-check-label" })
+                                @Html.ValidationMessageFor(model => model.IsVisible, "", new { @class = "text-danger" })
+                                <br />
+                                @Html.EditorFor(model => model.IsVisible, new { htmlAttributes = new { @class = "form-check-input" } })
+                            </div>
+
+                            <!-- submit -->
+                            <input type="submit" name="Submit" value="Edit details" id="editFoodItem" class="btn btn-success">
+                            <a href="@Url.Action("DeleteComboMenu", "AdminMenu", new { id = Model.ComboMenuId }) " class="btn btn-danger"><i class="bi bi-trash-fill"> Delete</i></a>
+                            <a href="@Url.Action("Index", "AdminMenu") " class="btn btn-primary">Back</a>
+                        }
+
+                        <!-- ---------------------- -->
+                        <!-- ADD ITEM TO COMBO MENU -->
+                        <!-- ---------------------- -->
+                        <hr style="height:3px;border-width:0;color:gray;background-color:gray" />
+
+                        <h5>Add item to combo menu</h5>
+
+                        @using (Html.BeginForm("AddItemToComboMenu", "AdminMenu", FormMethod.Post))
+                        {
+                            @Html.Hidden("comboMenuId", Model.ComboMenuId)
+
+                            <div class="mb-3">
+                                @Html.Label("foodId", "Food", new { @class = "form-label" })
+                                <input type="text" onkeyup="filter()" id="foodSearch" class="form-control w-50 mb-3" size="4" placeholder="Food search" />
+                                @Html.DropDownList("foodId", foodItemsList, htmlAttributes: new { @class = "form-select", @id = "selectFood" })
+                            </div>
+
+                            <!-- Amount -->
+                            <div class="mb-3">
+                                @Html.Label("amount", "Amount", new { @class = "form-labe" })
+                                @Html.TextBox("amount", 1, new { @type = "number", @min = "1", @class = "form-control w-25", @id = "amount" })
+                            </div>
+
+                            <input type="submit" name="Submit" value="Add item" id="addFoodItem" class="btn btn-success">
+                        }
+
+                        <!-- --------------------------- -->
+                        <!-- EDIT COMBO MENU ITEM AMOUNT -->
+                        <!-- --------------------------- -->
+                        <hr style="height:2px;border-width:0;color:gray;background-color:gray" />
+
+                        <h5>Edit combo menu item amount</h5>
+
+                        @using (Html.BeginForm("EditComboMenuItemAmount", "AdminMenu", FormMethod.Post))
+                        {
+                            @Html.Hidden("comboMenuId", Model.ComboMenuId)
+                            <!-- Combo item -->
+                            <div class="mb-3">
+                                @Html.Label("comboMenuItemId", "Combo item", new { @class = "form-label" })
+                                @Html.DropDownList("comboMenuItemId", comboMenuFoodItemsList, htmlAttributes: new { @class = "form-select", @id = "selectFood" })
+                            </div>
+
+                            <!-- Amount -->
+                            <div class="mb-3">
+                                @Html.Label("amount", "Amount", new { @class = "form-labe" })
+                                @Html.TextBox("amount", 1, new { @type = "number", @min = "1", @class = "form-control w-25", @id = "amount" })
+                            </div>
+
+                            <input type="submit" name="Submit" value="Change amount" id="editFoodItemAmount" class="btn btn-success">
+                        }
+
+                        <hr style="height:2px;border-width:0;color:gray;background-color:gray" />
+                        <ol>
+                            @foreach (var item in Model.ComboMenuItems)
+                            {
+                                <li style="font-size: 0.9em;">
+                                    @item.Name × @item.Amount - <span class="text-muted">@item.SellingPriceString RSD</span>
+                                </li>
+                            <a href="@Url.Action("DeleteComboMenuItem", "AdminMenu", new { comboMenuItemId = item.FoodId, comboMenuId = Model.ComboMenuId })" class="btn btn-danger btn-sm">
+                               <i class="bi bi-trash-fill"> Delete</i>
+                            </a>
+                            }
+                        </ol>
+
+                        </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Card end -->
+
+    </div>
+</div>
+
+@section Scripts 
+    {
+    <script type="text/javascript">
+
+        function filter() {
+            var keyword = document.getElementById("foodSearch").value;
+            var fleet = document.getElementById("selectFood");
+
+            for (var i = 0; i < fleet.length; i++) {
+                var txt = fleet.options[i].text;
+                if (txt.substring(0, keyword.length).toLowerCase() !== keyword.toLowerCase() && keyword.trim() !== "") {
+                    fleet.options[i].style.display = 'none';
+                } else {
+                    fleet.options[i].style.display = 'list-item';
+                }
+            }
+        }
+
+    </script>
+    }

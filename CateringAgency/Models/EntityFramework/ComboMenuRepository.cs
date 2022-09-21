@@ -30,13 +30,16 @@ namespace CateringAgency.Models.EntityFramework
                 ComboMenuId = comboModel.id,
                 Name = comboModel.name,
                 DiscountAmount = (float)comboModel.discount_percent,
-                IsVisible = comboModel.is_visible
+                IsVisible = comboModel.is_visible,
+                BasePrice = (float)comboModel.price
             };
 
+            // CASCADE DELETE setting on "food" table ensures that ComboMenuItems get deleted
+            // if the parent food item is deleted
             foreach (combo_menu_item comboMenuItem in comboModel.combo_menu_item)
             {
                 FoodBo foo_food = foodRepo.FoodMap(comboMenuItem.food);
-                foo_food.FoodId = comboMenuItem.id; // sets FOOD_ID to value of COMBO_MENU_ITEM_ID !! So you can delete
+                foo_food.FoodId = comboMenuItem.id; // sets FOOD_ID to value of COMBO_MENU_ITEM_ID !! Used for edits and deletion
                 foo_food.Amount = comboMenuItem.amount;
                 foo_food.FoodCategory.CategoryDiscount.DiscountAmount = 0; // items in combo menu do not get discounts applied to them
                 foo_food.Discount.DiscountAmount = 0;
@@ -70,11 +73,18 @@ namespace CateringAgency.Models.EntityFramework
 
         public ComboMenuBo GetComboMenu(int comboMenuId)
         {
-            combo_menu comboMenuModel = cateringEntities.combo_menu.FirstOrDefault(t => t.id == comboMenuId);
+            if (cateringEntities.combo_menu.Any(t=>t.id == comboMenuId))
+            {
+                combo_menu comboMenuModel = cateringEntities.combo_menu.FirstOrDefault(t => t.id == comboMenuId);
 
-            ComboMenuBo foo_combo = ComboMenuMap(comboMenuModel);
+                ComboMenuBo foo_combo = ComboMenuMap(comboMenuModel);
 
-            return foo_combo;
+                return foo_combo;
+            }
+            else
+            {
+                return new ComboMenuBo();
+            }
         }
 
         public void CreateComboMenu(ComboMenuBo comboMenuBo)
@@ -83,7 +93,8 @@ namespace CateringAgency.Models.EntityFramework
             {
                 name = comboMenuBo.Name,
                 discount_percent = comboMenuBo.DiscountAmount,
-                is_visible = comboMenuBo.IsVisible
+                is_visible = comboMenuBo.IsVisible,
+                price = comboMenuBo.BasePrice
             };
 
             try
@@ -96,13 +107,14 @@ namespace CateringAgency.Models.EntityFramework
                 Console.WriteLine("Error in ComboMenuRepository.CreateComboMenu(ComboMenuBo comboMenuBo): " + ex.Message);
             }
         }
-        public void CreateComboMenu(String name, float discountAmount, bool isVisible)
+        public void CreateComboMenu(String name, float price, float discountAmount, bool isVisible)
         {
             combo_menu comboMenuModel = new combo_menu
             {
                 name = name,
                 discount_percent = discountAmount,
-                is_visible = isVisible
+                is_visible = isVisible,
+                price = price
             };
 
             try
@@ -118,14 +130,15 @@ namespace CateringAgency.Models.EntityFramework
 
         public void EditComboMenu(ComboMenuBo comboMenuBo)
         {
-            combo_menu comboMenuModel = cateringEntities.combo_menu.FirstOrDefault(t => t.id == comboMenuBo.ComboMenuId);
-
-            comboMenuModel.name = comboMenuBo.Name;
-            comboMenuModel.discount_percent = comboMenuBo.DiscountAmount;
-            comboMenuModel.is_visible = comboMenuBo.IsVisible;
-
             try
             {
+                combo_menu comboMenuModel = cateringEntities.combo_menu.FirstOrDefault(t => t.id == comboMenuBo.ComboMenuId);
+
+                comboMenuModel.name = comboMenuBo.Name;
+                comboMenuModel.discount_percent = comboMenuBo.DiscountAmount;
+                comboMenuModel.is_visible = comboMenuBo.IsVisible;
+                comboMenuModel.price = comboMenuBo.BasePrice;
+
                 cateringEntities.SaveChanges();
             }
             catch (Exception ex)
@@ -133,16 +146,17 @@ namespace CateringAgency.Models.EntityFramework
                 Console.WriteLine("Error in ComboMenuRepository.EditComboMenu(ComboMenuBo comboMenuBo): " + ex.Message);
             }
         }
-        public void EditComboMenu(int comboMenuId, String name, float discountAmount, bool isVisible)
+        public void EditComboMenu(int comboMenuId, String name, float price, float discountAmount, bool isVisible)
         {
-            combo_menu comboMenuModel = cateringEntities.combo_menu.FirstOrDefault(t => t.id == comboMenuId);
-
-            comboMenuModel.name = name;
-            comboMenuModel.discount_percent = discountAmount;
-            comboMenuModel.is_visible = isVisible;
-
             try
             {
+                combo_menu comboMenuModel = cateringEntities.combo_menu.FirstOrDefault(t => t.id == comboMenuId);
+
+                comboMenuModel.name = name;
+                comboMenuModel.discount_percent = discountAmount;
+                comboMenuModel.is_visible = isVisible;
+                comboMenuModel.price = price;
+
                 cateringEntities.SaveChanges();
             }
             catch (Exception ex)
@@ -153,10 +167,10 @@ namespace CateringAgency.Models.EntityFramework
 
         public void DeleteComboMenu(ComboMenuBo comboMenuBo)
         {
-            combo_menu comboMenuModel = cateringEntities.combo_menu.FirstOrDefault(t => t.id == comboMenuBo.ComboMenuId);
-
             try
             {
+                combo_menu comboMenuModel = cateringEntities.combo_menu.FirstOrDefault(t => t.id == comboMenuBo.ComboMenuId);
+
                 cateringEntities.combo_menu.Remove(comboMenuModel);
                 cateringEntities.SaveChanges();
             }
@@ -167,10 +181,10 @@ namespace CateringAgency.Models.EntityFramework
         }
         public void DeleteComboMenu(int comboMenuId)
         {
-            combo_menu comboMenuModel = cateringEntities.combo_menu.FirstOrDefault(t => t.id == comboMenuId);
-
             try
             {
+                combo_menu comboMenuModel = cateringEntities.combo_menu.FirstOrDefault(t => t.id == comboMenuId);
+
                 cateringEntities.combo_menu.Remove(comboMenuModel);
                 cateringEntities.SaveChanges();
             }
@@ -182,15 +196,15 @@ namespace CateringAgency.Models.EntityFramework
 
         public void AddComboMenuItem(FoodBo foodBo, int comboMenuId)
         {
-            combo_menu_item comboMenuItemModel = new combo_menu_item
-            {
-                food_id = foodBo.FoodId,
-                amount = foodBo.Amount,
-                combo_menu_id = comboMenuId
-            };
-
             try
             {
+                combo_menu_item comboMenuItemModel = new combo_menu_item
+                {
+                    food_id = foodBo.FoodId,
+                    combo_menu_id = comboMenuId,
+                    amount = foodBo.Amount
+                };
+
                 cateringEntities.combo_menu_item.Add(comboMenuItemModel);
                 cateringEntities.SaveChanges();
             }
@@ -202,10 +216,10 @@ namespace CateringAgency.Models.EntityFramework
 
         public void DeleteComboMenuItem(int comboItemId)
         {
-            combo_menu_item comboMenuItemModel = cateringEntities.combo_menu_item.FirstOrDefault(t=>t.id == comboItemId);
-
             try
             {
+                combo_menu_item comboMenuItemModel = cateringEntities.combo_menu_item.FirstOrDefault(t => t.id == comboItemId);
+                
                 cateringEntities.combo_menu_item.Remove(comboMenuItemModel);
                 cateringEntities.SaveChanges();
             }
@@ -217,12 +231,11 @@ namespace CateringAgency.Models.EntityFramework
 
         public void EditComboMenuItemAmount(int comboItemId, int amount)
         {
-            combo_menu_item comboMenuItemModel = cateringEntities.combo_menu_item.FirstOrDefault(t => t.id == comboItemId);
-
-            comboMenuItemModel.amount = amount;
-
             try
             {
+                combo_menu_item comboMenuItemModel = cateringEntities.combo_menu_item.FirstOrDefault(t => t.id == comboItemId);
+                comboMenuItemModel.amount = amount;
+
                 cateringEntities.SaveChanges();
             }
             catch (Exception ex)
@@ -235,7 +248,7 @@ namespace CateringAgency.Models.EntityFramework
         {
             List<FoodBo> comboItemsList = new List<FoodBo>();
 
-            foreach (combo_menu_item comboMenuItem in cateringEntities.combo_menu_item.Where(t=>t.combo_menu_id == comboMenuId))
+            foreach (combo_menu_item comboMenuItem in cateringEntities.combo_menu_item.Where(t => t.combo_menu_id == comboMenuId))
             {
                 FoodBo foo_food = foodRepo.FoodMap(comboMenuItem.food);
                 foo_food.Amount = comboMenuItem.amount;
@@ -246,5 +259,18 @@ namespace CateringAgency.Models.EntityFramework
 
             return comboItemsList;
         }
+
+        public FoodBo GetComboMenuItem(int comboMenuItemId)
+        {
+            combo_menu_item foo = cateringEntities.combo_menu_item.FirstOrDefault(t => t.id == comboMenuItemId);
+
+            FoodBo foodBo = foodRepo.FoodMap(foo.food);
+            foodBo.Amount = foo.amount;
+            foodBo.FoodId = foo.id;
+            foodBo.IsVisible = true;
+
+            return foodBo;
+        }
+
     }
 }

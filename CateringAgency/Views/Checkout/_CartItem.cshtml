@@ -1,0 +1,41 @@
+﻿@model CateringAgency.Domain.FoodBo
+
+<div class="card mb-2">
+    <!-- Form -->
+    @using (Html.BeginForm("UpdateCartItem", "Checkout", FormMethod.Post))
+    {
+        <div class="row d-flex align-items-center align-middle no-gutters">
+
+            <div class="col-2">
+                <img src="~/Images/ketering-main-page.jpg" class="img-fluid">
+            </div>
+
+            <div class="col-3 align-middle">
+                @Html.HiddenFor(t => t.FoodId, new { Value = Model.FoodId })
+                <div class="col">
+                    <h5>@Model.FoodId . @Model.Name</h5>
+                    <span class="text-muted pb-0">
+                        @Model.BasePriceString RSD<br>
+                        @Model.FoodCategory.Name
+                    </span>
+                </div>
+            </div>
+
+            <div class="col text-center">
+                <h6>Quantity: @Model.Amount</h6>
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @min = "1", @Value = Model.Amount, @style = "width:50px;" }} )
+            </div>
+
+            <div class="col-auto text-center">
+                <h6>Price</h6>
+                <h5 class="text-secondary">@Model.SellingPriceString RSD</h5>
+            </div>
+
+            <div class="col text-center">
+                <button type="submit" class="btn btn-success"><i class="bi bi-pencil-square"> Edit</i></button>
+                <a href="@Url.Action("RemoveCartItem", "Checkout", new { FoodId = Model.FoodId })" class="btn btn-danger" role="button"><i class="bi bi-trash-fill"></i></a>
+            </div>
+        
+        </div>
+    }
+</div>

@@ -128,6 +128,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminMenuController.cs" />
+    <Compile Include="Controllers\AdminOrderController.cs" />
+    <Compile Include="Controllers\AdminUserController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -224,6 +227,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\combo_menu_create_header.png" />
     <Content Include="Images\create_header.jpg" />
     <Content Include="Images\ketering-logo-horizontal.png" />
     <Content Include="Images\ketering-logo-small.png" />
@@ -311,12 +315,36 @@
     <Content Include="Views\Menu\_menuItem.cshtml" />
     <Content Include="Views\Menu\Index.cshtml" />
     <Content Include="Views\Shared\_MenuLayout.cshtml" />
+    <Content Include="Views\Checkout\_CartItem.cshtml" />
+    <Content Include="Views\Checkout\_CartEmpty.cshtml" />
+    <Content Include="Views\Checkout\Index.cshtml" />
+    <Content Include="Views\Checkout\_CartSidebar.cshtml" />
+    <Content Include="Views\Checkout\_OrderDiscountOptions.cshtml" />
+    <Content Include="Views\Checkout\CheckoutReview.cshtml" />
+    <Content Include="Views\Order\MyOrders.cshtml" />
+    <Content Include="Views\Order\ViewOrder.cshtml" />
+    <Content Include="Views\AdminMenu\Index.cshtml" />
+    <Content Include="Views\AdminMenu\_adminMenuCategories.cshtml" />
+    <Content Include="Views\AdminMenu\_adminMenuItem.cshtml" />
+    <Content Include="Views\AdminMenu\CreateFood.cshtml" />
+    <Content Include="Views\AdminMenu\EditFood.cshtml" />
+    <Content Include="Views\AdminMenu\DeleteFood.cshtml" />
+    <Content Include="Views\AdminMenu\EditCategoryDiscount.cshtml" />
+    <Content Include="Views\AdminOrder\Index.cshtml" />
+    <Content Include="Views\AdminOrder\ViewOrder.cshtml" />
+    <Content Include="Views\AdminUser\Users.cshtml" />
+    <Content Include="Views\AdminUser\Managers.cshtml" />
+    <Content Include="Views\AdminUser\EditUser.cshtml" />
+    <Content Include="Views\AdminUser\EditManager.cshtml" />
+    <Content Include="Views\AdminUser\DeleteUser.cshtml" />
+    <Content Include="Views\AdminUser\DeleteManager.cshtml" />
+    <Content Include="Views\AdminUser\CreateManager.cshtml" />
+    <Content Include="Views\AdminMenu\CreateComboItem.cshtml" />
+    <Content Include="Views\AdminMenu\EditComboMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Cart\" />
-    <Folder Include="Views\Checkout\" />
-    <Folder Include="Views\Order\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>

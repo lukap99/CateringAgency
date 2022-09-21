@@ -8,7 +8,7 @@ namespace CateringAgency.Domain
 {
     public class OrderDiscountBo
     {
-        private int id = 1;
+        private int orderDiscountId = 1;
         private float discountAmount = 0;
         private string name = "No Discount";
         private int pointCost = 0;
@@ -20,13 +20,13 @@ namespace CateringAgency.Domain
 
         public OrderDiscountBo(int id, float discountAmount, string name, int pointCost)
         {
-            this.id = id;
+            this.orderDiscountId = id;
             DiscountAmount = discountAmount;
             this.name = name;
             PointCost = pointCost;
         }
 
-        public int Id { get => id; set => id = value; }
+        public int OrderDiscountId { get => orderDiscountId; set => orderDiscountId = value; }
         public float DiscountAmount
         {
             get => discountAmount;

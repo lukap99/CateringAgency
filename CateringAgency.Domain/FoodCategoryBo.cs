@@ -12,7 +12,7 @@ namespace CateringAgency.Domain
         private int foodCategoryId;
         private string name;
 
-        [ScaffoldColumn(false)]
+        [Display(Name = " Food Category")]
         public int FoodCategoryId { get => foodCategoryId; set => foodCategoryId = value; }
         [DataType(DataType.Text)]
         public string Name { get => name; set => name = value; }

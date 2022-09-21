@@ -13,6 +13,7 @@
           <Property Name="name" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="discount_percent" Type="float" Nullable="false" />
           <Property Name="is_visible" Type="bit" Nullable="false" />
+          <Property Name="price" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="combo_menu_item">
           <Key>
@@ -245,7 +246,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_orderComboItem_order">
-          <End Role="order" Type="Self.order" Multiplicity="0..1" />
+          <End Role="order" Type="Self.order" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="order_combo_item" Type="Self.order_combo_item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="order">
@@ -494,6 +497,7 @@
           <Property Name="is_visible" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="order_combo_item" Relationship="CateringAgencyModel.FK__order_com__combo__4AB81AF0" FromRole="combo_menu" ToRole="order_combo_item" />
           <NavigationProperty Name="combo_menu_item" Relationship="CateringAgencyModel.FK_combo_menu_item_combo_menu" FromRole="combo_menu" ToRole="combo_menu_item" />
+          <Property Name="price" Type="Double" Nullable="false" />
         </EntityType>
         <EntityType Name="combo_menu_item">
           <Key>
@@ -818,6 +822,7 @@
           <EntitySetMapping Name="combo_menu">
             <EntityTypeMapping TypeName="CateringAgencyModel.combo_menu">
               <MappingFragment StoreEntitySet="combo_menu">
+                <ScalarProperty Name="price" ColumnName="price" />
                 <ScalarProperty Name="is_visible" ColumnName="is_visible" />
                 <ScalarProperty Name="discount_percent" ColumnName="discount_percent" />
                 <ScalarProperty Name="name" ColumnName="name" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,22 +20,36 @@ namespace CateringAgency.Domain
         private float basePrice;
         private float sellingPrice;
 
-        private int amount = 1; // previous default = 1
-        private bool isVisible = false;
+        private int amount; // previous default = 1
+        private bool isVisible ;
+
+        private string imagePath;
         #endregion
 
         public FoodBo()
         {
-
+            amount = 1;
+            basePrice = 0;
+            sellingPrice = 0;
+            isVisible = false;
         }
 
         #region Properties
         public int FoodId { get => foodId; set => foodId = value; }
+
+        [Required]
         public string Name { get => name; set => name = value; }
+        [Display(Name = " Food category")]
         public FoodCategoryBo FoodCategory { get => foodCategory; set => foodCategory = value; }
         public FoodItemDiscountBo Discount { get => discount; set => discount = value; }
+
+        [Display(Name = " Unit of measurement")]
         public string UnitOfMeasurement { get => unitOfMeasurement; set => unitOfMeasurement = value; }
         public string Ingredients { get => ingredients; set => ingredients = value; }
+
+        [Range(1, float.MaxValue)]
+        [Display(Name = " Base price")]
+        [DataType(DataType.Currency)]
         public float BasePrice
         {
             get => basePrice;
@@ -44,6 +59,8 @@ namespace CateringAgency.Domain
         {
             get => String.Format("{0:0,0.00}", basePrice);
         }
+
+        [Display(Name = " Selling price")]
         public float SellingPrice
         { 
             get => sellingPrice;
@@ -65,7 +82,12 @@ namespace CateringAgency.Domain
                     amount = value;
             }
         }
+
+        [Display(Name = " Is visible")]
         public bool IsVisible { get => isVisible; set => isVisible = value; }
+
+        [Display(Name = " Image path")]
+        public string ImagePath { get => imagePath; set => imagePath = value; }
         #endregion
 
 
@@ -74,9 +96,10 @@ namespace CateringAgency.Domain
         // sellingPrice = basePrice * (1 - x * 1/100)(1 - y * 1/100)
         public void CalculatePrice()
         {
-            sellingPrice = basePrice * (1 - this.Discount.DiscountAmount * (1 / 100))
-                * (1 - this.FoodCategory.CategoryDiscount.DiscountAmount * (1 / 100));
-            sellingPrice *= amount;
+            sellingPrice = (
+                basePrice * ((100 - this.Discount.DiscountAmount) * 0.01f)
+                * ((100 - this.FoodCategory.CategoryDiscount.DiscountAmount) * 0.01f)
+                ) * amount;            ////(sum * ((100 - orderDiscount.DiscountAmount) * 0.01f) + deliveryMethod.Price)
         }
     }
 }

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<CateringAgency.Domain.OrderBo>
+
+@{
+    ViewBag.Title = "MyOrders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 1;
+}
+
+<div class="container col-xxl-12 px-4 py-5">
+
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Delivery</th>
+                <th scope="col">Address</th>
+                <th scope="col">Price</th>
+                <th scope="col">Discount</th>
+                <th scope="col">Completed</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@i</th>
+                    <td>@item.DateCreated.ToShortDateString()</td>
+                    <td>@item.DeliveryMethod.Name</td>
+                    <td>@item.DeliveryLocation</td>
+                    <td>@item.BasePriceString RSD</td>
+                    <td>@item.BuyingPriceString RSD (@item.OrderDiscount.DiscountAmount%)</td>
+                    @if (item.IsComplete)
+                    {
+                        <td>@item.DateCompleted.Value.ToShortDateString()</td>
+                    }
+                    else
+                    {
+                        <td>PENDING</td>
+                    }
+                    <td><a href="@Url.Action("ViewOrder","Order",new { orderId = item.OrderId })" class="btn btn-sm btn-outline-success">View Order</a></td>
+                </tr>
+                i++;
+            }
+    </table>
+
+</div>

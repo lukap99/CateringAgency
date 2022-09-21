@@ -14,22 +14,22 @@
             <ul class="navbar-nav ms-auto">
                 <!-- ms auto is to right align the navbar items -->
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.jsp">Home</a>
+                    @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="AdminMenu">
+                    <a class="nav-link" href="@Url.Action("Index", "AdminMenu")">
                         <i class="bi bi-card-list"></i>
                         Edit menu
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="ManagerOrder">
+                    <a class="nav-link" href="@Url.Action("Index","AdminOrder")">
                         <i class="bi bi-cash-stack"></i>
                         Orders
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="AdminUser">
+                    <a class="nav-link active" href="@Url.Action("Users","AdminUser")">
                         <i class="bi bi-file-person-fill"></i>
                         Manage customers
                     </a>
@@ -41,13 +41,13 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li>
-                            <a class="dropdown-item" href="AdminManager">
+                            <a class="dropdown-item" href="@Url.Action("Managers","AdminUser")">
                                 <i class="bi bi-person-lines-fill"></i>
                                 View managers
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="AdminManager?action=createManager">
+                            <a class="dropdown-item" href="@Url.Action("CreateManager","AdminUser")">
                                 <i class="bi bi-person-plus-fill"></i>
                                 Add new manager
                             </a>
@@ -58,7 +58,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-fill"></i>
-                        @Session["Firstname"].ToString() @Session["Lastname"].ToString();   
+                        @Session["Firstname"].ToString() @Session["Lastname"].ToString()   
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li>@Html.ActionLink("Log out", "Logout", "Account", null, new { @class = "dropdown-item" })</li>

@@ -1,0 +1,86 @@
+﻿@model CateringAgency.Domain.CartBo
+
+@{
+    ViewBag.Title = "CheckoutReview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Model.DeliveryLocation.IsEmpty())
+    {
+        Model.DeliveryLocation = "Preuzimanje";
+    }
+    Model.CalculatePrice();
+}
+
+
+<!-- Checkout -->
+
+<div class="container col-xxl-4 px-4 py-3">
+    <div class="row px-0 py-0">
+
+        <!-- Card start -->
+        <div class="card mb-2 px-0 py-0">
+            <div class="row g-0 d-flex align-items-center">
+
+                <div class="col-lg">
+
+                    <div class="card-body py-4 px-md-5">
+                        @using (Html.BeginForm("CreateOrder", "Checkout", FormMethod.Post))
+                        {
+                            <fieldset>
+                                <legend>
+                                    <h4>Checkout</h4>
+                                    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                                    <h5>Location: <span class="text-muted">@Model.DeliveryLocation</span></h5>
+                                    <h5>Discount: <span class="text-muted">@Model.OrderDiscount.Name</span> </h5>
+                                    @if (Model.PointsDifference >= 0)
+                                    {
+                                     <h5>Points earned: <span class="text-muted">@Model.PointsDifference</span></h5>
+                                    }
+                                    else
+                                    {
+                                     <h5>Points used: <span class="text-muted">@Model.PointsDifference</span></h5>
+                                    }
+
+                                    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+
+                                    <h5>Shipping: <span class="text-muted">@Model.DeliveryMethod.Name</span></h5>
+                                    <h5>Shipping cost: <span class="text-muted">@Model.DeliveryMethod.PriceString RSD</span> </h5>
+
+                                    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+
+                                    <!-- Cart items -->
+                                    <ol>
+                                        @foreach (var item in Model.CartItems)
+                                        {
+                                            <li style="font-size: 0.9em;">@item.Name × @item.Amount - <span class="text-muted">@item.SellingPriceString RSD</span></li>
+                                        }
+                                        @foreach (var item in Model.CartComboItems)
+                                        {
+                                            <li style="font-size: 0.9em;"><b>@item.Name</b> × @item.Amount - <span class="text-muted">@item.SellingPriceString RSD</span></li>
+                                        }
+                                    </ol>
+
+                                    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+
+                                    @if (Model.OrderDiscount.DiscountAmount > 0)
+                                    {
+                                        <h4>Subtotal: <span class="text-muted">@Model.BasePriceString RSD</span></h4>
+                                    }
+                                    <h4>Total: <span class="text-muted">@Model.BuyingPriceString RSD</span></h4>
+                                </legend>
+
+
+                                <!-- submit -->
+                                <input type="submit" class="btn btn-success" value="Checkout">
+                                @Html.ActionLink("Cancel", "Index", "Checkout", new { @class = "btn btn-outline-primary" })
+                            </fieldset>
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+

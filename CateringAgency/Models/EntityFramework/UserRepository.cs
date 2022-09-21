@@ -62,6 +62,62 @@ namespace CateringAgency.Models.EntityFramework
             }
         }
 
+        public void CreateUser(UserBo userBo)
+        {
+            if (IsValid(userBo)) return;
+
+            user userM = new user
+            {
+                id = userBo.UserId,
+                username = userBo.Username,
+                email = userBo.Email,
+                firstname = userBo.FirstName,
+                lastname = userBo.LastName,
+                password = userBo.Password,
+                role_id = 1,
+                points = userBo.Points
+            };
+
+            try
+            {
+                cateringEntities.users.Add(userM);
+                cateringEntities.SaveChanges();
+                Console.WriteLine("User succesfully added");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in UserRepository.Create(UserBo userbo): " + ex.Message);
+            }
+        }
+
+        public void CreateManager(UserBo userBo)
+        {
+            if (IsValid(userBo)) return;
+
+            user userM = new user
+            {
+                id = userBo.UserId,
+                username = userBo.Username,
+                email = userBo.Email,
+                firstname = userBo.FirstName,
+                lastname = userBo.LastName,
+                password = userBo.Password,
+                role_id = 2,
+                points = userBo.Points
+            };
+
+            try
+            {
+                cateringEntities.users.Add(userM);
+                cateringEntities.SaveChanges();
+                Console.WriteLine("Manager succesfully added");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in UserRepository.Create(UserBo userbo): " + ex.Message);
+            }
+        }
+
         public void Delete(UserBo userBo)
         {
             user userModel = cateringEntities.users.FirstOrDefault(t => t.id == userBo.UserId);
@@ -105,6 +161,7 @@ namespace CateringAgency.Models.EntityFramework
             userModel.email = userBo.Email;
             userModel.firstname = userBo.FirstName;
             userModel.lastname = userBo.LastName;
+            userModel.password = userBo.Password;
 
             try
             {
@@ -154,11 +211,15 @@ namespace CateringAgency.Models.EntityFramework
             return userBoList;
         }
 
+        public UserBo GetUser(int userId)
+        {
+            UserBo user = UserMap(cateringEntities.users.First(t => t.id == userId));
+            return user;
+        }
         public UserBo GetUser(UserBo userBo)
         {
             UserBo user = UserMap(cateringEntities.users.First(t => t.email == userBo.Email));
             return user;
-
         }
 
         public bool IsValid(UserBo userBo)

@@ -8,10 +8,11 @@ namespace CateringAgency.Domain
 {
     public class FoodCategoryDiscountBo
     {
-        float discountAmount = 0;
+        float discountAmount;
 
         public FoodCategoryDiscountBo()
         {
+            DiscountAmount = 0;
         }
         public FoodCategoryDiscountBo(float discountAmount)
         {

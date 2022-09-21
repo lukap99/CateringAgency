@@ -20,6 +20,7 @@ namespace CateringAgency.Domain
 
         private float basePrice = 0;
         private float buyingPrice = 0;
+
         private DeliveryMethodBo deliveryMethod;
         private PaymentMethodBo paymentMethod;
         private OrderDiscountBo orderDiscount;
@@ -78,11 +79,23 @@ namespace CateringAgency.Domain
         public List<FoodBo> OrderItems { get => orderItems; set => orderItems = value; }
         public List<ComboMenuBo> OrderComboItems { get => orderComboItems; set => orderComboItems = value; }
         public float BasePrice { get => basePrice; set => basePrice = value < 0 ? 0 : value; }
+        public string BasePriceString
+        {
+            get => String.Format("{0:0,0.00}", basePrice);
+        }
         public float BuyingPrice { get => buyingPrice; set => buyingPrice = value < 0 ? 0 : value; }
+        public string BuyingPriceString
+        {
+            get => String.Format("{0:0,0.00}", buyingPrice);
+        }
         public DeliveryMethodBo DeliveryMethod { get => deliveryMethod; set => deliveryMethod = value; }
         public PaymentMethodBo PaymentMethod { get => paymentMethod; set => paymentMethod = value; }
         public OrderDiscountBo OrderDiscount { get => orderDiscount; set => orderDiscount = value; }
         public bool IsComplete { get => isComplete; set => isComplete = value; }
+        public int ItemCount
+        {
+            get => (this.OrderItems.Count + this.OrderComboItems.Count);
+        }
         #endregion
 
         #region Methods
@@ -107,14 +120,16 @@ namespace CateringAgency.Domain
                 float sum = 0;
                 foreach (FoodBo item in orderItems)
                 {
+                    item.CalculatePrice();
                     sum += item.SellingPrice;
                 }
                 foreach (ComboMenuBo menu in orderComboItems)
                 {
+                    menu.CalculatePrice();
                     sum += menu.SellingPrice;
                 }
                 basePrice = sum;
-                buyingPrice = basePrice * (1 - orderDiscount.DiscountAmount * (1 / 100));
+                buyingPrice = (sum * ((100 - orderDiscount.DiscountAmount) * 0.01f) + deliveryMethod.Price);
             }
         }
         #endregion

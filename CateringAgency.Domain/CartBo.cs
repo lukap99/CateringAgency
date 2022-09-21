@@ -14,6 +14,7 @@ namespace CateringAgency.Domain
         private DateTime dateCreated;
         private DateTime dateCompleted;
         private string deliveryLocation = "Takeout";
+
         private List<FoodBo> cartItems;
         private List<ComboMenuBo> cartComboItems;
 
@@ -33,6 +34,7 @@ namespace CateringAgency.Domain
             user = new UserBo();
             dateCreated = DateTime.Now;
             cartItems = new List<FoodBo>();
+            cartComboItems = new List<ComboMenuBo>();
             deliveryMethod = new DeliveryMethodBo();
             paymentMethod = new PaymentMethodBo();
             orderDiscount = new OrderDiscountBo();
@@ -43,6 +45,7 @@ namespace CateringAgency.Domain
             user = userBo;
             dateCreated = DateTime.Now;
             cartItems = new List<FoodBo>();
+            cartComboItems = new List<ComboMenuBo>();
             deliveryMethod = new DeliveryMethodBo();
             paymentMethod = new PaymentMethodBo();
             orderDiscount = new OrderDiscountBo();
@@ -88,21 +91,34 @@ namespace CateringAgency.Domain
             get => basePrice;
             set => basePrice = value < 0 ? 0 : value;
         }
+        public string BasePriceString
+        {
+            get => String.Format("{0:0,0.00}", basePrice);
+        }
         public float BuyingPrice
         {
             get => buyingPrice;
             set => buyingPrice = value < 0 ? 0 : value;
+        }
+        public string BuyingPriceString
+        {
+            get => String.Format("{0:0,0.00}", buyingPrice);
         }
         public int PointsDifference
         {
             get => pointDifference;
             set => pointDifference = value;
         }
+        public int ItemCount
+        {
+            get => (this.CartItems.Count + this.CartComboItems.Count);
+        }
         public DeliveryMethodBo DeliveryMethod { get => deliveryMethod; set => deliveryMethod = value; }
         public PaymentMethodBo PaymentMethod { get => paymentMethod; set => paymentMethod = value; }
         public OrderDiscountBo OrderDiscount { get => orderDiscount; set => orderDiscount = value; }
         #endregion
 
+        // ----Methods----
         #region Methods
         public void CalculatePoints()
         {
@@ -112,10 +128,26 @@ namespace CateringAgency.Domain
                 pointDifference = 0 - this.orderDiscount.PointCost;
             }
         }
-        public void AddToCart(FoodBo foodBo)
+        public void AddToCart(FoodBo food)
         {
-            cartItems.Add(foodBo);
+            if (CartItems.Any(t=>t.FoodId == food.FoodId)) // if item already exists in list, just change the amount
+            {
+                CartItems.First(t => t.FoodId == food.FoodId).Amount = food.Amount;
+            }
+            else
+            {
+                cartItems.Add(food);
+            }
         }
+
+        public void UpdateItemAmount(int foodId, int amount)
+        {
+            if (CartItems.Any(t => t.FoodId == foodId)) // if item already exists in list, just change the amount
+            {
+                CartItems.FirstOrDefault(t => t.FoodId == foodId).Amount = amount;
+            }
+        }
+
         public void RemoveItemFromCart(int foodId)
         {
             cartItems.RemoveAt(cartItems.IndexOf(cartItems.Single(t => t.FoodId == foodId)));
@@ -127,10 +159,11 @@ namespace CateringAgency.Domain
         public void ClearCart()
         {
             cartItems.Clear();
+            cartComboItems.Clear();
         }
         public bool HasItems()
         {
-            if (cartItems.Count() > 0)
+            if (cartItems.Count() > 0 || cartComboItems.Count() > 0)
                 return true;
             else return false;
         }
@@ -150,7 +183,7 @@ namespace CateringAgency.Domain
                     sum += menu.SellingPrice;
                 }
                 basePrice = sum;
-                buyingPrice = basePrice * (1 - orderDiscount.DiscountAmount * (1 / 100)) + deliveryMethod.Price;
+                buyingPrice = (sum * ((100 - orderDiscount.DiscountAmount) * 0.01f) + deliveryMethod.Price);
             }
         }
         #endregion

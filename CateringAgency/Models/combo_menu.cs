@@ -25,6 +25,7 @@ namespace CateringAgency.Models
         public string name { get; set; }
         public double discount_percent { get; set; }
         public bool is_visible { get; set; }
+        public double price { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<order_combo_item> order_combo_item { get; set; }

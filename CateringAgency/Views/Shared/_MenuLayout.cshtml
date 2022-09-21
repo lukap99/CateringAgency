@@ -10,8 +10,30 @@
 </head>
 
 <body class="bg-light flex-column min-vh-100" style="width: 100vw;">
-
-    @{ Html.RenderPartial("_navbarNouser"); }
+    <!-- Navbar -->
+    @if (Session["Role"] != null)
+    {
+        String role = Session["Role"].ToString();
+        switch (role)
+        {
+            case "User":
+                Html.RenderPartial("_navbarUser");
+                break;
+            case "Manager":
+                Html.RenderPartial("_navbarManager");
+                break;
+            case "Admin":
+                Html.RenderPartial("_navbarAdmin");
+                break;
+            default:
+                Html.RenderPartial("_navbarNouser");
+                break;
+        }
+    }
+    else
+    {
+        Html.RenderPartial("_navbarNouser");
+    }
 
     @RenderBody()
 

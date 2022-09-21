@@ -15,6 +15,7 @@ namespace CateringAgency.Controllers
 
         public ActionResult Index(int? id)
         {
+
             if (id.HasValue != true || id <= 0)
             {
                 ViewBag.selectedCategoryId = 0;
@@ -45,9 +46,32 @@ namespace CateringAgency.Controllers
             return View();
         }
 
-        public ActionResult AddFoodToCart(int id)
+        [HttpPost]
+        public ActionResult AddToCart(int FoodId, int Amount)
         {
-            throw new NotImplementedException();
+            FoodBo newFood = foodRepo.GetFoodItem(FoodId);
+            newFood.Amount = Amount;
+            newFood.CalculatePrice();
+
+             // "as" returns NULL if typecast isn't succesful
+            if (Session["Cart"] != null)
+            {
+                CartBo cart = Session["Cart"] as CartBo;
+                cart.AddToCart(newFood);
+
+                Session["CartItemsCount"] = cart.CartItems.Count;
+                Session["Cart"] = cart;
+
+                return RedirectToAction("Index");
+            }
+            else // If cart doesn't exist in session
+            {
+                CartBo newCart = new CartBo();
+                Session["Cart"] = newCart;
+                Session["CartItemsCount"] = newCart.CartItems.Count;
+
+                return RedirectToAction("Index");
+            }
         }
     }
 }

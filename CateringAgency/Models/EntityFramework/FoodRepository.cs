@@ -40,6 +40,7 @@ namespace CateringAgency.Models.EntityFramework
                 BasePrice = (float)foodModel.price,
                 IsVisible = foodModel.is_visible
             };
+            foodBo.CalculatePrice();
             return foodBo;
         }
 
@@ -172,6 +173,7 @@ namespace CateringAgency.Models.EntityFramework
             foodModel.is_visible = foodBo.IsVisible;
             foodModel.ingredients = foodBo.Ingredients;
             foodModel.price = foodBo.BasePrice;
+            foodModel.discount_percent = foodBo.Discount.DiscountAmount;
 
             try
             {

@@ -1,4 +1,14 @@
-﻿<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom py-4">
+﻿@{
+    int numItemsIncart = 0;
+    if (Session["CartItemsCount"] != null)
+    {
+        numItemsIncart = Convert.ToInt32(Session["CartItemsCount"]);
+    }
+}
+
+<!-- No user -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom py-4">
+
     <div class="container px-5">
 
         <!-- Brand name -->
@@ -6,6 +16,7 @@
             <img src="~/Images/ketering-logo-small.png" style="height:50px;">
             Ketering
         </a>
+
         <!-- Dropdown for smaller window -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,20 +32,20 @@
                     <!--<a class="nav-link active" aria-current="page" href="index.jsp">Home</a>-->
                 </li>
                 <li class="nav-item">
-                    @Html.ActionLink("Menu","Index","Menu", null, new {@class = "nav-link"} )
+                    @Html.ActionLink("Menu", "Index", "Menu", null, new { @class = "nav-link" })
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="Cart">
-                        <!--
-                        <% if (numItemsInCart > 0) { %>
-                        <span class="badge rounded-pill bg-primary"><%= numItemsInCart %></span>
-                        <% } %>-->
+                    <a class="nav-link" href="@Url.Action("Index","Checkout")">
+                        @if (numItemsIncart > 0)
+                        {
+                            <span class="badge rounded-pill bg-primary">@numItemsIncart.ToString()</span>
+                        }
                         <i class="bi bi-cart "></i>
                         Cart
-
                     </a>
                 </li>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-fill"></i>
@@ -46,6 +57,7 @@
                     </ul>
                 </li>
             </ul>
+
         </div>
     </div>
 </nav>

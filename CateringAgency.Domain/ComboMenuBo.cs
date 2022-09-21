@@ -13,18 +13,25 @@ namespace CateringAgency.Domain
         private string name;
         private List<FoodBo> comboMenuItems;
 
-        private float basePrice = 0;
-        private float sellingPrice = 0;
+        private float basePrice;
+        private float sellingPrice;
 
-        private int amount = 1;
-        private float discountAmount = 0;
-        private bool isVisible = false;
+        private int amount;
+        private float discountAmount;
+        private bool isVisible;
         #endregion
 
         #region Constructors
         public ComboMenuBo()
         {
+            comboMenuItems = new List<FoodBo>();
+            basePrice = 0;
+            sellingPrice = 0;
 
+            amount = 1;
+            discountAmount = 0;
+
+            IsVisible = false;
         }
 
         public ComboMenuBo(int comboMenuId, string name, float discountAmount, bool isVisible, int amount)
@@ -40,11 +47,19 @@ namespace CateringAgency.Domain
         #region Properties
         public int ComboMenuId { get => comboMenuId; set => comboMenuId = value; }
         public string Name { get => name; set => name = value; }
-        internal List<FoodBo> ComboMenuItems { get => comboMenuItems; set => comboMenuItems = value; }
+        public List<FoodBo> ComboMenuItems { get => comboMenuItems; set => comboMenuItems = value; }
         public float BasePrice 
         { get => basePrice; set => basePrice = value; }
+        public string BasePriceString
+        {
+            get => String.Format("{0:0,0.00}", basePrice);
+        }
         public float SellingPrice 
         { get => sellingPrice; set => sellingPrice = value; }
+        public string SellingPriceString
+        {
+            get => String.Format("{0:0,0.00}", sellingPrice);
+        }
         public float DiscountAmount
         {
             get { return discountAmount; }
@@ -97,7 +112,14 @@ namespace CateringAgency.Domain
                 return true;
             else return false;
         }
+
         public void CalculatePrice()
+        {
+            SellingPrice = (basePrice * ((100 - this.discountAmount) * 0.01f)) * amount;
+            //(sum * ((100 - orderDiscount.DiscountAmount) * 0.01f) + deliveryMethod.Price)
+        }
+
+        public void CalculateSuggestedPrice()
         {
             if (comboMenuItems.Count > 0)
             {
@@ -108,8 +130,24 @@ namespace CateringAgency.Domain
                     sum += item.SellingPrice;
                 }
                 basePrice = sum;
-                SellingPrice = (basePrice * (1 - this.discountAmount * (1 / 100))) * amount;
+                SellingPrice = (sum * ((100 - this.discountAmount) * 0.01f)) * amount;
+                //(sum * ((100 - orderDiscount.DiscountAmount) * 0.01f) + deliveryMethod.Price)
             }
+        }
+
+        public float SuggestedPrice()
+        {
+
+            float sum = 0;
+            foreach (FoodBo item in comboMenuItems)
+            {
+                item.CalculatePrice();
+                sum += item.SellingPrice;
+            }
+            float foo_basePrice = sum;
+            float foo_SellingPrice = (sum * ((100 - this.discountAmount) * 0.01f)) * amount;
+
+            return foo_SellingPrice;
         }
         #endregion
     }

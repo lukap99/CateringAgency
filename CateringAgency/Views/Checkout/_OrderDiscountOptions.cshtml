@@ -1,0 +1,18 @@
+﻿@model CateringAgency.Domain.CartBo
+
+@{
+    int userPoints = ViewBag.points;
+    List<CateringAgency.Domain.OrderDiscountBo> discountList = ViewBag.discounts;
+
+    List<SelectListItem> discountOptionList = new List<SelectListItem>();
+    discountOptionList.Add(new SelectListItem { Value = "1", Text = "No discount (0%)", Selected = true });
+
+    foreach (CateringAgency.Domain.OrderDiscountBo item in discountList.Where(t => t.PointCost <= userPoints && t.OrderDiscountId > 1))
+    {
+        discountOptionList.Add(new SelectListItem { Value = item.OrderDiscountId.ToString(), Text = item.Name });
+    }
+}
+
+@Html.DropDownListFor(model => model.OrderDiscount.OrderDiscountId,
+discountOptionList,
+htmlAttributes: new { @class = "form-select" })

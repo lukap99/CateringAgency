@@ -1,0 +1,51 @@
+﻿@model IEnumerable<CateringAgency.Domain.UserBo>
+
+@{
+    ViewBag.Title = "View registered users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 1;
+    int usersCount = Model.ToList().Count;
+}
+
+<main class="flex-fill">
+    <div class="container col-xxl-8 px-4 py-5">
+        @if (usersCount > 0)
+        {
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Broj poena</th>
+                        <th scope="col" class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+               @foreach (var item in Model)
+               {
+                   <tr>
+                       <th scope="row">@i</th> @{ i++; }
+                       <td>@item.FirstName @item.LastName</td>
+                       <td>@item.Username</td>
+                       <td>@item.Email</td>
+                       <td>@item.Points</td>
+                       <td class="text-center">
+                           <div class="btn-group">
+                               <a href="@Url.Action("EditUser", "AdminUser", new { id = item.UserId })" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"> Edit user</i></a>
+                               <a href="@Url.Action("DeleteUser", "AdminUser", new { id = item.UserId })" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"> Delete user</i></a>
+                               <a href="@Url.Action("Index", "AdminOrder", new { id = item.UserId })" class="btn btn-primary btn-sm"><i class="bi bi-card-list"> View orders</i></a>
+                           </div>
+                       </td>
+                   </tr>
+                }
+                </tbody>
+            </table>
+         }
+         else
+         {
+            <h2>No registered users</h2>
+         }
+    </div>
+</main>

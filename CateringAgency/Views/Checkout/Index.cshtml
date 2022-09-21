@@ -1,0 +1,42 @@
+﻿@model CateringAgency.Domain.CartBo
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MenuLayout.cshtml";
+
+    if (Model != null)
+    {
+        Model.CalculatePoints();
+        Model.CalculatePrice();
+        Session["CartItemsCount"] = Model.CartItems.Count;
+    }
+
+}
+
+<!-- Container -->
+<div class="container bg-light px-5 mb-3">
+    <div class="row">
+
+        <!-- Cart items column -->
+        <div class="col py-3">
+
+            @if (Model.CartItems.Any())
+            {
+                foreach (var foodItem in Model.CartItems)
+                {
+                    Html.RenderPartial("_CartItem", foodItem);
+                }
+            }
+            else
+            {
+                Html.RenderPartial("_CartEmpty");
+            }
+
+
+        </div>
+
+        <!-- Sidebar -->
+        @{ Html.RenderPartial("_CartSidebar", Model); }
+
+    </div>
+</div>

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace CateringAgency.Models.EntityFramework
 {
@@ -16,6 +17,9 @@ namespace CateringAgency.Models.EntityFramework
         public OrderRepository()
         {
             cateringEntities = new CateringAgencyEntities();
+            foodRepo = new FoodRepository();
+            comboRepo = new ComboMenuRepository();
+            userRepo = new UserRepository();
         }
 
         // Double check later
@@ -62,7 +66,7 @@ namespace CateringAgency.Models.EntityFramework
 
                 OrderDiscount = new OrderDiscountBo
                 {
-                    Id = orderModel.order_discount.id,
+                    OrderDiscountId = orderModel.order_discount.id,
                     Name = orderModel.order_discount.name,
                     DiscountAmount = (float)orderModel.order_discount.discount_percent,
                     PointCost = orderModel.order_discount.point_cost
@@ -122,6 +126,33 @@ namespace CateringAgency.Models.EntityFramework
             }
 
             return ordersList;
+        }
+
+        //Returns default order if none exists
+        public OrderBo GetOrder(int orderId)
+        {
+            if (cateringEntities.orders.Any(t => t.id == orderId))
+            {
+                order orderModel = cateringEntities.orders.First(t => t.id == orderId);
+                OrderBo orderBo = OrderMap(orderModel);
+                return orderBo;
+            }
+            else
+            {
+                return new OrderBo();
+            }
+        }
+
+        public bool IsOrderComplete(int orderId)
+        {
+            if (cateringEntities.orders.Any(t => t.id == orderId))
+            {
+                return cateringEntities.orders.FirstOrDefault(t => t.id == orderId).is_complete;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public IEnumerable<FoodBo> GetOrderItems(int orderId)
@@ -198,7 +229,7 @@ namespace CateringAgency.Models.EntityFramework
                 price_with_discount = cartBo.BuyingPrice,
                 is_complete = false,
                 payment_method_id = cartBo.DeliveryMethod.DeliveryMethodId,
-                discount_id = cartBo.OrderDiscount.Id,
+                discount_id = cartBo.OrderDiscount.OrderDiscountId,
                 delivery_id = cartBo.DeliveryMethod.DeliveryMethodId
             };
 
@@ -245,6 +276,74 @@ namespace CateringAgency.Models.EntityFramework
             {
                 Console.WriteLine("Error in OrderRepository.CreateOrder(CartBo cartBo): " + ex.Message);
             }
+        }
+
+        /*
+        public IEnumerable<SelectListItem> GetDiscounts(int lesserThan)
+        {
+            List<SelectListItem> discountOptionList = new List<SelectListItem>();
+            discountOptionList.Add(new SelectListItem { Value = "1", Text = "No discount (0%)", Selected = true });
+            foreach (order_discount item in cateringEntities.order_discount.Where(t=>t.point_cost <= lesserThan && t.id > 1)
+            {
+                discountOptionList.Add(new SelectListItem { Value = item.id.ToString(), Text = item.name});
+            }
+
+            return discountOptionList;
+        }*/
+
+        public IEnumerable<OrderDiscountBo> GetDiscounts()
+        {
+            List<OrderDiscountBo> discountList = new List<OrderDiscountBo>();
+            foreach (order_discount item in cateringEntities.order_discount)
+            {
+                discountList.Add(new OrderDiscountBo
+                {
+                    OrderDiscountId = item.id,
+                    Name = item.name,
+                    DiscountAmount = (float)item.discount_percent,
+                    PointCost = item.point_cost
+                });
+            }
+            return discountList;
+        }
+
+        public PaymentMethodBo GetPaymentMethod(int id)
+        {
+            payment_method paymentMethodModel = cateringEntities.payment_method.First(t => t.id == id);
+            PaymentMethodBo paymentMethodBo = new PaymentMethodBo
+            {
+                PaymentMethodId = id,
+                Name = paymentMethodModel.type
+            };
+
+            return paymentMethodBo;
+        }
+
+        public DeliveryMethodBo GetDeliveryMethod(int id)
+        {
+            delivery_method deliveryMethodModel = cateringEntities.delivery_method.First(t => t.id == id);
+            DeliveryMethodBo deliveryMethodBo = new DeliveryMethodBo
+            {
+                DeliveryMethodId = id,
+                Name = deliveryMethodModel.name,
+                Price = (float)deliveryMethodModel.price
+            };
+
+            return deliveryMethodBo;
+        }
+
+        public OrderDiscountBo GetOrderDiscount(int id)
+        {
+            order_discount OrderDiscountModel = cateringEntities.order_discount.First(t => t.id == id);
+            OrderDiscountBo orderDiscountBo = new OrderDiscountBo
+            {
+                OrderDiscountId = id,
+                Name = OrderDiscountModel.name,
+                DiscountAmount = (float)OrderDiscountModel.discount_percent,
+                PointCost = OrderDiscountModel.point_cost
+            };
+
+            return orderDiscountBo;
         }
     }
 }

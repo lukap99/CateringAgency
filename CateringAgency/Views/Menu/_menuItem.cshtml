@@ -1,7 +1,7 @@
 ﻿@model CateringAgency.Domain.FoodBo
 
 <div class="card mb-2">
-    @using (Html.BeginForm("AddToCart", "Menu"))
+    @using (Html.BeginForm("AddToCart", "Menu", FormMethod.Post))
     { 
         @Html.HiddenFor(t => t.FoodId)
 

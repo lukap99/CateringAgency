@@ -1,0 +1,66 @@
+﻿@model CateringAgency.Domain.FoodCategoryBo
+
+@{
+    ViewBag.Title = "EditCategoryDiscount";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var Categories = ViewBag.Categories; // List<> of food categories
+
+    List<SelectListItem> foodCategoriesList = new List<SelectListItem>();
+    foreach (CateringAgency.Domain.FoodCategoryBo foodCategory in Categories)
+    {
+        foodCategoriesList.Add(new SelectListItem { Text = foodCategory.Name, Value = foodCategory.FoodCategoryId.ToString() });
+    }
+}
+
+<!-- Edit food category discount-->
+<div class="container col-xxl-4 px-4 py-3">
+    <div class="row px-0 py-0">
+
+        <!-- Card start -->
+        <div class="card mb-2 px-0">
+
+            <div class="row">
+                <img src="~/Images/create_header.jpg">
+            </div>
+
+            <div class="row g-0 d-flex align-items-center">
+                <div class="col-lg">
+
+                    <div class="card-body py-4 px-md-5">
+
+                        @using (Html.BeginForm("EditFoodCategoryDiscount", "AdminMenu", FormMethod.Post))
+                        {
+                            <fieldset>
+
+                                <legend><h4>Create food</h4></legend>
+
+                                <!-- Food category -->
+                                <div class="col mb-3">
+                                    @Html.Label("foodCategoryId", "Food Category", new { @class = "form-label" })
+                                    @Html.DropDownList("foodCategoryId", foodCategoriesList, htmlAttributes: new { @class = "form-select" })
+                                </div>
+
+                                <!-- Discount -->
+                                <div class="mb-3">
+                                    @Html.LabelFor(model => model.CategoryDiscount.DiscountAmount, new { @class = "form-label" })
+                                    @Html.TextBox("discountPercent", 0, htmlAttributes: new { @min = "0", @max = "100", @Value = "0", @type = "number", @class = "form-control" } )
+                                </div>
+
+
+                                <!-- submit -->
+                                <input type="submit" name="Submit" value="Submit changes" id="createFood" class="btn btn-success">
+                                <a href="@Url.Action("Index", "AdminMenu") " class="btn btn-primary">Back</a>
+                            </fieldset>
+                        }
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Card end -->
+
+    </div>
+</div>
+

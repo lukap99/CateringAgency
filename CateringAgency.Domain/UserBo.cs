@@ -21,6 +21,29 @@ namespace CateringAgency.Domain
         private int points;
         #endregion
 
+        public UserBo()
+        {
+            userId = 0;
+            role = new RoleBo
+            {
+                RoleId = 0,
+                RoleName = "NoRole"
+            };
+            points = 0;
+        }
+
+        public UserBo(int userId, string username, string email, string password, string firstName, string lastName, RoleBo role, int points)
+        {
+            this.userId = userId;
+            this.username = username;
+            this.email = email;
+            this.password = password;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.role = role;
+            this.points = points;
+        }
+
         #region Properties
         public int UserId { get => userId; set => userId = value; }
         [Required(ErrorMessage = "Username must not be empty!")]

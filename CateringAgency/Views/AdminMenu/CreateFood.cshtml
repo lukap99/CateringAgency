@@ -1,0 +1,107 @@
+﻿@model CateringAgency.Domain.FoodBo
+
+@{
+    ViewBag.Title = "Create food";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Categories = ViewBag.Categories; // List<> of food categories
+
+    List<SelectListItem> foodCategoriesList = new List<SelectListItem>();
+    foreach (CateringAgency.Domain.FoodCategoryBo foodCategory in Categories)
+    {
+        foodCategoriesList.Add(new SelectListItem { Text = foodCategory.Name, Value = foodCategory.FoodCategoryId.ToString() });
+    }
+}
+
+<!-- Create combo item -->
+<div class="container col-xxl-4 px-4 py-3">
+    <div class="row px-0 py-0">
+
+        <!-- Card start -->
+        <div class="card mb-2 px-0">
+
+            <div class="row">
+                <img src="~/Images/create_header.jpg">
+            </div>
+
+            <div class="row g-0 d-flex align-items-center">
+                <div class="col-lg">
+
+                    <div class="card-body py-4 px-md-5">
+
+                        @using (Html.BeginForm("CreateFood", "AdminMenu", FormMethod.Post))
+                        {
+                            <fieldset>
+
+                                <legend><h4>Create food</h4></legend>
+
+                                <div class="mb-3">
+                                    @Html.ValidationSummary(true, "Error summary:", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="row mb-3">
+                                    <!-- FoodName -->
+                                    <div class="col">
+                                        @Html.LabelFor(model => model.Name, new { @class = "form-label" })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    </div>
+                                </div>
+
+                                <!-- Food category -->
+                                <div class="col mb-3">
+                                    @Html.LabelFor(model => model.FoodCategory.FoodCategoryId, new { @class = "form-label" })
+                                    @Html.ValidationMessageFor(model => model.FoodCategory.FoodCategoryId, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.FoodCategory.FoodCategoryId, foodCategoriesList, htmlAttributes: new { @class = "form-select" })
+                                </div>
+
+                                <!-- Unit of Measurement -->
+                                <div class="mb-3">
+                                    @Html.LabelFor(model => model.UnitOfMeasurement, new { @class = "form-label" })
+                                    @Html.ValidationMessageFor(model => model.UnitOfMeasurement, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.UnitOfMeasurement, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+
+                                <!-- Ingredients -->
+                                <div class="mb-3">
+                                    @Html.LabelFor(model => model.Ingredients, new { @class = "form-label" })
+                                    @Html.ValidationMessageFor(model => model.Ingredients, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.Ingredients, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+
+                                <!-- Price -->
+                                <div class="mb-3">
+                                    @Html.LabelFor(model => model.BasePrice, new { @class = "form-label" })
+                                    @Html.ValidationMessageFor(model => model.BasePrice, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.BasePrice, new { htmlAttributes = new { @type = "number", @min = "1", @Value = "1", @step = "0.01", @class = "form-control" }} )
+                                </div>
+
+                                <!-- Discount -->
+                                <div class="mb-3">
+                                    @Html.LabelFor(model => model.Discount.DiscountAmount, new { @class = "form-label" })
+                                    @Html.ValidationMessageFor(model => model.Discount.DiscountAmount, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.Discount.DiscountAmount, new { htmlAttributes = new { @min = "0", @max = "100", @Value="0", @type = "number", @class = "form-control" } })
+                                </div>
+
+                                <!-- Is visible -->
+                                <div class="mb-3">
+                                    @Html.LabelFor(model => model.IsVisible, new { @class = "form-check-label" })
+                                    @Html.ValidationMessageFor(model => model.IsVisible, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.IsVisible, new { htmlAttributes = new { @class = "form-check-input" } })
+                                </div>
+
+                                <!-- submit -->
+                                <input type="submit" name="Submit" value="Create" id="createFood" class="btn btn-success">
+                                <a href="@Url.Action("Index", "AdminMenu") " class="btn btn-primary">Back</a>
+                         </fieldset>
+                        }
+
+                    </div>
+
+                </div>
+            </div>
+        </div> 
+        <!-- Card end -->
+
+    </div>
+</div>
+

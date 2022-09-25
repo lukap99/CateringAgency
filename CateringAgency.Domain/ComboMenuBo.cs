@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,18 +49,38 @@ namespace CateringAgency.Domain
         public int ComboMenuId { get => comboMenuId; set => comboMenuId = value; }
         public string Name { get => name; set => name = value; }
         public List<FoodBo> ComboMenuItems { get => comboMenuItems; set => comboMenuItems = value; }
+        public string ListOfItems
+        {
+            get
+            {
+                List<String> listOfItems = new List<string>();
+
+                foreach (FoodBo item in comboMenuItems)
+                {
+                    listOfItems.Add(item.Name + " x " + item.Amount);
+                }
+                string concat = string.Join(", ", listOfItems);
+                return concat;
+            }
+        }
+        [Display(Name = "Base price")]
         public float BasePrice 
         { get => basePrice; set => basePrice = value; }
         public string BasePriceString
         {
-            get => String.Format("{0:0,0.00}", basePrice);
+            get => String.Format("{0:0.0,0}", basePrice);
         }
         public float SellingPrice 
         { get => sellingPrice; set => sellingPrice = value; }
+        public string SellingPricePerUnitString
+        {
+            get => String.Format("{0:0.0,0}", (sellingPrice / amount));
+        }
         public string SellingPriceString
         {
-            get => String.Format("{0:0,0.00}", sellingPrice);
+            get => String.Format("{0:0.0,0}", sellingPrice);
         }
+        [Display(Name ="Discount")]
         public float DiscountAmount
         {
             get { return discountAmount; }
@@ -73,7 +94,7 @@ namespace CateringAgency.Domain
                     discountAmount = value;
             }
         }
-        public bool IsValid
+        public bool DiscountIsValid
         {
             get
             {
@@ -83,12 +104,14 @@ namespace CateringAgency.Domain
                     return false;
             }
         }
-
+        [Display(Name = "Is visible")]
         public bool IsVisible { get => isVisible; set => isVisible = value; }
         public int Amount { get => amount; set => amount = value; }
         #endregion
 
+        // -------
         // Methods
+        // -------
         #region Methods
         public void AddItemToMenu(FoodBo foodBo)
         {

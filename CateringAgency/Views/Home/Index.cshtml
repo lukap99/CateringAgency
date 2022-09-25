@@ -8,15 +8,20 @@
             <img src="~/Images/ketering-main-page.jpg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
         </div>
         <div class="col-lg-6">
-            <h1 class="display-5 fw-bold lh-1 mb-3">Slatki i Slani Ketering</h1>
-            <p class="lead">Sa ove aplikacije mozete naruciti slatku i slanu hranu. Uz svaku kupovinu slatke ili slane hrane veće 500 RSD dobijete <a href="#">ketering poen</a> koji možete koristiti da ostvarite poposte na svaku naknadnu kupovinu! Da bi sakupljali i koristili poene, <a href="Register">napravite nalog.</a></p>
+            <h1 class="display-5 fw-bold lh-1 mb-3">Ketering Služba</h1>
+            <p class="lead">Sa ove aplikacije možete naručiti dostavu hrane za razne proslave i događaje, rođendani, slave, žurke i slično. Za svakih 500 RSD kojih potrošite na narudžbinu dobijate 
+            <i>ketering poen</i> koji možete koristiti da ostvarite popuste za svaku naknadnu kupovinu! Da bi sakupljali i koristili poene, <a href="@Url.Action("Register", "Account")">napravite nalog.</a></p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                <a href="Menu">
+                <a href="@Url.Action("Index", "Menu")">
                     <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Menu</button>
                 </a>
-                <a href="login.jsp">
-                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Login</button>
-                </a>
+                @if (Session["Firstname"] == null)
+                {
+                    <a href="@Url.Action("Login", "Account")">
+                        <button type="button" class="btn btn-outline-secondary btn-lg px-4">Login</button>
+                    </a>
+                }
+
             </div>
         </div>
     </div>

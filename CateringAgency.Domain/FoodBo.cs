@@ -57,7 +57,7 @@ namespace CateringAgency.Domain
         }
         public string BasePriceString
         {
-            get => String.Format("{0:0,0.00}", basePrice);
+            get => String.Format("{0:0.0,0}", basePrice);
         }
 
         [Display(Name = " Selling price")]
@@ -66,9 +66,13 @@ namespace CateringAgency.Domain
             get => sellingPrice;
             set => sellingPrice = value < 0 ? 0 : value;
         }
+        public string SellingPricePerUnitString
+        {
+            get => String.Format("{0:0.0,0}", (sellingPrice / amount));
+        }
         public string SellingPriceString
         {
-            get => String.Format("{0:0,0.00}", sellingPrice);
+            get => String.Format("{0:0.0,0}", sellingPrice);
         }
         // Refers to amount in cart, cannot be below 1
         public int Amount
@@ -88,6 +92,14 @@ namespace CateringAgency.Domain
 
         [Display(Name = " Image path")]
         public string ImagePath { get => imagePath; set => imagePath = value; }
+
+        public string FullImagePath
+        {
+            get
+            {
+                return "Feature not implemented, whoops!";
+            }
+        }
         #endregion
 
 

@@ -41,6 +41,7 @@
         {
             @Html.ActionLink("Sva jela", "Index", "AdminMenu", null, new { @class = listItemClass })
         }
+        @Html.ActionLink("Kombo meni", "Index", "AdminMenu", null, new { @class = listItemClass })
         @foreach (var categoryItem in Model)
         {
             if (categoryItem.FoodCategoryId == selectedCategoryId)

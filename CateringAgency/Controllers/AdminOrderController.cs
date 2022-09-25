@@ -7,9 +7,12 @@ using System.Web.Mvc;
 
 namespace CateringAgency.Controllers
 {
+    [Authorize(Roles = "Manager, Admin")]
     public class AdminOrderController : Controller
     {
         OrderRepository orderRepo = new OrderRepository();
+
+        [Authorize(Roles = "Manager, Admin")]
         public ActionResult Index(int? id)
         {
             if (id.HasValue == false)
@@ -58,7 +61,6 @@ namespace CateringAgency.Controllers
             {
                 return RedirectToAction("Index");
             }
-
         }
     }
 }

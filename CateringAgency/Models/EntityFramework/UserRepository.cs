@@ -36,7 +36,7 @@ namespace CateringAgency.Models.EntityFramework
 
         public void Create(UserBo userBo)
         {
-            if (IsValid(userBo)) return;
+            if (Exists(userBo)) return;
 
             user userM = new user
             {
@@ -92,7 +92,7 @@ namespace CateringAgency.Models.EntityFramework
 
         public void CreateManager(UserBo userBo)
         {
-            if (IsValid(userBo)) return;
+            if (Exists(userBo)) return;
 
             user userM = new user
             {
@@ -150,13 +150,7 @@ namespace CateringAgency.Models.EntityFramework
         public void Edit(UserBo userBo)
         {
             user userModel = cateringEntities.users.FirstOrDefault(t => t.id == userBo.UserId);
-            /*  username = userBo.Username,
-                email = userBo.Email,
-                firstname = userBo.FirstName,
-                lastname = userBo.LastName,
-                role_id = userBo.Role.RoleId,
-                points = userBo.Points
-             */
+
             userModel.username = userBo.Username;
             userModel.email = userBo.Email;
             userModel.firstname = userBo.FirstName;
@@ -216,12 +210,32 @@ namespace CateringAgency.Models.EntityFramework
             UserBo user = UserMap(cateringEntities.users.First(t => t.id == userId));
             return user;
         }
+        public UserBo GetUser(string email)
+        {
+            UserBo user = UserMap(cateringEntities.users.First(t => t.email == email));
+            return user;
+        }
         public UserBo GetUser(UserBo userBo)
         {
             UserBo user = UserMap(cateringEntities.users.First(t => t.email == userBo.Email));
             return user;
         }
 
+        public bool Exists(UserBo userBo)
+        {
+            bool isValid = cateringEntities.users.Any(t => t.email == userBo.Email);
+            return isValid;
+        }
+        public bool Exists(string email)
+        {
+            bool isValid = cateringEntities.users.Any(t => t.email == email);
+            return isValid;
+        }
+        public bool Exists(int id)
+        {
+            bool isValid = cateringEntities.users.Any(t => t.id == id);
+            return isValid;
+        }
         public bool IsValid(UserBo userBo)
         {
             bool isValid = cateringEntities.users.Any(t => t.email == userBo.Email && t.password == userBo.Password);
@@ -233,8 +247,7 @@ namespace CateringAgency.Models.EntityFramework
             user userModel = cateringEntities.users.FirstOrDefault(t => t.username == username);
             return userModel?.role.role_name;
         }
-
-        public string GetUSerRole(string email)
+        public string GetUserRoleForEmail(string email)
         {
             user userModel = cateringEntities.users.FirstOrDefault(t => t.email == email);
             return userModel?.role.role_name;

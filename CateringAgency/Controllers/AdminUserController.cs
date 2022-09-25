@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace CateringAgency.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminUserController : Controller
     {
         UserRepository userRepo = new UserRepository();
@@ -83,14 +84,22 @@ namespace CateringAgency.Controllers
         [HttpPost]
         public ActionResult CreateManager(UserBo user)
         {
-            try
+            if (!userRepo.Exists(user))
             {
-            userRepo.CreateManager(user);
-            return RedirectToAction("Managers");
+                try
+                {
+                    userRepo.CreateManager(user);
+                    return RedirectToAction("Managers");
+                }
+                catch (Exception)
+                {
+                    return RedirectToAction("Managers");
+                }
             }
-            catch (Exception)
+            else
             {
-                return RedirectToAction("Managers");
+                ModelState.AddModelError("", "Menadžer sa tom E-mail adresom već postoji");
+                return View();
             }
         }
 

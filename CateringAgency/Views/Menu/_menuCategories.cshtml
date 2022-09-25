@@ -15,9 +15,9 @@
     {
         selectedCategoryId = ViewBag.selectedCategoryId;
     }*/
-    if (TempData.ContainsKey("selectedCategoryId"))
+    if (ViewBag.selectedCategoryId != null)
     {
-        selectedCategoryId = (int)TempData["selectedCategoryId"];
+        selectedCategoryId = ViewBag.selectedCategoryId;
     }
 }
 
@@ -27,13 +27,23 @@
     <hr>
     <div class="list-group">
         @if (selectedCategoryId == 0)
+        { 
+            @Html.ActionLink("Sva jela", "Index", "Menu", null, new { @class = listItemActiveClass }) 
+        }
+        else
+        { 
+            @Html.ActionLink("Sva jela", "Index", "Menu", null, new { @class = listItemClass })
+        }
+
+        @if (selectedCategoryId >= 10)
         {
-            @Html.ActionLink("Sva jela", "Index", "Menu", null, new { @class = listItemActiveClass })
+            @Html.ActionLink("Kombo meni", "Index", "Menu", new { id = 10 }, new { @class = listItemActiveClass })
         }
         else
         {
-            @Html.ActionLink("Sva jela", "Index", "Menu", null, new { @class = listItemClass })
+            @Html.ActionLink("Kombo meni", "Index", "Menu", new { id = 10 }, new { @class = listItemClass })
         }
+
         @foreach (var categoryItem in Model)
         {
             if (categoryItem.FoodCategoryId == selectedCategoryId)

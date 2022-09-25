@@ -8,7 +8,7 @@
     {
         Model.CalculatePoints();
         Model.CalculatePrice();
-        Session["CartItemsCount"] = Model.CartItems.Count;
+        Session["CartItemsCount"] = Model.ItemCount;
     }
 
 }
@@ -20,8 +20,31 @@
         <!-- Cart items column -->
         <div class="col py-3">
 
-            @if (Model.CartItems.Any())
+            @if (ViewBag.changeAmountMessage != null)
             {
+                <div>
+                    <div class="alert alert-success alert-dismissible show fade" role="alert">
+                        <span type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+                        <strong>Info: @ViewBag.changeAmountMessage</strong>
+                    </div>
+                </div>
+            }
+            @if (ViewBag.errorMessage != null)
+            {
+                <div>
+                    <div class="alert alert-warning alert-dismissible show fade" role="alert">
+                        <span type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+                        <strong>Error: </strong> @ViewBag.errorMessage
+                    </div>
+                </div>
+            }
+
+            @if (Model.HasItems())
+            {
+                foreach (var comboMenuItem in Model.CartComboItems)
+                {
+                    Html.RenderPartial("_CartComboMenuItem", comboMenuItem);
+                }
                 foreach (var foodItem in Model.CartItems)
                 {
                     Html.RenderPartial("_CartItem", foodItem);

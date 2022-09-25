@@ -23,14 +23,14 @@ namespace CateringAgency.Controllers
             ModelState.Clear();
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult Login(UserBo user)
         {
             if (userRepository.IsValid(user))
             {
                 UserBo userBo = userRepository.GetUser(user);
-                FormsAuthentication.SetAuthCookie(user.Username, false);
+                FormsAuthentication.SetAuthCookie(userBo.Email, false);
                 Session["UserId"] = userBo.UserId;
                 Session["Firstname"] = userBo.FirstName;
                 Session["Lastname"] = userBo.LastName;
@@ -53,7 +53,7 @@ namespace CateringAgency.Controllers
         [HttpPost]
         public ActionResult Register(UserBo user)
         {
-            if (userRepository.IsValid(user) != true && user.Password == user.PasswordConfirm)
+            if (!userRepository.Exists(user.Email))
             {
                 UserBo newUser = new UserBo
                 {
@@ -72,6 +72,7 @@ namespace CateringAgency.Controllers
                 userRepository.Create(newUser);
                 FormsAuthentication.SetAuthCookie(newUser.Username, false);
                 Session.Clear();
+                Session["UserId"] = newUser.UserId;
                 Session["Firstname"] = newUser.FirstName;
                 Session["Lastname"] = newUser.LastName;
                 Session["Role"] = newUser.Role.RoleName;
@@ -80,7 +81,7 @@ namespace CateringAgency.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "Korisnik sa tom E-mail adresom već pstoji");
+                ModelState.AddModelError("", "Korisnik sa tom E-mail adresom već postoji");
                 return View();
             }
         }
@@ -90,6 +91,30 @@ namespace CateringAgency.Controllers
             FormsAuthentication.SignOut();
             Session.Contents.RemoveAll();
             return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        public ActionResult EditAccount()
+        {
+            int id = (int)Session["UserId"];
+            return View(userRepository.GetUser(id));
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult EditAccount(UserBo user)
+        {
+            int id = (int)Session["UserId"];
+            try
+            {
+                userRepository.Edit(user);
+
+                return View(userRepository.GetUser(id));
+            }
+            catch (Exception)
+            {
+                return View(userRepository.GetUser(id));
+            }
         }
     }
 }

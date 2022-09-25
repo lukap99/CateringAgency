@@ -48,24 +48,27 @@
                                     <hr style="height:2px;border-width:0;color:gray;background-color:gray">
 
                                     <!-- Cart items -->
-                                    <ol>
+                                    <ul>
+                                        <li style="font-size: 0.8em; list-style-type: none;"><span>Item/Price/Amount</span><span class="float-end">Subtotal</span></li>
                                         @foreach (var item in Model.CartItems)
                                         {
-                                            <li style="font-size: 0.9em;">@item.Name × @item.Amount - <span class="text-muted">@item.SellingPriceString RSD</span></li>
+                                            item.CalculatePrice();
+                                            <li style="font-size: 0.8em;">@item.Name<br /><span class="text-success">@item.SellingPricePerUnitString RSD</span> × @item.Amount <span class="text-success float-end">@item.SellingPriceString RSD</span></li>
                                         }
                                         @foreach (var item in Model.CartComboItems)
                                         {
-                                            <li style="font-size: 0.9em;"><b>@item.Name</b> × @item.Amount - <span class="text-muted">@item.SellingPriceString RSD</span></li>
+                                            item.CalculatePrice();
+                                            <li style="font-size: 0.8em;">@item.Name<br /><span class="text-success">@item.SellingPricePerUnitString RSD</span> × @item.Amount <span class="text-success float-end">@item.SellingPriceString RSD</span></li>
                                         }
-                                    </ol>
+                                    </ul>
 
                                     <hr style="height:2px;border-width:0;color:gray;background-color:gray">
 
                                     @if (Model.OrderDiscount.DiscountAmount > 0)
                                     {
-                                        <h4>Subtotal: <span class="text-muted">@Model.BasePriceString RSD</span></h4>
+                                        <h4>Total: <span class="text-muted float-end">@Model.BasePriceString RSD</span></h4>
                                     }
-                                    <h4>Total: <span class="text-muted">@Model.BuyingPriceString RSD</span></h4>
+                                    <h4>Total: <span class="text-success float-end">@Model.BuyingPriceString RSD</span></h4>
                                 </legend>
 
 

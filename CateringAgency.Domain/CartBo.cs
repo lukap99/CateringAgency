@@ -93,7 +93,7 @@ namespace CateringAgency.Domain
         }
         public string BasePriceString
         {
-            get => String.Format("{0:0,0.00}", basePrice);
+            get => String.Format("{0:0.0,0}", basePrice);
         }
         public float BuyingPrice
         {
@@ -102,7 +102,7 @@ namespace CateringAgency.Domain
         }
         public string BuyingPriceString
         {
-            get => String.Format("{0:0,0.00}", buyingPrice);
+            get => String.Format("{0:0.0,0}", buyingPrice);
         }
         public int PointsDifference
         {
@@ -140,6 +140,18 @@ namespace CateringAgency.Domain
             }
         }
 
+        public void AddToCart(ComboMenuBo comboMenu)
+        {
+            if (CartComboItems.Any(t => t.ComboMenuId == comboMenu.ComboMenuId)) // if item already exists in list, just change the amount
+            {
+                CartComboItems.First(t => t.ComboMenuId == comboMenu.ComboMenuId).Amount = comboMenu.Amount;
+            }
+            else
+            {
+                CartComboItems.Add(comboMenu);
+            }
+        }
+
         public void UpdateItemAmount(int foodId, int amount)
         {
             if (CartItems.Any(t => t.FoodId == foodId)) // if item already exists in list, just change the amount
@@ -148,13 +160,39 @@ namespace CateringAgency.Domain
             }
         }
 
+        public void UpdateComboMenuAmount(int comboMenuId, int amount)
+        {
+            if (CartComboItems.Any(t => t.ComboMenuId == comboMenuId)) // if item already exists in list, just change the amount
+            {
+                CartComboItems.FirstOrDefault(t => t.ComboMenuId == comboMenuId).Amount = amount;
+            }
+        }
+
         public void RemoveItemFromCart(int foodId)
         {
-            cartItems.RemoveAt(cartItems.IndexOf(cartItems.Single(t => t.FoodId == foodId)));
+            if (cartItems.Any(t => t.FoodId == foodId))
+            {
+                cartItems.RemoveAt(cartItems.IndexOf(cartItems.Single(t => t.FoodId == foodId)));
+            }
         }
         public void RemoveItemFromCart(FoodBo food)
         {
             cartItems.RemoveAt(cartItems.IndexOf(cartItems.Single(t => t.FoodId == food.FoodId)));
+        }
+
+        public void RemoveComboMenuItemFromCart(int comboMenuId)
+        {
+            if (cartComboItems.Any(t => t.ComboMenuId == comboMenuId))
+            {
+                cartComboItems.RemoveAt(cartComboItems.IndexOf(cartComboItems.Single(t => t.ComboMenuId == comboMenuId)));
+            }
+        }
+        public void RemoveComboMenuItemFromCart(ComboMenuBo comboMenu)
+        {
+            if (cartComboItems.Any(t => t.ComboMenuId == comboMenu.ComboMenuId))
+            {
+                cartComboItems.RemoveAt(cartComboItems.IndexOf(cartComboItems.Single(t => t.ComboMenuId == comboMenu.ComboMenuId)));
+            }
         }
         public void ClearCart()
         {
@@ -163,13 +201,13 @@ namespace CateringAgency.Domain
         }
         public bool HasItems()
         {
-            if (cartItems.Count() > 0 || cartComboItems.Count() > 0)
+            if (cartItems.Any() || cartComboItems.Any())
                 return true;
             else return false;
         }
         public void CalculatePrice()
         {
-            if (cartItems.Count > 0)
+            if (ItemCount > 0)
             {
                 float sum = 0;
                 foreach (FoodBo item in cartItems)

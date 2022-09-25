@@ -30,69 +30,75 @@
 
                         @using (Html.BeginForm("CreateFood", "AdminMenu", FormMethod.Post))
                         {
-                            <fieldset>
 
-                                <legend><h4>Create food</h4></legend>
+                            <h4>Create food</h4>
 
-                                <div class="mb-3">
-                                    @Html.ValidationSummary(true, "Error summary:", new { @class = "text-danger" })
+                            <hr style="height: 1px; border-width: 0; color: gray; background-color: gray" />
+
+                            <div class="mb-3">
+                                @Html.ValidationSummary(true, "Error summary:", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="row mb-3">
+                                <!-- FoodName -->
+                                <div class="col">
+                                    @Html.LabelFor(model => model.Name, new { @class = "form-label" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                                 </div>
+                            </div>
 
-                                <div class="row mb-3">
-                                    <!-- FoodName -->
-                                    <div class="col">
-                                        @Html.LabelFor(model => model.Name, new { @class = "form-label" })
-                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                                    </div>
+                            <!-- Food category -->
+                            <div class="col mb-3">
+                                @Html.LabelFor(model => model.FoodCategory.FoodCategoryId, new { @class = "form-label" })
+                                @Html.ValidationMessageFor(model => model.FoodCategory.FoodCategoryId, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(model => model.FoodCategory.FoodCategoryId, foodCategoriesList, htmlAttributes: new { @class = "form-select" })
+                            </div>
+
+                            <!-- Unit of Measurement -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.UnitOfMeasurement, new { @class = "form-label" })
+                                @Html.ValidationMessageFor(model => model.UnitOfMeasurement, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.UnitOfMeasurement, new { htmlAttributes = new { @class = "form-control w-50" } })
+                            </div>
+
+                            <!-- Ingredients -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.Ingredients, new { @class = "form-label" })
+                                @Html.ValidationMessageFor(model => model.Ingredients, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.Ingredients, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+
+                            <!-- Price -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.BasePrice, new { @class = "form-label" })
+                                @Html.ValidationMessageFor(model => model.BasePrice, "", new { @class = "text-danger" })
+                                <div class="input-group" style="max-width: 40%;">
+                                    @Html.EditorFor(model => model.BasePrice, new { htmlAttributes = new { @type = "number", @min = "1", @Value = "1", @step = "0.01", @class = "form-control" } })
+                                    <span class="input-group-text">RSD</span>
                                 </div>
+                            </div>
 
-                                <!-- Food category -->
-                                <div class="col mb-3">
-                                    @Html.LabelFor(model => model.FoodCategory.FoodCategoryId, new { @class = "form-label" })
-                                    @Html.ValidationMessageFor(model => model.FoodCategory.FoodCategoryId, "", new { @class = "text-danger" })
-                                    @Html.DropDownListFor(model => model.FoodCategory.FoodCategoryId, foodCategoriesList, htmlAttributes: new { @class = "form-select" })
+                            <!-- Discount -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.Discount.DiscountAmount, new { @class = "form-label" })
+                                @Html.ValidationMessageFor(model => model.Discount.DiscountAmount, "", new { @class = "text-danger" })
+                                <div class="input-group" style="max-width: 40%;">
+                                    @Html.EditorFor(model => model.Discount.DiscountAmount, new { htmlAttributes = new { @min = "0", @max = "100", @Value = "0", @type = "number", @class = "form-control" } })
+                                    <span class="input-group-text">%</span>
                                 </div>
+                            </div>
 
-                                <!-- Unit of Measurement -->
-                                <div class="mb-3">
-                                    @Html.LabelFor(model => model.UnitOfMeasurement, new { @class = "form-label" })
-                                    @Html.ValidationMessageFor(model => model.UnitOfMeasurement, "", new { @class = "text-danger" })
-                                    @Html.EditorFor(model => model.UnitOfMeasurement, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
+                            <!-- Is visible -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.IsVisible, new { @class = "form-check-label" })
+                                @Html.ValidationMessageFor(model => model.IsVisible, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.IsVisible, new { htmlAttributes = new { @class = "form-check-input" } })
+                            </div>
 
-                                <!-- Ingredients -->
-                                <div class="mb-3">
-                                    @Html.LabelFor(model => model.Ingredients, new { @class = "form-label" })
-                                    @Html.ValidationMessageFor(model => model.Ingredients, "", new { @class = "text-danger" })
-                                    @Html.EditorFor(model => model.Ingredients, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-
-                                <!-- Price -->
-                                <div class="mb-3">
-                                    @Html.LabelFor(model => model.BasePrice, new { @class = "form-label" })
-                                    @Html.ValidationMessageFor(model => model.BasePrice, "", new { @class = "text-danger" })
-                                    @Html.EditorFor(model => model.BasePrice, new { htmlAttributes = new { @type = "number", @min = "1", @Value = "1", @step = "0.01", @class = "form-control" }} )
-                                </div>
-
-                                <!-- Discount -->
-                                <div class="mb-3">
-                                    @Html.LabelFor(model => model.Discount.DiscountAmount, new { @class = "form-label" })
-                                    @Html.ValidationMessageFor(model => model.Discount.DiscountAmount, "", new { @class = "text-danger" })
-                                    @Html.EditorFor(model => model.Discount.DiscountAmount, new { htmlAttributes = new { @min = "0", @max = "100", @Value="0", @type = "number", @class = "form-control" } })
-                                </div>
-
-                                <!-- Is visible -->
-                                <div class="mb-3">
-                                    @Html.LabelFor(model => model.IsVisible, new { @class = "form-check-label" })
-                                    @Html.ValidationMessageFor(model => model.IsVisible, "", new { @class = "text-danger" })
-                                    @Html.EditorFor(model => model.IsVisible, new { htmlAttributes = new { @class = "form-check-input" } })
-                                </div>
-
-                                <!-- submit -->
-                                <input type="submit" name="Submit" value="Create" id="createFood" class="btn btn-success">
-                                <a href="@Url.Action("Index", "AdminMenu") " class="btn btn-primary">Back</a>
-                         </fieldset>
+                            <!-- submit -->
+                            <input type="submit" name="Submit" value="Create" id="createFood" class="btn btn-success">
+                            <a href="@Url.Action("Index", "AdminMenu") " class="btn btn-primary">Back</a>
                         }
 
                     </div>

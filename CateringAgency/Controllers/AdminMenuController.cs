@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace CateringAgency.Controllers
 {
+    [Authorize(Roles ="Manager, Admin")]
     public class AdminMenuController : Controller
     {
         FoodRepository foodRepo = new FoodRepository();
@@ -18,12 +19,20 @@ namespace CateringAgency.Controllers
             if (id.HasValue != true || id <= 0)
             {
                 ViewBag.selectedCategoryId = 0;
+                ViewBag.comboItems = comboRepo.GetAllComboMenus();
                 return View(foodRepo.GetAll());
+            }
+            else if (id < 10)
+            {
+                int categoryId = (int)id;
+                ViewBag.selectedCategoryId = categoryId;
+                return View(foodRepo.GetFoodCategoryItems(categoryId));
             }
             else
             {
                 int categoryId = (int)id;
                 ViewBag.selectedCategoryId = categoryId;
+                ViewBag.comboItems = comboRepo.GetAllComboMenus();
                 return View(foodRepo.GetFoodCategoryItems(categoryId));
             }
         }

@@ -99,6 +99,7 @@ namespace CateringAgency.Models.EntityFramework
                 foo.BasePrice = (float)comboMenuItem.price;
                 foo.SellingPrice = (float)comboMenuItem.price;
                 foo.IsVisible = true;
+                orderComboItemsList.Add(foo);
             }
             orderBo.OrderComboItems = orderComboItemsList;
             return orderBo;
@@ -218,7 +219,6 @@ namespace CateringAgency.Models.EntityFramework
         {
             cartBo.CalculatePrice();
             cartBo.CalculatePoints();
-            //REMINDER: update users point balance!!
 
             order orderModel = new order
             {
@@ -277,19 +277,6 @@ namespace CateringAgency.Models.EntityFramework
                 Console.WriteLine("Error in OrderRepository.CreateOrder(CartBo cartBo): " + ex.Message);
             }
         }
-
-        /*
-        public IEnumerable<SelectListItem> GetDiscounts(int lesserThan)
-        {
-            List<SelectListItem> discountOptionList = new List<SelectListItem>();
-            discountOptionList.Add(new SelectListItem { Value = "1", Text = "No discount (0%)", Selected = true });
-            foreach (order_discount item in cateringEntities.order_discount.Where(t=>t.point_cost <= lesserThan && t.id > 1)
-            {
-                discountOptionList.Add(new SelectListItem { Value = item.id.ToString(), Text = item.name});
-            }
-
-            return discountOptionList;
-        }*/
 
         public IEnumerable<OrderDiscountBo> GetDiscounts()
         {

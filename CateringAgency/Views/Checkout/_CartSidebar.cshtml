@@ -78,7 +78,7 @@
                  </ul>
 
 
-                if (User.Identity.IsAuthenticated != true || Model.CartItems.Count() == 0)
+                if (User.Identity.IsAuthenticated != true || Model.HasItems() == false)
                 {
                     <input type="submit" value="Checkout" class="btn btn-primary btn-lg btn-block mb-3" style="width: 100%;" disabled>
                 }
@@ -88,7 +88,7 @@
                 }
                 }
 
-            @if (Model.CartItems.Count > 0)
+            @if (Model.HasItems())
             {
             @Html.ActionLink("Empty cart",
                 "EmptyCart",

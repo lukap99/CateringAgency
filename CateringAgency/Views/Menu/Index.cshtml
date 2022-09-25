@@ -5,11 +5,28 @@
 
     ViewBag.Title = "Menu";
     int selectedCategoryId = 0;
+    List<CateringAgency.Domain.ComboMenuBo> comboItems = new List<CateringAgency.Domain.ComboMenuBo>();
 
+    // Category of items to highlight
+    // 0 - All
+    // 1~9 - Normal categories
+    // 10 - Combo items
     if (ViewBag.selectedCategoryId != null)
-    {
-        selectedCategoryId = (int)ViewBag.selectedCategoryId;
-    }
+    { selectedCategoryId = (int)ViewBag.selectedCategoryId; }
+
+    // Add to cart message
+    if (ViewBag.addMessage != null)
+    { string message = ViewBag.addMessage; }
+
+    // Error message
+    string errorMessage = "";
+    if (ViewBag.errorMessage != null)
+    { errorMessage = ViewBag.errorMessage; }
+
+    // Combo items list
+    if (ViewBag.comboItems != null)
+    { comboItems = ViewBag.comboItems; }
+
 }
 
 <div class="container bg-light px-5">
@@ -19,6 +36,34 @@
         @{ Html.RenderAction("MenuCategories", "Menu", new { selectedCategoryId = selectedCategoryId }); }
 
         <div class="col py-3">
+
+            @if (ViewBag.addMessage != null)
+            {
+                <div>
+                    <div class="alert alert-success alert-dismissible show fade" role="alert">
+                        <span type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+                        <strong>Info:</strong> @ViewBag.addMessage
+                    </div>
+                </div>
+            }
+            @if (ViewBag.errorMessage != null)
+            {
+                <div>
+                    <div class="alert alert-warning alert-dismissible show fade" role="alert">
+                        <span type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+                        <strong>Info: @ViewBag.errorMessage</strong>
+                    </div>
+                </div>
+            }
+
+            @if (ViewBag.comboItems != null)
+            {
+                <!-- Combo items -->
+                foreach (var comboItem in comboItems)
+                {
+                    Html.RenderPartial("_menuComboItem", comboItem);
+                }
+            }
 
             <!-- Menu items -->
             @foreach (var foodItem in Model)

@@ -1,8 +1,9 @@
 ﻿@{
     int numItemsIncart = 0;
-    if (Session["CartItemsCount"] != null)
+    if (Session["Cart"] != null)
     {
-        numItemsIncart = Convert.ToInt32(Session["CartItemsCount"]);
+        var cart = Session["Cart"] as CateringAgency.Domain.CartBo;
+        numItemsIncart = cart.ItemCount;
     }
 }
 

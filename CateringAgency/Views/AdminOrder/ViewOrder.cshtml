@@ -22,6 +22,7 @@
                                 <h4>Order - @Model.User.FirstName @Model.User.LastName</h4>
                                 <hr style="height:2px;border-width:0;color:gray;background-color:gray">
                                 <h5>Created: <span class="text-muted">@Model.DateCreated.ToLongDateString()</span></h5>
+                                <h5>Time: <span class="text-muted">@Model.DateCreated.ToLongTimeString()</span></h5>
                                 @if (Model.IsComplete)
                                 {
                                     <h5>Completed: <span class="text-muted">@Model.DateCompleted.Value.ToLongTimeString()</span></h5>
@@ -33,16 +34,23 @@
                                 <hr style="height:2px;border-width:0;color:gray;background-color:gray">
 
                                 <!-- Cart items -->
-                                <ol>
+                                <ul>
+                                    <li style="font-size: 0.8em; list-style-type: none;"><span>Item/Price/Amount</span><span class="float-end">Subtotal</span></li>
                                     @foreach (var item in Model.OrderItems)
                                     {
-                                        <li style="font-size: 0.9em;"><i>@item.Name</i> × @item.Amount - <span class="text-success">@item.SellingPriceString RSD</span></li>
+                                        item.CalculatePrice();
+                                        <li style="font-size: 0.8em;">@item.Name<br /><span class="text-success">@item.BasePriceString RSD</span> × @item.Amount <span class="text-success float-end">@item.SellingPriceString RSD</span></li>
                                     }
-                                </ol>
+                                    @foreach (var item in Model.OrderComboItems)
+                                    {
+                                        item.CalculatePrice();
+                                        <li style="font-size: 0.8em;">@item.Name<br /><span class="text-success">@item.BasePriceString RSD</span> × @item.Amount <span class="text-success float-end">@item.SellingPriceString RSD</span></li>
+                                    }
+                                </ul>
 
                                 <hr style="height:2px;border-width:0;color:gray;background-color:gray">
 
-                                <h4><b>Total: </b><span class="text-success">@Model.BuyingPriceString RSD</span></h4>
+                                <h4><b>Total: </b><span class="text-success float-end">@Model.BuyingPriceString RSD</span></h4>
                             </legend>
 
                             @if (Model.IsComplete != true)

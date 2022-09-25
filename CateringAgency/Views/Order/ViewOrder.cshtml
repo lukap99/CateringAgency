@@ -22,6 +22,11 @@
                                 <h4>Order</h4>
                                 <hr style="height:2px;border-width:0;color:gray;background-color:gray">
                                 <h5>Created: <span class="text-muted">@Model.DateCreated.ToLongDateString()</span></h5>
+                                <h5>Time: <span class="text-muted">@Model.DateCreated.ToLongTimeString()</span></h5>
+                                @if (Model.IsComplete)
+                                {
+                                    <h5>Completed: <span class="text-muted">@Model.DateCompleted.Value</span></h5>
+                                }
                                 <h5>Shipping: <span class="text-muted">@Model.DeliveryMethod.Name</span></h5>
                                 <h5>Location: <span class="text-muted">@Model.DeliveryLocation</span></h5>
                                 <h5>Discount: <span class="text-muted">@Model.OrderDiscount.Name</span> </h5>
@@ -29,20 +34,33 @@
                                 <hr style="height:2px;border-width:0;color:gray;background-color:gray">
 
                                 <!-- Cart items -->
-                                <ol>
+                                <ul>
+                                    <li style="font-size: 0.8em; list-style-type: none;"><span>Item/Price/Amount</span><span class="float-end">Subtotal</span></li>
                                     @foreach (var item in Model.OrderItems)
                                     {
-                                        <li style="font-size: 0.9em;"><i>@item.Name</i> × @item.Amount - <span class="text-success">@item.SellingPriceString RSD</span></li>
+                                        item.CalculatePrice();
+                                        <li style="font-size: 0.8em;">@item.Name<br /><span class="text-success">@item.SellingPricePerUnitString RSD</span> × @item.Amount <span class="text-success float-end">@item.SellingPriceString RSD</span></li>
                                     }
-                                </ol>
+                                    @foreach (var item in Model.OrderComboItems)
+                                    {
+                                        item.CalculatePrice();
+                                        <li style="font-size: 0.8em;">@item.Name<br /><span class="text-success">@item.SellingPricePerUnitString RSD</span> × @item.Amount <span class="text-success float-end">@item.SellingPriceString RSD</span></li>
+                                    }
+                                </ul>
 
                                 <hr style="height:2px;border-width:0;color:gray;background-color:gray">
 
-                                <h4><b>Total: </b><span class="text-success">@Model.BuyingPriceString RSD</span></h4>
+                                <h4><b>Total: </b><span class="text-success float-end">@Model.BuyingPriceString RSD</span></h4>
                             </legend>
+                            @if ((DateTime.Now - Model.DateCreated).TotalHours < 1)
+                            {
+                                var timeRemaining = 60 - (DateTime.Now - Model.DateCreated).Minutes;
+                                <p class="text-danger">Narudžbine možete tek nakon sat vremena!</p>
+                                <p class="text-danger">Preostalo @timeRemaining minuta</p>
+                            }
 
                             @Html.ActionLink("Back", "MyOrders", "Order", null, new { @class = "btn btn-outline-primary" })
-                            @if (Model.IsComplete != true)
+                            @if (Model.IsComplete != true && (DateTime.Now - Model.DateCreated).Hours > 1)
                             {
                                 @Html.ActionLink("Cancel order", "CancelOrder", "Order", new { orderId = Model.OrderId }, new { @class = "btn btn-danger" })
                             }

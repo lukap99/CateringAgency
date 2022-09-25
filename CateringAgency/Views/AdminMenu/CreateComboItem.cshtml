@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     List<CateringAgency.Domain.FoodBo> foodItems = new List<CateringAgency.Domain.FoodBo>();
+
+    // Food items to add to combo menu
     if (ViewBag.Items != null)
-    {
-        foodItems = ViewBag.Items;
-    }
+    { foodItems = ViewBag.Items; }
 }
 
 <!-- Create combo item -->
@@ -50,14 +50,20 @@
                             <div class="mb-3">
                                 @Html.LabelFor(model => model.BasePrice, new { @class = "form-label" })
                                 @Html.ValidationMessageFor(model => model.BasePrice, "", new { @class = "text-danger" })
-                                @Html.EditorFor(model => model.BasePrice, new { htmlAttributes = new { @type = "number", @min = "1", @Value = "1", @step = "0.01", @class = "form-control" } })
+                                <div class="input-group" style="max-width: 40%;">
+                                    @Html.EditorFor(model => model.BasePrice, new { htmlAttributes = new { @type = "number", @min = "1", @Value = "1", @step = "0.01", @class = "form-control" } })
+                                    <span class="input-group-text">RSD</span>
+                                </div>
                             </div>
 
                             <!-- Discount -->
                             <div class="mb-3">
                                 @Html.LabelFor(model => model.DiscountAmount, new { @class = "form-label" })
                                 @Html.ValidationMessageFor(model => model.DiscountAmount, "", new { @class = "text-danger" })
-                                @Html.EditorFor(model => model.DiscountAmount, new { htmlAttributes = new { @min = "0", @max = "100", @Value = "0", @type = "number", @class = "form-control" } })
+                                <div class="input-group" style="max-width: 40%;">
+                                    @Html.EditorFor(model => model.DiscountAmount, new { htmlAttributes = new { @min = "0", @max = "100", @Value = "0", @type = "number", @class = "form-control" } })
+                                    <span class="input-group-text">%</span>
+                                </div>
                             </div>
 
                             <!-- Is visible -->

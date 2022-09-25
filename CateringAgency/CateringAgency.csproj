@@ -131,13 +131,11 @@
     <Compile Include="Controllers\AdminMenuController.cs" />
     <Compile Include="Controllers\AdminOrderController.cs" />
     <Compile Include="Controllers\AdminUserController.cs" />
-    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -205,6 +203,7 @@
     <Compile Include="Models\user.cs">
       <DependentUpon>CateringAgencyModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserRoleProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +228,99 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\combo_menu_create_header.png" />
     <Content Include="Images\create_header.jpg" />
+    <Content Include="Images\delete header.jpg" />
+    <Content Include="Images\Food\Hleb i peciva\beli hleb.jpg" />
+    <Content Include="Images\Food\Hleb i peciva\carski hleb.jpg" />
+    <Content Include="Images\Food\Hleb i peciva\crni hleb sa semenkama.jpg" />
+    <Content Include="Images\Food\Hleb i peciva\crni hleb.jpg" />
+    <Content Include="Images\Food\Hleb i peciva\kiflice sa sirom.jpg" />
+    <Content Include="Images\Food\Hleb i peciva\pogacice sa cvarcima.jpg" />
+    <Content Include="Images\Food\Hleb i peciva\pogacice.jpg" />
+    <Content Include="Images\Food\Hleb i peciva\projice sa sirom.jpg" />
+    <Content Include="Images\Food\Hleb i peciva\puter kifla.jpg" />
+    <Content Include="Images\Food\Hleb i peciva\rezani hrono hleb.jpg" />
+    <Content Include="Images\Food\Kanapei\brusketi mediteran.jpg" />
+    <Content Include="Images\Food\Kanapei\kanapei orijent.jpg" />
+    <Content Include="Images\Food\Kanapei\kanapei sa mariniranim kozjim sirom.jpg" />
+    <Content Include="Images\Food\Kanapei\kanapei sa orah pateom.jpg" />
+    <Content Include="Images\Food\Kanapei\kanapei sa ruskom salatom.jpg" />
+    <Content Include="Images\Food\Kanapei\kanapei sa suhomesnatim.jpg" />
+    <Content Include="Images\Food\Kanapei\kanapei sa sunkom i gaudom.jpg" />
+    <Content Include="Images\Food\Kanapei\kanapei sa tuna pateom.jpg" />
+    <Content Include="Images\Food\Kanapei\losos i gorgonzola.jpg" />
+    <Content Include="Images\Food\Kanapei\pile susam.jpg" />
+    <Content Include="Images\Food\Kanapei\sa kozijim sirom.jpg" />
+    <Content Include="Images\Food\Kanapei\četiri sira kanape.jpg" />
+    <Content Include="Images\Food\Kuvana jela\beli pasulj sa kobasicom.jpg" />
+    <Content Include="Images\Food\Kuvana jela\cufte u sosu.jpg" />
+    <Content Include="Images\Food\Kuvana jela\djuvec.jpg" />
+    <Content Include="Images\Food\Kuvana jela\musaka.jpg" />
+    <Content Include="Images\Food\Kuvana jela\pilav.jpg" />
+    <Content Include="Images\Food\Kuvana jela\podvarak.jpg" />
+    <Content Include="Images\Food\Kuvana jela\posni slatki kupus.jpg" />
+    <Content Include="Images\Food\Kuvana jela\punjena paprika.jpg" />
+    <Content Include="Images\Food\Kuvana jela\spageti bolonjeze.jpg" />
+    <Content Include="Images\Food\Kuvana jela\zapecena boranija iz rerne.jpg" />
+    <Content Include="Images\Food\Pića\coca cola.png" />
+    <Content Include="Images\Food\Pića\fanta orange.png" />
+    <Content Include="Images\Food\Pića\hennesy.jpg" />
+    <Content Include="Images\Food\Pića\orange juice.jpg" />
+    <Content Include="Images\Food\Pića\pepsi max 05l.jpg" />
+    <Content Include="Images\Food\Pića\pivo.jpg" />
+    <Content Include="Images\Food\Pića\rakija domaca.jpg" />
+    <Content Include="Images\Food\Pića\rubin vinjak.png" />
+    <Content Include="Images\Food\Pića\sok od jabuke.png" />
+    <Content Include="Images\Food\Pića\sprite.png" />
+    <Content Include="Images\Food\Roštilj\bela vešalica.JPG" />
+    <Content Include="Images\Food\Roštilj\Cevapi.jpg" />
+    <Content Include="Images\Food\Roštilj\dimljena vesalica.jpg" />
+    <Content Include="Images\Food\Roštilj\pilece belo na rostilju.jpg" />
+    <Content Include="Images\Food\Roštilj\pileći batak.jpg" />
+    <Content Include="Images\Food\Roštilj\pljeskavica.jpg" />
+    <Content Include="Images\Food\Roštilj\punjene pljeskavice.jpg" />
+    <Content Include="Images\Food\Roštilj\ražnjići.jpg" />
+    <Content Include="Images\Food\Roštilj\slanina.jpg" />
+    <Content Include="Images\Food\Roštilj\srpska kobasica.jpg" />
+    <Content Include="Images\Food\Salate\ajvar.jpg" />
+    <Content Include="Images\Food\Salate\basta salata.jpg" />
+    <Content Include="Images\Food\Salate\belolucene paprike paprike sa belim lukom.jpg" />
+    <Content Include="Images\Food\Salate\cobanska salata.jpg" />
+    <Content Include="Images\Food\Salate\grcka salata.jpg" />
+    <Content Include="Images\Food\Salate\paradajz salata.jpg" />
+    <Content Include="Images\Food\Salate\pindjur.jpg" />
+    <Content Include="Images\Food\Salate\sopska salata.jpg" />
+    <Content Include="Images\Food\Salate\srpska_salata2.jpg" />
+    <Content Include="Images\Food\Salate\zelena gergiovska salata.jpg" />
+    <Content Include="Images\Food\Supe i čorbe\corba sa povrcem.jpg" />
+    <Content Include="Images\Food\Supe i čorbe\domaca pileca supa.jpg" />
+    <Content Include="Images\Food\Supe i čorbe\juneca supa.jpg" />
+    <Content Include="Images\Food\Supe i čorbe\krem supa od sampinjona.jpg" />
+    <Content Include="Images\Food\Supe i čorbe\minestrone supa.jpg" />
+    <Content Include="Images\Food\Supe i čorbe\paradajz corba.jpg" />
+    <Content Include="Images\Food\Supe i čorbe\pileca supa.jpg" />
+    <Content Include="Images\Food\Supe i čorbe\riblja filet corba.jpg" />
+    <Content Include="Images\Food\Supe i čorbe\supa sa knedlama.jpg" />
+    <Content Include="Images\Food\Supe i čorbe\teleca supa.jpg" />
+    <Content Include="Images\Food\Torte i kolači\bajadere.jpg" />
+    <Content Include="Images\Food\Torte i kolači\cheesecake.jpg" />
+    <Content Include="Images\Food\Torte i kolači\cokoladne stanglice zoom.jpg" />
+    <Content Include="Images\Food\Torte i kolači\londonske stangle.jpg" />
+    <Content Include="Images\Food\Torte i kolači\panj torta.jpg" />
+    <Content Include="Images\Food\Torte i kolači\puslica torta.jpg" />
+    <Content Include="Images\Food\Torte i kolači\reforma torta.jpg" />
+    <Content Include="Images\Food\Torte i kolači\saher torta.jpg" />
+    <Content Include="Images\Food\Torte i kolači\vasina torta.jpg" />
+    <Content Include="Images\Food\Torte i kolači\zerbo kocke.jpg" />
+    <Content Include="Images\Food\Vegan\brusketi mediteran.jpg" />
+    <Content Include="Images\Food\Vegan\cevapi.jpg" />
+    <Content Include="Images\Food\Vegan\fondu.jpg" />
+    <Content Include="Images\Food\Vegan\heljda pitic.jpg" />
+    <Content Include="Images\Food\Vegan\humus.jpg" />
+    <Content Include="Images\Food\Vegan\mini pljeskavice.jpg" />
+    <Content Include="Images\Food\Vegan\misoshiitake.jpg" />
+    <Content Include="Images\Food\Vegan\nacho plate.jpg" />
+    <Content Include="Images\Food\Vegan\vegan spring Rolls.jpg" />
+    <Content Include="Images\Food\Vegan\vegecvarci.jpg" />
     <Content Include="Images\ketering-logo-horizontal.png" />
     <Content Include="Images\ketering-logo-small.png" />
     <Content Include="Images\ketering-logo.png" />
@@ -341,11 +433,13 @@
     <Content Include="Views\AdminUser\CreateManager.cshtml" />
     <Content Include="Views\AdminMenu\CreateComboItem.cshtml" />
     <Content Include="Views\AdminMenu\EditComboMenu.cshtml" />
+    <Content Include="Views\AdminMenu\_adminMenuComboItem.cshtml" />
+    <Content Include="Views\Menu\_menuComboItem.cshtml" />
+    <Content Include="Views\Checkout\_CartComboMenuItem.cshtml" />
+    <Content Include="Views\Account\EditAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Cart\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

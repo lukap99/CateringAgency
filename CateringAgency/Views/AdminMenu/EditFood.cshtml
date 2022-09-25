@@ -73,14 +73,20 @@
                                 <div class="mb-3">
                                     @Html.LabelFor(model => model.BasePrice, new { @class = "form-label" })
                                     @Html.ValidationMessageFor(model => model.BasePrice, "", new { @class = "text-danger" })
-                                    @Html.EditorFor(model => model.BasePrice, new { htmlAttributes = new { @type = "number", @min = "1", @Value = Model.BasePrice.ToString(), @step = "0.01", @class = "form-control" } })
+                                    <div class="input-group" style="max-width: 40%;">
+                                        @Html.EditorFor(model => model.BasePrice, new { htmlAttributes = new { @type = "number", @min = "1", @Value = Model.BasePrice.ToString(), @step = "0.01", @class = "form-control" } })
+                                        <span class="input-group-text">RSD</span>
+                                    </div>
                                 </div>
 
                                 <!-- Discount -->
                                 <div class="mb-3">
                                     @Html.LabelFor(model => model.Discount.DiscountAmount, new { @class = "form-label" })
                                     @Html.ValidationMessageFor(model => model.Discount.DiscountAmount, "", new { @class = "text-danger" })
-                                    @Html.EditorFor(model => model.Discount.DiscountAmount, new { htmlAttributes = new { @min = "0", @max = "100", @Value = Model.Discount.DiscountAmount.ToString(), @type = "number", @class = "form-control" } })
+                                    <div class="input-group" style="max-width: 40%;">
+                                        @Html.EditorFor(model => model.Discount.DiscountAmount, new { htmlAttributes = new { @min = "0", @max = "100", @Value = Model.Discount.DiscountAmount.ToString(), @type = "number", @class = "form-control" } })
+                                        <span class="input-group-text">%</span>
+                                    </div>
                                 </div>
 
                                 <!-- Is visible -->

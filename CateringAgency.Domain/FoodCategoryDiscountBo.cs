@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ namespace CateringAgency.Domain
             DiscountAmount = discountAmount;
 
         }
+
+        [Display(Name="Discount")]
         public float DiscountAmount
         {
             get => discountAmount;

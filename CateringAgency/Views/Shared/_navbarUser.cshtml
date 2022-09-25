@@ -1,8 +1,9 @@
 ﻿@{ 
     int numItemsIncart = 0;
-    if (Session["CartItemsCount"] != null)
+    if (Session["Cart"] != null)
     {
-        numItemsIncart = Convert.ToInt32(Session["CartItemsCount"]);
+        var cart = Session["Cart"] as CateringAgency.Domain.CartBo;
+        numItemsIncart = cart.ItemCount;
     }
 }
 
@@ -58,6 +59,7 @@
                         @Session["Firstname"].ToString() @Session["Lastname"].ToString()
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li>@Html.ActionLink("Edit account", "EditAccount", "Account", null, new { @class = "dropdown-item" })</li>
                         <li>@Html.ActionLink("Log out", "Logout", "Account", null, new { @class = "dropdown-item" })</li>
                     </ul>
                 </li>

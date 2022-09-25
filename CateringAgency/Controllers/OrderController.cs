@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace CateringAgency.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         OrderRepository orderRepo = new OrderRepository();

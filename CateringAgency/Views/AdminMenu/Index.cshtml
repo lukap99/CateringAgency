@@ -4,11 +4,18 @@
     Layout = "~/Views/Shared/_MenuLayout.cshtml";
 
     int selectedCategoryId = 0;
+    List<CateringAgency.Domain.ComboMenuBo> comboItems = new List<CateringAgency.Domain.ComboMenuBo>();
 
+    // Category of items to highlight
+    // 0 - All
+    // 1~9 - Normal categories
+    // 10 - Combo items
     if (ViewBag.selectedCategoryId != null)
-    {
-        selectedCategoryId = (int)ViewBag.selectedCategoryId;
-    }
+    { selectedCategoryId = (int)ViewBag.selectedCategoryId; }
+
+    // Combo items list
+    if (ViewBag.comboItems != null)
+    { comboItems = ViewBag.comboItems; }
 }
 
 <div class="container bg-light px-5">
@@ -18,6 +25,13 @@
         @{ Html.RenderAction("AdminMenuCategories", "AdminMenu", new { selectedCategoryId = selectedCategoryId }); }
 
         <div class="col py-3">
+
+            @if (ViewBag.comboItems != null)
+            {
+                <!-- Combo items -->
+                foreach (var comboItem in comboItems)
+                { Html.RenderPartial("_adminMenuComboItem", comboItem); }
+            }
 
             <!-- Menu items -->
             @foreach (var foodItem in Model)

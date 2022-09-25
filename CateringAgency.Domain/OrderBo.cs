@@ -81,12 +81,12 @@ namespace CateringAgency.Domain
         public float BasePrice { get => basePrice; set => basePrice = value < 0 ? 0 : value; }
         public string BasePriceString
         {
-            get => String.Format("{0:0,0.00}", basePrice);
+            get => String.Format("{0:0.0,0}", basePrice);
         }
         public float BuyingPrice { get => buyingPrice; set => buyingPrice = value < 0 ? 0 : value; }
         public string BuyingPriceString
         {
-            get => String.Format("{0:0,0.00}", buyingPrice);
+            get => String.Format("{0:0.0,0}", buyingPrice);
         }
         public DeliveryMethodBo DeliveryMethod { get => deliveryMethod; set => deliveryMethod = value; }
         public PaymentMethodBo PaymentMethod { get => paymentMethod; set => paymentMethod = value; }
@@ -99,23 +99,16 @@ namespace CateringAgency.Domain
         #endregion
 
         #region Methods
-        public void AddToCart(FoodBo foodBo)
-        {
-            orderItems.Add(foodBo);
-        }
-        public void ClearCart()
-        {
-            orderItems.Clear();
-        }
+
         public bool HasItems()
         {
-            if (orderItems.Count() > 0)
+            if (orderItems.Any() || orderComboItems.Any())
                 return true;
             else return false;
         }
         public void CalculatePrice()
         {
-            if (orderItems.Count > 0)
+            if (ItemCount > 0)
             {
                 float sum = 0;
                 foreach (FoodBo item in orderItems)

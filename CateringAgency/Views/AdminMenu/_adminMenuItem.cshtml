@@ -11,11 +11,11 @@
             <div class="col-3">
                 <div class="card-body" style="word-wrap: break-word;">
                     <h5 class="card-title">
-                        @Model.Name
                         @if (Model.Discount.IsValid)
                         {
                             <br><span class="text-warning">(@Model.Discount.DiscountAmount.ToString()% OFF!)</span>
                         }
+                        @Model.Name
                     </h5>
                     @if (Model.Ingredients != null)
                     {

@@ -19,6 +19,8 @@ namespace CateringAgency.Controllers
             if (id.HasValue != true || id <= 0)
             {
                 ViewBag.selectedCategoryId = 0;
+                // Put combo items in view bag
+                // Display ViewBag in view
                 ViewBag.comboItems = comboRepo.GetAllComboMenus();
                 return View(foodRepo.GetAll());
             }
@@ -30,10 +32,9 @@ namespace CateringAgency.Controllers
             }
             else
             {
-                int categoryId = (int)id;
-                ViewBag.selectedCategoryId = categoryId;
+                ViewBag.selectedCategoryId = 10; // 10 to select combo menu id
                 ViewBag.comboItems = comboRepo.GetAllComboMenus();
-                return View(foodRepo.GetFoodCategoryItems(categoryId));
+                return View(new List<FoodBo>());
             }
         }
 

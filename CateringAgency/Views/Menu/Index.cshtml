@@ -27,6 +27,11 @@
     if (ViewBag.comboItems != null)
     { comboItems = ViewBag.comboItems; }
 
+    var groupedFoodItems = Model
+    .GroupBy(u => u.FoodCategory.FoodCategoryId)
+    .Select(grp => grp.ToList())
+    .ToList();
+
 }
 
 <div class="container bg-light px-5">
@@ -58,6 +63,10 @@
 
             @if (ViewBag.comboItems != null)
             {
+                <div class="card mb-2 p-3 bg-primary text-white" style="font-family:'Segoe UI Black';">
+                    <h3 class="my-0">Combo items</h3>
+                </div>
+
                 <!-- Combo items -->
                 foreach (var comboItem in comboItems)
                 {
@@ -66,10 +75,16 @@
             }
 
             <!-- Menu items -->
-            @foreach (var foodItem in Model)
+            @foreach (var foodItems in groupedFoodItems)
             {
-                foodItem.CalculatePrice();
-                Html.RenderPartial("_menuItem", foodItem);
+                <div class="card mb-2 p-3 bg-primary text-white" style="font-family:'Segoe UI Black';">
+                    <h3 class="my-0">@foodItems.First().FoodCategory.Name</h3>
+                </div>
+                foreach (var foodItem in foodItems)
+                {
+                    foodItem.CalculatePrice();
+                    Html.RenderPartial("_menuItem", foodItem);
+                }
             }
 
         </div>

@@ -45,7 +45,7 @@ namespace CateringAgency.Controllers
             }
             else
             {
-                ViewBag.selectedCategoryId = 10;
+                ViewBag.selectedCategoryId = 10; // 10 to select combo menu id
                 ViewBag.comboItems = comboRepo.GetAllActiveComboMenus();
                 return View(new List<FoodBo>());
             }

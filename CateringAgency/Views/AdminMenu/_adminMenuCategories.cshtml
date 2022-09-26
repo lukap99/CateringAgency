@@ -24,24 +24,27 @@
 
 <div class="col-12 d-flex flex-column flex-shrink-0 p-3 text-dark bg-light" style="width: 280px;">
 
-    <a href="@Url.Action("CreateFood", "AdminMenu")" <button="" class="btn btn-success"><i class="bi bi-plus-circle"> Add item</i></a>
-    <a href="@Url.Action("CreateComboItem", "AdminMenu")" <button="" class="btn btn-warning my-1"><i class="bi bi-plus-circle"> Add combo item</i></a>
-    <a href="@Url.Action("EditCategoryDiscount", "AdminMenu")" <button="" class="btn btn-primary"><i class="bi bi-pencil-square"> Edit category discount</i></a>
+    <a href="@Url.Action("CreateFood", "AdminMenu")" class="btn btn-success"><i class="bi bi-plus-circle"> Add item</i></a>
+    <a href="@Url.Action("CreateComboItem", "AdminMenu")" class="btn btn-warning my-1"><i class="bi bi-plus-circle"> Add combo item</i></a>
+    <a href="@Url.Action("EditCategoryDiscount", "AdminMenu")" class="btn btn-primary"><i class="bi bi-pencil-square"> Edit category discount</i></a>
     <hr />
 
     <span class="fs-4 px-5">Categories</span>
     <hr>
 
     <div class="list-group">
+        <!-- All food items-->
         @if (selectedCategoryId == 0)
-        {
-            @Html.ActionLink("Sva jela", "Index", "AdminMenu", null, new { @class = listItemActiveClass })
-        }
+        { @Html.ActionLink("Sva jela", "Index", "AdminMenu", null, new { @class = listItemActiveClass }) }
         else
-        {
-            @Html.ActionLink("Sva jela", "Index", "AdminMenu", null, new { @class = listItemClass })
-        }
-        @Html.ActionLink("Kombo meni", "Index", "AdminMenu", null, new { @class = listItemClass })
+        { @Html.ActionLink("Sva jela", "Index", "AdminMenu", null, new { @class = listItemClass }) }
+
+        <!-- Combo menu -->
+        @if (selectedCategoryId >= 10)
+        { @Html.ActionLink("Kombo meni", "Index", "AdminMenu", new { id = 10 }, new { @class = listItemActiveClass }) }
+        else
+        { @Html.ActionLink("Kombo meni", "Index", "AdminMenu", new { id = 10 }, new { @class = listItemClass }) }
+
         @foreach (var categoryItem in Model)
         {
             if (categoryItem.FoodCategoryId == selectedCategoryId)

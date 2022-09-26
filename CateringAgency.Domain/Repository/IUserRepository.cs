@@ -20,6 +20,7 @@ namespace CateringAgency.Domain.Repository
         UserBo GetUser(int userId);
         UserBo GetUser(string email);
         UserBo GetUser(UserBo userBo);
+        int GetUserPoints(int id);
         bool Exists(UserBo userBo);
         bool Exists(string email);
         bool Exists(int id);

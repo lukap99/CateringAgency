@@ -222,6 +222,11 @@ namespace CateringAgency.Models.EntityFramework
             return user;
         }
 
+        public int GetUserPoints(int id)
+        {
+            return cateringEntities.users.First(t => t.id == id).points;
+        }
+
         public bool Exists(UserBo userBo)
         {
             bool isValid = cateringEntities.users.Any(t => t.email == userBo.Email);

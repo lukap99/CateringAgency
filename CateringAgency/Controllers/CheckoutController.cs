@@ -11,7 +11,7 @@ namespace CateringAgency.Controllers
     public class CheckoutController : Controller
     {
         OrderRepository orderRepo = new OrderRepository();
-
+        UserRepository userRepo = new UserRepository();
         public ActionResult Index()
         {
             if (Session["Cart"] == null)
@@ -182,7 +182,10 @@ namespace CateringAgency.Controllers
                 CartBo cart = Session["Cart"] as CartBo;
                 orderRepo.CreateOrder(cart);
 
-                Session["Cart"] = new CartBo(cart.User); // updates old session value with fresh one
+                UserBo userWithUpdatedPoints = cart.User;
+                userWithUpdatedPoints.Points = userRepo.GetUserPoints((int)Session["UserId"]);
+
+                Session["Cart"] = new CartBo(userWithUpdatedPoints); // updates old session value with fresh one
                 Session["CartItemsCount"] = 0; // resets item count to 0
 
                 return RedirectToAction("Index");

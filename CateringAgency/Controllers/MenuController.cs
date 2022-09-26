@@ -78,7 +78,7 @@ namespace CateringAgency.Controllers
                 newFood.CalculatePrice();
 
                 TempData["addMessage"] = 
-                    newFood.Name.ToString() + " ( × " + newFood.Amount.ToString() + ") added to cart";
+                    newFood.Name.ToString() + " ( × " + newFood.Amount.ToString() + " ) added to cart";
 
                 // if TempData has "selectedCategoryId", assign its value to selectedCategoryId
                 // otherwise assign 0

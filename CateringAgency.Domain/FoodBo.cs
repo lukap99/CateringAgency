@@ -18,12 +18,13 @@ namespace CateringAgency.Domain
         private string ingredients;
 
         private float basePrice;
+        private float sellingPricePerUnit;
         private float sellingPrice;
 
         private int amount; // previous default = 1
-        private bool isVisible ;
+        private bool isVisible;
 
-        private string imagePath;
+        private string imagePath = "/Images/no_image.png";
         #endregion
 
         public FoodBo()
@@ -62,9 +63,13 @@ namespace CateringAgency.Domain
 
         [Display(Name = " Selling price")]
         public float SellingPrice
-        { 
+        {
             get => sellingPrice;
             set => sellingPrice = value < 0 ? 0 : value;
+        }
+        public float SellingPricePerUnit
+        {
+            get => (sellingPrice / amount);
         }
         public string SellingPricePerUnitString
         {
@@ -93,13 +98,6 @@ namespace CateringAgency.Domain
         [Display(Name = " Image path")]
         public string ImagePath { get => imagePath; set => imagePath = value; }
 
-        public string FullImagePath
-        {
-            get
-            {
-                return "Feature not implemented, whoops!";
-            }
-        }
         #endregion
 
 
@@ -108,10 +106,11 @@ namespace CateringAgency.Domain
         // sellingPrice = basePrice * (1 - x * 1/100)(1 - y * 1/100)
         public void CalculatePrice()
         {
-            sellingPrice = (
+            sellingPricePerUnit = (
                 basePrice * ((100 - this.Discount.DiscountAmount) * 0.01f)
                 * ((100 - this.FoodCategory.CategoryDiscount.DiscountAmount) * 0.01f)
-                ) * amount;            ////(sum * ((100 - orderDiscount.DiscountAmount) * 0.01f) + deliveryMethod.Price)
+                );
+            sellingPrice = sellingPricePerUnit * amount;
         }
     }
 }

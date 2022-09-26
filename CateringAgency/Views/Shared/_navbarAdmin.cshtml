@@ -17,19 +17,19 @@
                     @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "AdminMenu")">
+                    <a class="nav-link" href="@Url.Action("Index", "AdminMenu", null)">
                         <i class="bi bi-card-list"></i>
                         Edit menu
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index","AdminOrder")">
+                    <a class="nav-link" href="@Url.Action("Index", "AdminOrder", null)">
                         <i class="bi bi-cash-stack"></i>
                         Orders
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="@Url.Action("Users","AdminUser")">
+                    <a class="nav-link active" href="@Url.Action("Users", "AdminUser", null)">
                         <i class="bi bi-file-person-fill"></i>
                         Manage customers
                     </a>
@@ -41,13 +41,13 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li>
-                            <a class="dropdown-item" href="@Url.Action("Managers","AdminUser")">
+                            <a class="dropdown-item" href="@Url.Action("Managers", "AdminUser")">
                                 <i class="bi bi-person-lines-fill"></i>
                                 View managers
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="@Url.Action("CreateManager","AdminUser")">
+                            <a class="dropdown-item" href="@Url.Action("CreateManager", "AdminUser")">
                                 <i class="bi bi-person-plus-fill"></i>
                                 Add new manager
                             </a>

@@ -38,7 +38,8 @@ namespace CateringAgency.Models.EntityFramework
                 UnitOfMeasurement = foodModel.unit_of_measurement,
                 Ingredients = foodModel.ingredients,
                 BasePrice = (float)foodModel.price,
-                IsVisible = foodModel.is_visible
+                IsVisible = foodModel.is_visible,
+                ImagePath = foodModel?.image_path ?? "/Images/no_image.png"
             };
             foodBo.CalculatePrice();
             return foodBo;

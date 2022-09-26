@@ -37,13 +37,13 @@ namespace CateringAgency.Controllers
             }
             
         }
-        public ActionResult CancelOrder(int orderId)
+        public ActionResult CancelOrder(int id)
         {
-            bool isComplete = orderRepo.IsOrderComplete(orderId);
+            bool isComplete = orderRepo.IsOrderComplete(id);
             if (User.Identity.IsAuthenticated && isComplete == false)
             {
-                orderRepo.CancelOrder(orderId);
-                return RedirectToAction("MyOrders");
+                orderRepo.CancelOrder(id);
+                return RedirectToAction("ViewOrder", new { id = id });
             }
             else
             {

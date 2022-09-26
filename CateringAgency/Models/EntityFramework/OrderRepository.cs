@@ -247,7 +247,7 @@ namespace CateringAgency.Models.EntityFramework
                     order_food_item foo = new order_food_item();
                     foo.order_id = orderId;
                     foo.food_id = foodItem.FoodId;
-                    foo.price = foodItem.SellingPrice;
+                    foo.price = foodItem.SellingPricePerUnit;
                     foo.amount = foodItem.Amount;
 
                     cateringEntities.order_food_item.Add(foo);
@@ -261,7 +261,7 @@ namespace CateringAgency.Models.EntityFramework
                     order_combo_item foo = new order_combo_item();
                     foo.order_id = orderId;
                     foo.combo_menu_id = comboItem.ComboMenuId;
-                    foo.price = comboItem.SellingPrice;
+                    foo.price = comboItem.SellingPricePerUnit;
                     foo.amount = comboItem.Amount;
 
                     cateringEntities.order_combo_item.Add(foo);

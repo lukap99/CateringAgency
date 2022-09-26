@@ -29,7 +29,7 @@ namespace CateringAgency.Domain
         public float Price { get => price; set => price = value < 0 ? 0 : value; }
         public string PriceString
         {
-            get => String.Format("{0:0,0.00}", price);
+            get => String.Format("{0:0.0,0}", price);
         }
     }
 }

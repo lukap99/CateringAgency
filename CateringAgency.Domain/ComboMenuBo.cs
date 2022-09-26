@@ -15,6 +15,7 @@ namespace CateringAgency.Domain
         private List<FoodBo> comboMenuItems;
 
         private float basePrice;
+        private float sellingPricePerUnit;
         private float sellingPrice;
 
         private int amount;
@@ -72,6 +73,10 @@ namespace CateringAgency.Domain
         }
         public float SellingPrice 
         { get => sellingPrice; set => sellingPrice = value; }
+        public float SellingPricePerUnit
+        {
+            get => (sellingPrice / amount);
+        }
         public string SellingPricePerUnitString
         {
             get => String.Format("{0:0.0,0}", (sellingPrice / amount));
@@ -138,8 +143,8 @@ namespace CateringAgency.Domain
 
         public void CalculatePrice()
         {
-            SellingPrice = (basePrice * ((100 - this.discountAmount) * 0.01f)) * amount;
-            //(sum * ((100 - orderDiscount.DiscountAmount) * 0.01f) + deliveryMethod.Price)
+            sellingPricePerUnit = (basePrice * ((100 - this.discountAmount) * 0.01f));
+            sellingPrice = sellingPricePerUnit * amount;
         }
 
         public void CalculateSuggestedPrice()
@@ -153,7 +158,7 @@ namespace CateringAgency.Domain
                     sum += item.SellingPrice;
                 }
                 basePrice = sum;
-                SellingPrice = (sum * ((100 - this.discountAmount) * 0.01f)) * amount;
+                sellingPrice = (sum * ((100 - this.discountAmount) * 0.01f)) * amount;
                 //(sum * ((100 - orderDiscount.DiscountAmount) * 0.01f) + deliveryMethod.Price)
             }
         }

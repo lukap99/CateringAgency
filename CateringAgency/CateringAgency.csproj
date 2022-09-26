@@ -325,6 +325,7 @@
     <Content Include="Images\ketering-logo-small.png" />
     <Content Include="Images\ketering-logo.png" />
     <Content Include="Images\ketering-main-page.jpg" />
+    <Content Include="Images\no_image.png" />
     <Content Include="Models\CateringAgencyModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CateringAgencyModel.edmx</DependentUpon>

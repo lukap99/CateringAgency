@@ -14,7 +14,7 @@ namespace CateringAgency.Controllers
         OrderRepository orderRepo = new OrderRepository();
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("MyOrders");
         }
 
         public ActionResult MyOrders()

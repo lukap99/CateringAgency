@@ -29,11 +29,12 @@ namespace CateringAgency.Models
         public string ingredients { get; set; }
         public double price { get; set; }
         public double discount_percent { get; set; }
+        public string image_path { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<combo_menu_item> combo_menu_item { get; set; }
+        public virtual food_category food_category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<order_food_item> order_food_item { get; set; }
-        public virtual food_category food_category { get; set; }
     }
 }

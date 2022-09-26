@@ -17,13 +17,13 @@
                     @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "AdminMenu")">
+                    <a class="nav-link" href="@Url.Action("Index", "AdminMenu", null)">
                         <i class="bi bi-card-list"></i>
                         Edit menu
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index","AdminOrder")">
+                    <a class="nav-link" href="@Url.Action("Index", "AdminOrder", null)">
                         <i class="bi bi-cash-stack"></i>
                         Orders
                     </a>

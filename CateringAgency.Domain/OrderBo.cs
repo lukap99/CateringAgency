@@ -83,6 +83,15 @@ namespace CateringAgency.Domain
         {
             get => String.Format("{0:0.0,0}", basePrice);
         }
+        public string BasePriceWithShippingString
+        {
+            get => String.Format("{0:0.0,0}", (basePrice+this.deliveryMethod.Price));
+        }
+        public string DiscountPriceReductionString
+        {
+            //(sum * ((100 - orderDiscount.DiscountAmount) * 0.01f)
+            get => String.Format("{0:0.0,0}", (basePrice - (basePrice * ((100 - orderDiscount.DiscountAmount) * 0.01f))));
+        }
         public float BuyingPrice { get => buyingPrice; set => buyingPrice = value < 0 ? 0 : value; }
         public string BuyingPriceString
         {

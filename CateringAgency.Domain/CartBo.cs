@@ -95,6 +95,11 @@ namespace CateringAgency.Domain
         {
             get => String.Format("{0:0.0,0}", basePrice);
         }
+        public string DiscountPriceReductionString
+        {
+            //(sum * ((100 - orderDiscount.DiscountAmount) * 0.01f)
+            get => String.Format("{0:0.0,0}", (basePrice - (basePrice * ((100 - orderDiscount.DiscountAmount) * 0.01f))));
+        }
         public float BuyingPrice
         {
             get => buyingPrice;

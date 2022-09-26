@@ -14,7 +14,7 @@ namespace CateringAgency.Controllers
         readonly UserRepository userRepository = new UserRepository();
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Login");
         }
 
         [HttpGet]

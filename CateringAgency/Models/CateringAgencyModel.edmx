@@ -14,6 +14,7 @@
           <Property Name="discount_percent" Type="float" Nullable="false" />
           <Property Name="is_visible" Type="bit" Nullable="false" />
           <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="image_path" Type="nvarchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="combo_menu_item">
           <Key>
@@ -44,6 +45,7 @@
           <Property Name="ingredients" Type="nvarchar(max)" />
           <Property Name="price" Type="float" Nullable="false" />
           <Property Name="discount_percent" Type="float" Nullable="false" />
+          <Property Name="image_path" Type="nvarchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="food_category">
           <Key>
@@ -205,7 +207,7 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="order">
-              <PropertyRef Name="discount_id" />
+              <PropertyRef Name="delivery_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -443,6 +445,10 @@
             <End Role="delivery_method" EntitySet="delivery_method" />
             <End Role="order" EntitySet="orders" />
           </AssociationSet>
+          <AssociationSet Name="FK__food__food_categ__60A75C0F" Association="CateringAgencyModel.FK__food__food_categ__60A75C0F">
+            <End Role="food_category" EntitySet="food_category" />
+            <End Role="food" EntitySet="foods" />
+          </AssociationSet>
           <AssociationSet Name="FK__order_foo__food___4CA06362" Association="CateringAgencyModel.FK__order_foo__food___4CA06362">
             <End Role="food" EntitySet="foods" />
             <End Role="order_food_item" EntitySet="order_food_item" />
@@ -471,10 +477,6 @@
             <End Role="role" EntitySet="roles" />
             <End Role="user" EntitySet="users" />
           </AssociationSet>
-          <AssociationSet Name="FK__food__food_categ__60A75C0F" Association="CateringAgencyModel.FK__food__food_categ__60A75C0F">
-            <End Role="food_category" EntitySet="food_category" />
-            <End Role="food" EntitySet="foods" />
-          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -495,9 +497,10 @@
           <Property Name="name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="discount_percent" Type="Double" Nullable="false" />
           <Property Name="is_visible" Type="Boolean" Nullable="false" />
+          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="image_path" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="order_combo_item" Relationship="CateringAgencyModel.FK__order_com__combo__4AB81AF0" FromRole="combo_menu" ToRole="order_combo_item" />
           <NavigationProperty Name="combo_menu_item" Relationship="CateringAgencyModel.FK_combo_menu_item_combo_menu" FromRole="combo_menu" ToRole="combo_menu_item" />
-          <Property Name="price" Type="Double" Nullable="false" />
         </EntityType>
         <EntityType Name="combo_menu_item">
           <Key>
@@ -531,9 +534,10 @@
           <Property Name="ingredients" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="price" Type="Double" Nullable="false" />
           <Property Name="discount_percent" Type="Double" Nullable="false" />
+          <Property Name="image_path" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="combo_menu_item" Relationship="CateringAgencyModel.FK_combo_menu_item_food" FromRole="food" ToRole="combo_menu_item" />
-          <NavigationProperty Name="order_food_item" Relationship="CateringAgencyModel.FK__order_foo__food___4CA06362" FromRole="food" ToRole="order_food_item" />
           <NavigationProperty Name="food_category" Relationship="CateringAgencyModel.FK__food__food_categ__60A75C0F" FromRole="food" ToRole="food_category" />
+          <NavigationProperty Name="order_food_item" Relationship="CateringAgencyModel.FK__order_foo__food___4CA06362" FromRole="food" ToRole="order_food_item" />
         </EntityType>
         <EntityType Name="food_category">
           <Key>
@@ -687,7 +691,19 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="order">
-              <PropertyRef Name="discount_id" />
+              <PropertyRef Name="delivery_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__food__food_categ__60A75C0F">
+          <End Type="CateringAgencyModel.food_category" Role="food_category" Multiplicity="1" />
+          <End Type="CateringAgencyModel.food" Role="food" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="food_category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="food">
+              <PropertyRef Name="food_category_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -740,7 +756,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_orderComboItem_order">
-          <End Type="CateringAgencyModel.order" Role="order" Multiplicity="0..1" />
+          <End Type="CateringAgencyModel.order" Role="order" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="CateringAgencyModel.order_combo_item" Role="order_combo_item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="order">
@@ -777,18 +795,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__food__food_categ__60A75C0F">
-          <End Type="CateringAgencyModel.food_category" Role="food_category" Multiplicity="1" />
-          <End Type="CateringAgencyModel.food" Role="food" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="food_category">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="food">
-              <PropertyRef Name="food_category_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -822,6 +828,7 @@
           <EntitySetMapping Name="combo_menu">
             <EntityTypeMapping TypeName="CateringAgencyModel.combo_menu">
               <MappingFragment StoreEntitySet="combo_menu">
+                <ScalarProperty Name="image_path" ColumnName="image_path" />
                 <ScalarProperty Name="price" ColumnName="price" />
                 <ScalarProperty Name="is_visible" ColumnName="is_visible" />
                 <ScalarProperty Name="discount_percent" ColumnName="discount_percent" />
@@ -852,6 +859,7 @@
           <EntitySetMapping Name="foods">
             <EntityTypeMapping TypeName="CateringAgencyModel.food">
               <MappingFragment StoreEntitySet="food">
+                <ScalarProperty Name="image_path" ColumnName="image_path" />
                 <ScalarProperty Name="discount_percent" ColumnName="discount_percent" />
                 <ScalarProperty Name="price" ColumnName="price" />
                 <ScalarProperty Name="ingredients" ColumnName="ingredients" />

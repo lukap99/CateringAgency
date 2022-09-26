@@ -22,7 +22,7 @@
                                 <h4>Order</h4>
                                 <hr style="height:2px;border-width:0;color:gray;background-color:gray">
                                 <h5>Created: <span class="text-muted">@Model.DateCreated.ToLongDateString()</span></h5>
-                                <h5>Time: <span class="text-muted">@Model.DateCreated.ToLongTimeString()</span></h5>
+                                <h5>Time created: <span class="text-muted">@Model.DateCreated.ToLongTimeString()</span></h5>
                                 @if (Model.IsComplete)
                                 {
                                     <h5>Completed: <span class="text-muted">@Model.DateCompleted.Value</span></h5>
@@ -35,7 +35,7 @@
 
                                 <!-- Cart items -->
                                 <ul>
-                                    <li style="font-size: 0.8em; list-style-type: none;"><span>Item/Price/Amount</span><span class="float-end">Subtotal</span></li>
+                                    <li style="font-size: 0.8em; list-style-type: none;"><b><span>Item/Price/Amount</span><span class="float-end">Subtotal</span></b></li>
                                     @foreach (var item in Model.OrderItems)
                                     {
                                         item.CalculatePrice();
@@ -46,10 +46,13 @@
                                         item.CalculatePrice();
                                         <li style="font-size: 0.8em;">@item.Name<br /><span class="text-success">@item.SellingPricePerUnitString RSD</span> × @item.Amount <span class="text-success float-end">@item.SellingPriceString RSD</span></li>
                                     }
+                                    <li style="font-size: 0.8em;"><span>Shipping</span><span class="float-end text-success">@Model.DeliveryMethod.PriceString RSD</span></li>
                                 </ul>
+                                <h5><b>Subtotal: </b><span class="text-success float-end">@Model.BasePriceString RSD</span></h5>
 
                                 <hr style="height:2px;border-width:0;color:gray;background-color:gray">
-
+                                <h5>Shipping: <span class="float-end text-success">+@Model.DeliveryMethod.PriceString RSD</span></h5>
+                                <h5>Discount: <span class="float-end text-success">-@Model.DiscountPriceReductionString RSD</span></h5>
                                 <h4><b>Total: </b><span class="text-success float-end">@Model.BuyingPriceString RSD</span></h4>
                             </legend>
                             @if ((DateTime.Now - Model.DateCreated).TotalHours < 1)

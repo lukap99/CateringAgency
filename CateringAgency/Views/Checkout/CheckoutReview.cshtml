@@ -33,11 +33,11 @@
                                     <h5>Discount: <span class="text-muted">@Model.OrderDiscount.Name</span> </h5>
                                     @if (Model.PointsDifference >= 0)
                                     {
-                                     <h5>Points earned: <span class="text-muted">@Model.PointsDifference</span></h5>
+                                        <h5>Points earned: <span class="text-muted">@Model.PointsDifference</span></h5>
                                     }
                                     else
                                     {
-                                     <h5>Points used: <span class="text-muted">@Model.PointsDifference</span></h5>
+                                        <h5>Points used: <span class="text-muted">@Model.PointsDifference</span></h5>
                                     }
 
                                     <hr style="height:2px;border-width:0;color:gray;background-color:gray">
@@ -45,11 +45,11 @@
                                     <h5>Shipping: <span class="text-muted">@Model.DeliveryMethod.Name</span></h5>
                                     <h5>Shipping cost: <span class="text-muted">@Model.DeliveryMethod.PriceString RSD</span> </h5>
 
-                                    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+                                    <hr style="height:1px;border-width:0;color:gray;background-color:gray">
 
                                     <!-- Cart items -->
                                     <ul>
-                                        <li style="font-size: 0.8em; list-style-type: none;"><span>Item/Price/Amount</span><span class="float-end">Subtotal</span></li>
+                                        <li style="font-size: 0.8em; list-style-type: none;"><b><span>Item/Price/Amount</span><span class="float-end">Subtotal</span></b></li>
                                         @foreach (var item in Model.CartItems)
                                         {
                                             item.CalculatePrice();
@@ -61,14 +61,13 @@
                                             <li style="font-size: 0.8em;">@item.Name<br /><span class="text-success">@item.SellingPricePerUnitString RSD</span> × @item.Amount <span class="text-success float-end">@item.SellingPriceString RSD</span></li>
                                         }
                                     </ul>
+                                    <h5><b>Subtotal: </b><span class="text-success float-end">@Model.BasePriceString RSD</span></h5>
 
                                     <hr style="height:2px;border-width:0;color:gray;background-color:gray">
 
-                                    @if (Model.OrderDiscount.DiscountAmount > 0)
-                                    {
-                                        <h4>Total: <span class="text-muted float-end">@Model.BasePriceString RSD</span></h4>
-                                    }
-                                    <h4>Total: <span class="text-success float-end">@Model.BuyingPriceString RSD</span></h4>
+                                    <h5>Shipping: <span class="float-end text-success">+@Model.DeliveryMethod.PriceString RSD</span></h5>
+                                    <h5>Discount: <span class="float-end text-success">-@Model.DiscountPriceReductionString RSD</span></h5>
+                                    <h4><b>Total: </b><span class="text-success float-end">@Model.BuyingPriceString RSD</span></h4>
                                 </legend>
 
 

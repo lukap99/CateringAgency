@@ -1,4 +1,5 @@
 ﻿using CateringAgency.Domain;
+using CateringAgency.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,15 +7,8 @@ using System.Web;
 
 namespace CateringAgency.Models.EntityFramework
 {
-    public class ComboMenuRepository
+    public class ComboMenuRepository : IComboMenuRepository
     {
-        //TODO
-        // GetAllComboMenu
-        // GetAllActiveComboMenu
-        // GetComboMenu(id)
-        // Create
-        // Edit
-        // Delete
         private readonly CateringAgencyEntities cateringEntities;
         private readonly FoodRepository foodRepo = new FoodRepository();
 

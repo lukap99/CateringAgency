@@ -1,4 +1,5 @@
 ﻿using CateringAgency.Domain;
+using CateringAgency.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Web;
 
 namespace CateringAgency.Models.EntityFramework
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly CateringAgencyEntities cateringEntities;
 

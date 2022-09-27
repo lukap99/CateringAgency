@@ -58,7 +58,7 @@
                             @if ((DateTime.Now - Model.DateCreated).TotalHours < 1)
                             {
                                 var timeRemaining = 60 - (DateTime.Now - Model.DateCreated).Minutes;
-                                <p class="text-danger">Narudžbine možete tek nakon sat vremena!</p>
+                                <p class="text-danger">Narudžbine možete otkazati tek nakon sat vremena!</p>
                                 <p class="text-danger">Preostalo @timeRemaining minuta</p>
                             }
 

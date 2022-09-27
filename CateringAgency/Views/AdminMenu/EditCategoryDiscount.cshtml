@@ -31,27 +31,30 @@
 
                         @using (Html.BeginForm("EditFoodCategoryDiscount", "AdminMenu", FormMethod.Post))
                         {
-                            <fieldset>
+                        <fieldset>
 
-                                <legend><h4>Edit food category discount</h4></legend>
+                            <legend><h4>Edit food category discount</h4></legend>
 
-                                <!-- Food category -->
-                                <div class="col mb-3">
-                                    @Html.Label("foodCategoryId", "Food Category", new { @class = "form-label" })
-                                    @Html.DropDownList("foodCategoryId", foodCategoriesList, htmlAttributes: new { @class = "form-select" })
+                            <!-- Food category -->
+                            <div class="col mb-3">
+                                @Html.Label("foodCategoryId", "Food Category", new { @class = "form-label" })
+                                @Html.DropDownList("foodCategoryId", foodCategoriesList, htmlAttributes: new { @class = "form-select" })
+                            </div>
+
+                            <!-- Discount -->
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.CategoryDiscount.DiscountAmount, new { @class = "form-label" })
+                                <div class="input-group" style="max-width: 40%;">
+                                    @Html.TextBox("discountPercent", 0, htmlAttributes: new { @min = "0", @max = "100", @Value = "0", @type = "number", @class = "form-control" })
+                                    <span class="input-group-text">%</span>
                                 </div>
-
-                                <!-- Discount -->
-                                <div class="mb-3">
-                                    @Html.LabelFor(model => model.CategoryDiscount.DiscountAmount, new { @class = "form-label" })
-                                    @Html.TextBox("discountPercent", 0, htmlAttributes: new { @min = "0", @max = "100", @Value = "0", @type = "number", @class = "form-control" } )
-                                </div>
+                            </div>
 
 
-                                <!-- submit -->
-                                <input type="submit" name="Submit" value="Submit changes" id="createFood" class="btn btn-success">
-                                <a href="@Url.Action("Index", "AdminMenu") " class="btn btn-primary">Back</a>
-                            </fieldset>
+                            <!-- submit -->
+                            <input type="submit" name="Submit" value="Save changes" id="createFood" class="btn btn-success">
+                            <a href="@Url.Action("Index", "AdminMenu") " class="btn btn-primary">Back</a>
+                        </fieldset>
                         }
 
                     </div>

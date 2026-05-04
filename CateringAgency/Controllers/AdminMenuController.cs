@@ -86,6 +86,26 @@ namespace CateringAgency.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult CreateCategory()
+        {
+            return View(new FoodCategoryBo());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateCategory(FoodCategoryBo model)
+        {
+            if (ModelState.IsValid)
+            {
+                foodRepo.CreateCategory(model);
+                TempData["message"] = $"Category '{model.Name}' created successfully.";
+                return RedirectToAction("Index", new { id = model.FoodCategoryId });
+            }
+
+            // If validation fails, return the same view
+            return View(model);
+        }
+
         public ActionResult EditCategoryDiscount()
         {
             ViewBag.Categories = foodRepo.GetAllFoodCategories();

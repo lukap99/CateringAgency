@@ -8,43 +8,137 @@
 
 <div class="container col-xxl-12 px-4 py-5">
 
-    <table class="table table-hover table-striped">
+    <h2>Orders</h2>
+
+    <!-- Search form -->
+    <form method="get" action="@Url.Action("Index")" class="form-inline mb-3">
+        <div class="input-group">
+            <input type="text" name="searchString" value="@ViewBag.CurrentFilter" class="form-control" placeholder="Search by order ID, customer name, email..." />
+            <button type="submit" class="btn btn-primary">Search</button>
+            @if (!string.IsNullOrEmpty(ViewBag.CurrentFilter))
+            {
+                <a href="@Url.Action("Index")" class="btn btn-secondary">Clear</a>
+            }
+        </div>
+    </form>
+
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <div>
+            Showing @((ViewBag.CurrentPage - 1) * ViewBag.PageSize + 1) to
+            @Math.Min(ViewBag.CurrentPage * ViewBag.PageSize, ViewBag.TotalItems) of @ViewBag.TotalItems orders
+        </div>
+        <div>
+            <!-- Optional: page size selector (you can add later) -->
+        </div>
+    </div>
+
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">User</th>
-                <th scope="col">Date</th>
-                <th scope="col">Delivery</th>
-                <th scope="col">Address</th>
-                <th scope="col">Price</th>
-                <th scope="col">Discount</th>
-                <th scope="col">Completed</th>
-                <th scope="col">Action</th>
+                <th>
+                    <a href="@Url.Action("Index", new { sortOrder = ViewBag.CurrentSort == "orderId_desc" ? "orderId_asc" : "orderId_desc", searchString = ViewBag.CurrentFilter })">
+                        Order ID
+                        @if (ViewBag.CurrentSort == "orderId_desc")
+                        {<span>▼</span> }
+                        else if (ViewBag.CurrentSort == "orderId_asc")
+                        { <span>▲</span>}
+                    </a>
+                </th>
+                <th>
+                    <a href="@Url.Action("Index", new { sortOrder = ViewBag.CurrentSort == "customer_desc" ? "customer_asc" : "customer_desc", searchString = ViewBag.CurrentFilter })">
+                        Customer
+                        @if (ViewBag.CurrentSort == "customer_desc")
+                        {<span>▼</span> }
+                        else if (ViewBag.CurrentSort == "customer_asc")
+                        { <span>▲</span>}
+                    </a>
+                </th>
+                <th>
+                    <a href="@Url.Action("Index", new { sortOrder = ViewBag.CurrentSort == "date_desc" ? "date_asc" : "date_desc", searchString = ViewBag.CurrentFilter })">
+                        Date Created
+                        @if (ViewBag.CurrentSort == "date_desc")
+                        {<span>▼</span> }
+                        else if (ViewBag.CurrentSort == "date_asc")
+                        { <span>▲</span>}
+                    </a>
+                </th>
+                <th>
+                    <a href="@Url.Action("Index", new { sortOrder = ViewBag.CurrentSort == "total_desc" ? "total_asc" : "total_desc", searchString = ViewBag.CurrentFilter })">
+                        Total
+                        @if (ViewBag.CurrentSort == "total_desc")
+                        {<span>▼</span> }
+                        else if (ViewBag.CurrentSort == "total_asc")
+                        { <span>▲</span>}
+                    </a>
+                </th>
+                <th>Status</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var order in Model)
             {
                 <tr>
-                    <th scope="row">@i</th>
-                    <td><a href="@Url.Action("Index", "AdminOrder", new { id = item.User.UserId })">@item.User.FirstName @item.User.LastName</a></td>
-                    <td>@item.DateCreated.ToShortDateString()</td>
-                    <td>@item.DeliveryMethod.Name</td>
-                    <td>@item.DeliveryLocation</td>
-                    <td>@item.BasePriceString RSD</td>
-                    <td>@item.BuyingPriceString RSD (@item.OrderDiscount.DiscountAmount%)</td>
-                    @if (item.IsComplete)
-                    {
-                        <td>@item.DateCompleted.Value.ToShortDateString()</td>
-                    }
-                    else
-                    {
-                        <td>PENDING</td>
-                    }
-                    <td><a href="@Url.Action("ViewOrder", "AdminOrder", new { id = item.OrderId })" class="btn btn-sm btn-outline-success">View Order</a></td>
+                    <td>@order.OrderId</td>
+                    <td>@order.User.LastName @order.User.FirstName</td>
+                    <td>@order.DateCreated.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@order.BuyingPriceString RSD</td>
+                    <td>
+                        @if (order.IsComplete)
+                        {
+                            <span class="badge bg-success">Complete</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning">Pending</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="@Url.Action("ViewOrder", new { id = order.OrderId })" class="btn btn-sm btn-info">View</a>
+                    </td>
                 </tr>
-                i++;
             }
+        </tbody>
     </table>
+
+    <!-- Pagination controls -->
+    @if (ViewBag.TotalPages > 1)
+    {
+        <nav aria-label="Orders pagination">
+            <ul class="pagination justify-content-center">
+                <!-- Previous button -->
+                <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new {
+                    sortOrder = ViewBag.CurrentSort,
+                    searchString = ViewBag.CurrentFilter,
+                    page = ViewBag.CurrentPage - 1,
+                    id = Request.QueryString["id"]
+                })">Previous</a>
+                </li>
+
+                @for (int pageNum = 1; pageNum <= ViewBag.TotalPages; pageNum++)
+                {
+                    <li class="page-item @(pageNum == ViewBag.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new {
+                        sortOrder = ViewBag.CurrentSort,
+                        searchString = ViewBag.CurrentFilter,
+                        page = pageNum,
+                        id = Request.QueryString["id"]
+                    })">@pageNum</a>
+                </li>
+            }
+
+                <!-- Next button -->
+                <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new {
+                    sortOrder = ViewBag.CurrentSort,
+                    searchString = ViewBag.CurrentFilter,
+                    page = ViewBag.CurrentPage + 1,
+                    id = Request.QueryString["id"]
+                })">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
 
 </div>

@@ -51,7 +51,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="discount_percent" Type="float" Nullable="false" />
         </EntityType>
@@ -137,7 +137,7 @@
           <Property Name="points" Type="int" Nullable="false" />
           <Property Name="password" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
-        <Association Name="FK__food__food_categ__60A75C0F">
+        <Association Name="FK__food__food_categ__5BE2A6F2">
           <End Role="food_category" Type="Self.food_category" Multiplicity="1" />
           <End Role="food" Type="Self.food" Multiplicity="*" />
           <ReferentialConstraint>
@@ -149,7 +149,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__order_com__combo__4AB81AF0">
+        <Association Name="FK__order_com__combo__60A75C0F">
           <End Role="combo_menu" Type="Self.combo_menu" Multiplicity="0..1" />
           <End Role="order_combo_item" Type="Self.order_combo_item" Multiplicity="*" />
           <ReferentialConstraint>
@@ -161,7 +161,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__order_foo__food___4CA06362">
+        <Association Name="FK__order_foo__food___628FA481">
           <End Role="food" Type="Self.food" Multiplicity="0..1" />
           <End Role="order_food_item" Type="Self.order_food_item" Multiplicity="*" />
           <ReferentialConstraint>
@@ -332,15 +332,15 @@
           <EntitySet Name="role" EntityType="Self.role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__food__food_categ__60A75C0F" Association="Self.FK__food__food_categ__60A75C0F">
+          <AssociationSet Name="FK__food__food_categ__5BE2A6F2" Association="Self.FK__food__food_categ__5BE2A6F2">
             <End Role="food_category" EntitySet="food_category" />
             <End Role="food" EntitySet="food" />
           </AssociationSet>
-          <AssociationSet Name="FK__order_com__combo__4AB81AF0" Association="Self.FK__order_com__combo__4AB81AF0">
+          <AssociationSet Name="FK__order_com__combo__60A75C0F" Association="Self.FK__order_com__combo__60A75C0F">
             <End Role="combo_menu" EntitySet="combo_menu" />
             <End Role="order_combo_item" EntitySet="order_combo_item" />
           </AssociationSet>
-          <AssociationSet Name="FK__order_foo__food___4CA06362" Association="Self.FK__order_foo__food___4CA06362">
+          <AssociationSet Name="FK__order_foo__food___628FA481" Association="Self.FK__order_foo__food___628FA481">
             <End Role="food" EntitySet="food" />
             <End Role="order_food_item" EntitySet="order_food_item" />
           </AssociationSet>
@@ -543,7 +543,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="discount_percent" Type="Double" Nullable="false" />
           <NavigationProperty Name="foods" Relationship="CateringAgencyModel.FK__food__food_categ__60A75C0F" FromRole="food_category" ToRole="food" />

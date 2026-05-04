@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\lukap\source\repos\CateringAgency\CateringAgency\Models\CateringAgencyModel.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Luka\Desktop\Desktop files from Laptop\KeteringServisPopovic\CateringAgency\CateringAgency\CateringAgency\Models\CateringAgencyModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

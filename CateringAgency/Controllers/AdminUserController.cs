@@ -18,9 +18,60 @@ namespace CateringAgency.Controllers
             return RedirectToAction("Users");
         }
 
-        public ActionResult Users()
+        // GET: AdminUser/Users
+        public ActionResult Users(string sortOrder, string searchString, int? page)
         {
-            return View(userRepo.GetAllUsers());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.CurrentFilter = searchString;
+            int pageNumber = page ?? 1;
+            int pageSize = 10;
+
+            var users = userRepo.GetAllUsers(); // returns List<UserBo> or IEnumerable
+
+            // Filter: search by name, email, username
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(u =>
+                    u.FirstName.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    u.LastName.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    u.Email.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    u.Username.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0
+                );
+            }
+
+            // Sorting
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    users = users.OrderByDescending(u => u.LastName).ThenByDescending(u => u.FirstName);
+                    break;
+                case "email_asc":
+                    users = users.OrderBy(u => u.Email);
+                    break;
+                case "email_desc":
+                    users = users.OrderByDescending(u => u.Email);
+                    break;
+                case "points_asc":
+                    users = users.OrderBy(u => u.Points);
+                    break;
+                case "points_desc":
+                    users = users.OrderByDescending(u => u.Points);
+                    break;
+                default: // name_asc
+                    users = users.OrderBy(u => u.LastName).ThenBy(u => u.FirstName);
+                    break;
+            }
+
+            int totalItems = users.Count();
+            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            var pagedUsers = users.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+            ViewBag.CurrentPage = pageNumber;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalItems = totalItems;
+            ViewBag.PageSize = pageSize;
+
+            return View(pagedUsers);
         }
 
         public ActionResult EditUser(int id)
@@ -72,9 +123,49 @@ namespace CateringAgency.Controllers
         // MANAGERS
         // --------
 
-        public ActionResult Managers()
+        public ActionResult Managers(string sortOrder, string searchString, int? page)
         {
-            return View(userRepo.GetAllManagers());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.CurrentFilter = searchString;
+            int pageNumber = page ?? 1;
+            int pageSize = 10;
+
+            var managers = userRepo.GetAllManagers();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                managers = managers.Where(m =>
+                    m.FirstName.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    m.LastName.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    m.Email.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    m.Username.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0
+                );
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    managers = managers.OrderByDescending(m => m.LastName).ThenByDescending(m => m.FirstName);
+                    break;
+                case "email_asc":
+                    managers = managers.OrderBy(m => m.Email);
+                    break;
+                case "email_desc":
+                    managers = managers.OrderByDescending(m => m.Email);
+                    break;
+                default:
+                    managers = managers.OrderBy(m => m.LastName).ThenBy(m => m.FirstName);
+                    break;
+            }
+
+            int totalItems = managers.Count();
+            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            var paged = managers.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+            ViewBag.CurrentPage = pageNumber;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalItems = totalItems;
+            return View(paged);
         }
 
         public ActionResult CreateManager()

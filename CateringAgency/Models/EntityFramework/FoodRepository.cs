@@ -186,6 +186,68 @@ namespace CateringAgency.Models.EntityFramework
             }
         }
 
+        public void CreateCategory(FoodCategoryBo categoryBo)
+        {
+            food_category categoryModel = new food_category
+            {
+                name = categoryBo.Name,
+                discount_percent = categoryBo.CategoryDiscount?.DiscountAmount ?? 0
+            };
+
+            try
+            {
+                cateringEntities.food_category.Add(categoryModel);
+                cateringEntities.SaveChanges();
+                // Assign the new ID back to the business object if needed later
+                categoryBo.FoodCategoryId = categoryModel.id;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in FoodRepository.CreateCategory: " + ex.Message);
+                throw; // rethrow to let the controller handle it
+            }
+        }
+
+        public void EditCategory(FoodCategoryBo categoryBo)
+        {
+            food_category categoryModel = cateringEntities.food_category.FirstOrDefault(t => t.id == categoryBo.FoodCategoryId);
+
+            if (categoryModel == null)
+                throw new Exception("Category not found");
+
+            categoryModel.name = categoryBo.Name;
+            categoryModel.discount_percent = categoryBo.CategoryDiscount?.DiscountAmount ?? 0;
+
+            try
+            {
+                cateringEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in FoodRepository.EditCategory: " + ex.Message);
+                throw;
+            }
+        }
+
+        public void DeleteCategory(int categoryId)
+        {
+            food_category categoryModel = cateringEntities.food_category.FirstOrDefault(t => t.id == categoryId);
+
+            if (categoryModel == null)
+                throw new Exception("Category not found");
+
+            try
+            {
+                cateringEntities.food_category.Remove(categoryModel);
+                cateringEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in FoodRepository.DeleteCategory: " + ex.Message);
+                throw;
+            }
+        }
+
         public void EditDiscount(int foodId, float discountPercent)
         {
             food foodModel = cateringEntities.foods.FirstOrDefault(t => t.id == foodId);

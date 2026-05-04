@@ -27,9 +27,6 @@ namespace CateringAgency.Domain
         public int DeliveryMethodId { get => deliveryMethodId; set => deliveryMethodId = value; }
         public string Name { get => name; set => name = value; }
         public float Price { get => price; set => price = value < 0 ? 0 : value; }
-        public string PriceString
-        {
-            get => String.Format("{0:0.0,0}", price);
-        }
+        public string PriceString => price.ToString("N2");
     }
 }

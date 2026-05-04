@@ -10,6 +10,8 @@ namespace CateringAgency.Controllers
     {
         public ActionResult Index()
         {
+            System.Diagnostics.Debug.WriteLine("Current Culture: " + System.Threading.Thread.CurrentThread.CurrentCulture.Name);
+            System.Diagnostics.Debug.WriteLine("Number format decimal separator: " + System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
             return View();
         }
 

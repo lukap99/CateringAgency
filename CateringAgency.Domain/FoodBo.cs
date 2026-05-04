@@ -58,7 +58,7 @@ namespace CateringAgency.Domain
         }
         public string BasePriceString
         {
-            get => String.Format("{0:0.0,0}", basePrice);
+            get => basePrice.ToString("N2");
         }
 
         [Display(Name = " Selling price")]
@@ -73,11 +73,11 @@ namespace CateringAgency.Domain
         }
         public string SellingPricePerUnitString
         {
-            get => String.Format("{0:0.0,0}", (sellingPrice / amount));
+            get => (sellingPrice / amount).ToString("N2");
         }
         public string SellingPriceString
         {
-            get => String.Format("{0:0.0,0}", sellingPrice);
+            get => sellingPrice.ToString("N2");
         }
         // Refers to amount in cart, cannot be below 1
         public int Amount

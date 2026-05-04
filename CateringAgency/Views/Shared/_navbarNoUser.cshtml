@@ -13,9 +13,9 @@
     <div class="container px-5">
 
         <!-- Brand name -->
-        <a class="navbar-brand" href="#" style="font-family:'Segoe UI Black'; font-size:2em;">
-            <img src="~/Images/ketering-logo-small.png" style="height:50px;">
-            Ketering
+        <a class="navbar-brand" href="@Url.Action("Index", "Home")" style="font-family:'Segoe UI Black'; font-size:2em;">
+            <img src="~/Images/ketering-logo-bw.png" style="height:50px;">
+            Ketering Planet
         </a>
 
         <!-- Dropdown for smaller window -->
@@ -26,7 +26,7 @@
         <!-- Navbar -->
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <!-- Navbar items -->
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto fs-5 text-primary">
                 <!-- ms auto is to right align the navbar items -->
                 <li class="nav-item">
                     @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })

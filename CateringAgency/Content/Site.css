@@ -8,6 +8,21 @@ body {
     overflow-y: scroll;
 }
 
+.zoom {
+    transition: transform .2s;
+}
+
+    .zoom:hover {
+        -ms-transform: scale(2); /* IE 9 */
+        -webkit-transform: scale(2); /* Safari 3-8 */
+        transform: scale(2);
+    }
+
+:root {
+    --bs-primary: #6e1916;
+}
+
+
 /*body {
     padding-top: 50px;
     padding-bottom: 20px;

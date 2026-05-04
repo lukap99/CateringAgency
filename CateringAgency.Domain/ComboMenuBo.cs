@@ -67,24 +67,16 @@ namespace CateringAgency.Domain
         [Display(Name = "Base price")]
         public float BasePrice 
         { get => basePrice; set => basePrice = value; }
-        public string BasePriceString
-        {
-            get => String.Format("{0:0.0,0}", basePrice);
-        }
+        public string BasePriceString => basePrice.ToString("N2");
         public float SellingPrice 
         { get => sellingPrice; set => sellingPrice = value; }
         public float SellingPricePerUnit
         {
             get => (sellingPrice / amount);
         }
-        public string SellingPricePerUnitString
-        {
-            get => String.Format("{0:0.0,0}", (sellingPrice / amount));
-        }
-        public string SellingPriceString
-        {
-            get => String.Format("{0:0.0,0}", sellingPrice);
-        }
+        public string SellingPricePerUnitString => (sellingPrice / amount).ToString("N2");
+        public string SellingPriceString => sellingPrice.ToString("N2");
+
         [Display(Name ="Discount")]
         public float DiscountAmount
         {

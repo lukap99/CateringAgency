@@ -93,22 +93,17 @@ namespace CateringAgency.Domain
         }
         public string BasePriceString
         {
-            get => String.Format("{0:0.0,0}", basePrice);
+            get => basePrice.ToString("N2");
         }
-        public string DiscountPriceReductionString
-        {
-            //(sum * ((100 - orderDiscount.DiscountAmount) * 0.01f)
-            get => String.Format("{0:0.0,0}", (basePrice - (basePrice * ((100 - orderDiscount.DiscountAmount) * 0.01f))));
-        }
+        public string DiscountPriceReductionString 
+            => (basePrice - (basePrice * ((100 - orderDiscount.DiscountAmount) * 0.01f))).ToString("N2");
         public float BuyingPrice
         {
             get => buyingPrice;
             set => buyingPrice = value < 0 ? 0 : value;
         }
-        public string BuyingPriceString
-        {
-            get => String.Format("{0:0.0,0}", buyingPrice);
-        }
+        public string BuyingPriceString => buyingPrice.ToString("N2");
+
         public int PointsDifference
         {
             get => pointDifference;

@@ -222,6 +222,7 @@ namespace CateringAgency.Models.EntityFramework
             return user;
         }
 
+        // check for exception "System.InvalidOperationException: 'Sequence contains no elements'"
         public int GetUserPoints(int id)
         {
             return cateringEntities.users.First(t => t.id == id).points;

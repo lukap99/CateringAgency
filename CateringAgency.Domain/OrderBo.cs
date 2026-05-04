@@ -79,24 +79,12 @@ namespace CateringAgency.Domain
         public List<FoodBo> OrderItems { get => orderItems; set => orderItems = value; }
         public List<ComboMenuBo> OrderComboItems { get => orderComboItems; set => orderComboItems = value; }
         public float BasePrice { get => basePrice; set => basePrice = value < 0 ? 0 : value; }
-        public string BasePriceString
-        {
-            get => String.Format("{0:0.0,0}", basePrice);
-        }
-        public string BasePriceWithShippingString
-        {
-            get => String.Format("{0:0.0,0}", (basePrice+this.deliveryMethod.Price));
-        }
-        public string DiscountPriceReductionString
-        {
-            //(sum * ((100 - orderDiscount.DiscountAmount) * 0.01f)
-            get => String.Format("{0:0.0,0}", (basePrice - (basePrice * ((100 - orderDiscount.DiscountAmount) * 0.01f))));
-        }
+        public string BasePriceString => basePrice.ToString("N2");
+        public string BasePriceWithShippingString => (basePrice + deliveryMethod.Price).ToString("N2");
+        //(sum * ((100 - orderDiscount.DiscountAmount) * 0.01f)
+        public string DiscountPriceReductionString => (basePrice - (basePrice * ((100 - orderDiscount.DiscountAmount) * 0.01f))).ToString("N2");
         public float BuyingPrice { get => buyingPrice; set => buyingPrice = value < 0 ? 0 : value; }
-        public string BuyingPriceString
-        {
-            get => String.Format("{0:0.0,0}", buyingPrice);
-        }
+        public string BuyingPriceString => buyingPrice.ToString("N2");
         public DeliveryMethodBo DeliveryMethod { get => deliveryMethod; set => deliveryMethod = value; }
         public PaymentMethodBo PaymentMethod { get => paymentMethod; set => paymentMethod = value; }
         public OrderDiscountBo OrderDiscount { get => orderDiscount; set => orderDiscount = value; }
